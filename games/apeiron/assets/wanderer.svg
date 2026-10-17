@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 660" fill="none">
+  <defs>
+    <linearGradient id="cloak" x1="129" y1="202" x2="367" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#63757a"/><stop offset=".3" stop-color="#324953"/><stop offset=".6" stop-color="#182b39"/><stop offset="1" stop-color="#0c1927"/></linearGradient>
+    <linearGradient id="hood" x1="172" y1="115" x2="292" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#82918b"/><stop offset=".4" stop-color="#41555b"/><stop offset="1" stop-color="#142731"/></linearGradient>
+    <linearGradient id="gold" x1="140" y1="199" x2="340" y2="579" gradientUnits="userSpaceOnUse"><stop stop-color="#d4c09a"/><stop offset=".45" stop-color="#a5926b"/><stop offset="1" stop-color="#685d4a"/></linearGradient>
+    <linearGradient id="staff" x1="347" y1="102" x2="375" y2="618" gradientUnits="userSpaceOnUse"><stop stop-color="#b8a77b"/><stop offset=".3" stop-color="#6c6958"/><stop offset=".5" stop-color="#9b8f6b"/><stop offset="1" stop-color="#4c4f43"/></linearGradient>
+    <radialGradient id="aura"><stop stop-color="#5ec5c0" stop-opacity=".18"/><stop offset="1" stop-color="#5ec5c0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gem"><stop stop-color="#e4fff0"/><stop offset=".4" stop-color="#9dd9ce"/><stop offset="1" stop-color="#498e94"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <ellipse cx="251" cy="367" rx="207" ry="278" fill="url(#aura)"/>
+  <ellipse cx="245" cy="614" rx="146" ry="17" fill="#061018" opacity=".55"/>
+  <g opacity=".3" stroke="#84b8b1"><circle cx="242" cy="277" r="184"/><circle cx="242" cy="277" r="177" stroke-dasharray="1 19"/><path d="M242 87V66m0 422v-22M51 277H30m424 0h-21"/></g>
+  <!-- The staff is a small recovered piece of the same mirror. -->
+  <path d="m350 167 18 457 9-2-16-455Z" fill="url(#staff)"/>
+  <path d="m355 182 15 430" stroke="#d0c097" stroke-opacity=".5"/>
+  <path d="m350 171-23-24-3-35 29-36 26 34-3 34-17 28Z" fill="#30464b" stroke="#b4ab83" stroke-width="2"/>
+  <path d="m353 88-22 27 5 26 18 17 15-18 3-28Z" fill="url(#gem)"/>
+  <path d="m353 88 1 70-18-17-5-26Z" fill="#b8e9db" opacity=".55"/>
+  <path d="m354 88 18 24-11 8-7 38" stroke="#eef7dc" stroke-opacity=".7"/>
+  <ellipse cx="352" cy="124" rx="25" ry="33" fill="#72dcd4" opacity=".35" filter="url(#glow)"/>
+  <path d="M346 179h20m-19 6h18m-18 5h18m-17 5h18" stroke="#c3b38b" stroke-width="2"/>
+  <!-- Boots and inner robe. -->
+  <path d="m199 565-11 46-20 17 3 10 57-3 5-65Zm60 1 8 64 53 7 7-9-24-21-12-42Z" fill="#101c26"/>
+  <path d="m176 627 47-1m52-1 41 4" stroke="#687476" stroke-opacity=".5" stroke-width="2"/>
+  <path d="m190 260-33 321 35 24 59-10 45 11 30-23-30-323Z" fill="#172c38"/>
+  <path d="m221 300-13 286 29 8 8-289Zm43 0 6 288 19 6-10-290Z" fill="#39505a" opacity=".7"/>
+  <!-- Asymmetrical traveling cloak, cut into deliberate facets. -->
+  <path d="M182 205c-24 9-49 27-60 57-15 39-15 84-30 130L61 510l57-19-17 71 55-22-9 57 65-16 31-121 8-130 13 118 23 143 62 16-4-60 36 24-16-80 44 23-37-136c-14-41-13-76-28-105-11-24-42-54-66-65Z" fill="url(#cloak)"/>
+  <path d="m177 227-48 62-20 109-35 96 46-30 25-89 19-69 20-40Zm108 1 40 56 17 102 28 101-39-48-17-86-25-67Z" fill="#6b7b7b" opacity=".35"/>
+  <path d="m180 268-31 101-33 164 38-21 16-91 26-86Zm47 15-13 129-18 155 26-22 20-135 1-92Zm43 22 17 101 18 146 20 31-7-108-30-159Z" fill="#0d1f2c" opacity=".66"/>
+  <path d="m198 261-31 156-22 159 23-20 31-160 21-105Z" fill="#73827c" opacity=".17"/>
+  <path d="m279 285 7 96 43 156-16-114-7-96Z" fill="#a2aba0" opacity=".13"/>
+  <path d="m174 233-29 39-23 108-43 111 45-22-13 76 41-22-1 52 53-14m83-329 30 39 25 113 33 105-41-27 20 76-24-16 10 65-45-10" stroke="url(#gold)" stroke-width="2"/>
+  <path d="m171 244-24 58-16 84-28 76m197-208 21 47 17 91 23 72" stroke="#c1bb97" stroke-opacity=".25"/>
+  <!-- Cowl and layered collar. -->
+  <path d="M176 202c-10-29-9-61 10-88l40-36 38 12c27 22 43 53 43 84l-13 45-48 46-49-16Z" fill="url(#hood)"/>
+  <path d="m227 91-29 31-12 49 12 54 41 30-26-56 6-58 26-36Z" fill="#a0a89a" opacity=".2"/>
+  <path d="m232 112-28 30-5 51 17 38 30 17 30-25 14-49-11-40-30-24Z" fill="#06141f"/>
+  <path d="m230 121-21 29-5 41 14 34 29 16-20-37-5-41 18-33Z" fill="#142630"/>
+  <path d="m250 117 28 24 7 33-11 42-26 24 14-46-3-48Z" fill="#020d17"/>
+  <path d="m204 170 5-27 23-26 18-5 26 23" stroke="#aeb6a1" stroke-opacity=".55" stroke-width="1.5"/>
+  <path d="m172 198 32 33 39 23 45-28 16-24 4 38-53 52-66-32-30-29Z" fill="#344b55"/>
+  <path d="m171 210 29 31 44 25 45-29 14-22m-136 21 30 26 47 22 53-42" stroke="url(#gold)" stroke-width="2"/>
+  <path d="m178 248 42 26-39 81-17-40Zm107 9-30 29 35 53 12-30Z" fill="#233c48"/>
+  <path d="m185 259 24 18-27 59-10-24Zm95 10-16 16 25 37 6-11Z" stroke="#b7aa80" stroke-opacity=".6"/>
+  <!-- A plain clasp and a cord of little memory charms. -->
+  <circle cx="245" cy="279" r="12" fill="#142b34" stroke="#c0b489" stroke-width="1.5"/>
+  <path d="m245 271 5 8-5 8-5-8Z" fill="#9bc7ba"/>
+  <path d="M246 295c4 39 22 53 38 69" stroke="#b7a477" stroke-width="1.5"/>
+  <path d="m283 357 6 6-6 9-6-6Zm-10-13 4 5-5 7-4-5Z" fill="#a8a987"/>
+  <!-- Hands and sleeves. -->
+  <path d="m135 331 31-17 23 34-25 36-32-12Z" fill="#253e4b"/>
+  <path d="m146 344 23-12 13 20-18 23-20-7Z" fill="#697c7e"/>
+  <path d="m153 347 12-5 10 13-12 13-8-4-5-9Z" fill="#a0a48e"/>
+  <path d="m304 304 26 25 20-3 9 23-18 17-30-8-26-25Z" fill="#1a3442"/>
+  <path d="m327 331 14-8 18-3 12 8 1 14-10 9-15-3-9 4Z" fill="#969e8c"/>
+  <path d="m349 325 12 3m-12 5 14 4m-15 4 13 4" stroke="#4f6867" stroke-width="2"/>
+  <path d="m299 307 27 30-6 17-26-18" stroke="#b5aa83" stroke-width="2"/>
+  <!-- Belt and weathered satchel. -->
+  <path d="m192 372 107 7-1 14-109-5Z" fill="#5a5b4e"/>
+  <path d="m239 376 20 1-1 14-20-1Z" stroke="#b7ac83" stroke-width="2"/>
+  <path d="m180 366-14 61 35 10 13-60Z" fill="#5b645b"/>
+  <path d="m181 368-10 24 34 8 7-24Z" fill="#778071"/>
+  <path d="m177 401 22 5m-24 5 21 5" stroke="#2c4447"/>
+  <circle cx="190" cy="392" r="3" fill="#c5b58e"/>
+  <g stroke="#8fb7ac" stroke-opacity=".4"><path d="m137 493 10-18m-8 34 8-8m165 19 6 22m-11-11 2 11m-109 12 4-17"/></g>
+  <g fill="#d2dbc0"><circle cx="110" cy="225" r="1.4" opacity=".5"/><circle cx="390" cy="254" r="1.7" opacity=".5"/><circle cx="119" cy="430" r="1.2" opacity=".3"/><circle cx="329" cy="66" r="1.4" opacity=".5"/><circle cx="405" cy="367" r="1.2" opacity=".5"/></g>
+</svg>

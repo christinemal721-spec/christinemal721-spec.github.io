@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f3eb"><title>拾光 · 把故事慢慢说</title>
+<style>
+/* 拾光 · 适老化界面（2026-10 第三版：按设计系统规范重做的青绿玻璃拟态）
+   规范要点：8px 间距体系 · 双字重 400/600 · 单青色系 + 单暖橙强调 ·
+   嵌套圆角外大内小 · 双层阴影 token · 玻璃卡片高不透明度保证可读性 */
+:root{
+/* 色彩：青绿为主，暖橙仅用于最终确认与关键提示 */
+--ink:#15322b;--ink-2:#3f5a51;--ink-3:#64807a;
+--teal:#2fa38e;--teal-deep:#1e8472;--teal-dark:#14655a;
+--teal-tint:rgba(47,163,142,.14);
+--accent:#e0642f;--accent-deep:#b94e20;--accent-tint:rgba(224,100,47,.14);
+/* 玻璃质感：88% 不透明度保证文字对比度 */
+--glass:rgba(255,255,255,.88);
+--glass-2:rgba(255,255,255,.68);
+--glass-line:rgba(255,255,255,.85);
+--blur:saturate(140%) blur(16px);
+/* 阴影：两级 */
+--sh-1:0 2px 8px rgba(18,80,68,.08);
+--sh-2:0 12px 32px rgba(18,80,68,.16);
+/* 圆角：外大内小 */
+--r-card:20px;--r-btn:16px;--r-inner:14px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#cfe4db;color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.75}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,.check:focus-within{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none!important}
+
+/* 手机壳：上浓下淡的单色相渐变，内容区自然过渡到浅色 */
+.phone{max-width:480px;min-height:100dvh;margin:auto;position:relative;
+background:linear-gradient(172deg,#4fb19c 0%,#7cc5b4 24%,#bfe0d4 52%,#eef7f2 78%,#f2faf6 100%);
+box-shadow:0 0 64px rgba(18,80,68,.24)}
+
+/* 页头：无底板，保持通透 */
+header{padding:20px 24px 12px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-family:Georgia,"Songti SC","SimSun",serif;font-size:28px;letter-spacing:4px;font-weight:600;display:flex;gap:10px;align-items:center;color:#fff;text-shadow:0 1px 8px rgba(18,80,68,.35)}
+.mark{width:30px;height:30px;border:2px solid rgba(255,255,255,.9);border-radius:50% 50% 4px 50%;transform:rotate(-15deg);display:inline-block;background:rgba(255,255,255,.25)}
+.badge{font-size:14px;letter-spacing:1px;color:#fff;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);padding:4px 12px;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+main{padding:12px 24px 40px}
+h1{font-family:Georgia,"Songti SC","SimSun",serif;font-size:34px;font-weight:600;line-height:1.5;margin:16px 0}
+h2{font-size:24px;font-weight:600;margin:20px 0 12px}
+h3{font-size:19px;font-weight:600;margin:16px 0 8px}
+p{margin:12px 0}
+.eyebrow{font-size:15px;letter-spacing:3px;color:var(--accent-deep);font-weight:600}
+.muted{color:var(--ink-3);font-size:17px}
+.small{font-size:15px}
+.greeting{font-size:20px;color:var(--ink-2);margin:8px 0 0}
+
+/* 首页 */
+.hero{padding:8px 0 24px;color:#fff}
+.hero .eyebrow{color:rgba(255,255,255,.85)}
+.hero h1{font-size:40px;margin:12px 0;text-shadow:0 2px 12px rgba(18,80,68,.3)}
+.hero .muted{color:rgba(255,255,255,.9)}
+.illustration{height:148px;position:relative;margin:24px 0 8px}
+.circle{width:120px;height:120px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.45);border-radius:50%;position:absolute;right:36px;top:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.book{position:absolute;left:32px;top:28px;width:184px;height:112px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:6px var(--r-inner) var(--r-inner) 6px;transform:rotate(-7deg);box-shadow:var(--sh-2)}
+.book:before{content:'那些年，\A 我记得';white-space:pre;position:absolute;left:24px;top:16px;font-family:Georgia,"Songti SC","SimSun",serif;font-size:21px;line-height:1.65;color:var(--ink-2)}
+.sprig{position:absolute;right:148px;bottom:0;font-size:40px;color:rgba(255,255,255,.75);transform:rotate(12deg)}
+.notice{background:var(--glass-2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-inner);padding:12px 16px;font-size:15px;color:var(--ink-2);margin:20px 0}
+
+/* 按钮：全宽大按钮，主按钮青绿渐变 */
+.primary,.secondary{display:block;width:100%;min-height:72px;font-size:24px;font-weight:600;border-radius:var(--r-btn);padding:16px 24px;margin:12px 0;border:1px solid transparent;transition:transform .12s ease,box-shadow .2s ease}
+.primary{background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;box-shadow:0 8px 20px rgba(30,132,114,.32)}
+.secondary{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-color:var(--glass-line);color:var(--ink);box-shadow:var(--sh-1)}
+.primary:active,.secondary:active,.actionTile:active,.choice:active,.person:active,.nav button:active{transform:scale(.98)}
+.primary:active{box-shadow:0 4px 12px rgba(30,132,114,.3)}
+.link{display:block;width:100%;min-height:56px;background:none;border:0;color:var(--teal-deep);font-size:19px;font-weight:600;text-decoration:underline;text-underline-offset:4px;margin:8px 0;padding:8px}
+.back{display:inline-block;width:auto;min-height:56px;background:none;border:0;color:var(--ink-2);font-size:19px;padding:8px 4px}
+.row{display:flex;gap:12px;align-items:stretch}
+.row>*{flex:1}
+
+/* 大图标聚焦区 */
+.focus{text-align:center;padding:12px 0 8px}
+.focus h1{font-size:32px;font-weight:600;margin:12px 0 4px}
+.bigIcon{display:flex;align-items:center;justify-content:center;width:136px;height:136px;border-radius:50%;margin:16px auto;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);color:var(--teal-deep);box-shadow:var(--sh-2)}
+.svgIcon{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bigIcon .svgIcon{width:68px;height:68px}
+.actionTile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:156px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);color:var(--ink);font-size:26px;font-weight:600;width:100%;padding:20px;margin:12px 0;box-shadow:var(--sh-1);transition:transform .12s ease,box-shadow .2s ease}
+.actionTile.mainAction{background:linear-gradient(150deg,#3bb29b,#1e8472);color:#fff;border-color:rgba(255,255,255,.3);box-shadow:0 10px 24px rgba(30,132,114,.35)}
+.actionTile .svgIcon{width:54px;height:54px}
+
+/* 顶部返回 / 暂停：毛玻璃吸顶条 */
+.nav{position:sticky;top:0;z-index:4;background:rgba(238,247,242,.8);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);display:flex;justify-content:space-between;gap:12px;padding:12px 24px;margin:0 -24px 20px;border-bottom:1px solid rgba(255,255,255,.7);box-shadow:var(--sh-1)}
+.nav button{min-height:60px;padding:12px 24px;border:1px solid var(--glass-line);border-radius:999px;background:var(--glass);font-size:20px;font-weight:600;color:var(--ink);box-shadow:var(--sh-1)}
+.nav .halt{color:var(--accent-deep);background:var(--accent-tint);border-color:rgba(224,100,47,.35)}
+
+/* 选择卡片：白色玻璃区块 + 图标色块 */
+.choice{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:20px;margin:12px 0;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);box-shadow:var(--sh-1);text-align:left;font-size:21px;color:var(--ink);transition:transform .12s ease,box-shadow .2s ease}
+.choice strong{font-size:23px;font-weight:600;display:block;line-height:1.5}
+.choice small{display:block;font-size:16px;color:var(--ink-3);font-weight:400;margin-top:4px}
+.choice>span:nth-child(2){flex:1}
+.choice .svgIcon{width:36px;height:36px;color:var(--teal-deep);flex:none;background:var(--teal-tint);border-radius:12px;padding:8px;box-sizing:content-box}
+.choice .arrow,.choice>span[aria-hidden]{font-size:26px;color:var(--accent);flex:none;font-weight:600}
+
+/* 步骤进度 */
+.progress{display:flex;gap:8px;margin:12px 0 8px}
+.progress i{flex:1;height:8px;border-radius:999px;background:rgba(255,255,255,.55)}
+.progress i.on{background:var(--teal)}
+
+/* 讲述页 */
+.shortPrompt{font-size:27px;font-weight:600;text-align:center;line-height:1.6;margin:16px 0 24px}
+.miniStatus{text-align:center;color:var(--ink-3);font-size:17px;margin:12px 0}
+.recordDot{width:18px;height:18px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:12px;vertical-align:-2px;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.stopBlock{background:var(--accent-tint);color:var(--accent-deep);border:1px solid rgba(224,100,47,.4)}
+.conversation{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.bubble{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-card) var(--r-card) 6px var(--r-card);padding:16px 20px;font-size:20px;align-self:flex-end;max-width:92%;box-shadow:var(--sh-1)}
+.card{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);box-shadow:var(--sh-1);padding:24px;margin:16px 0}
+.card.soft{background:var(--glass-2);box-shadow:none}
+.pill{display:inline-block;background:var(--accent-tint);color:var(--accent-deep);border-radius:999px;padding:6px 16px;font-size:15px;font-weight:600}
+.avatar{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;font-size:19px;flex:none}
+.prompt{font-size:24px;font-weight:600;line-height:1.6;margin:12px 0}
+
+/* 人物选择与输入区 */
+.people{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 24px}
+.person{min-height:56px;padding:12px 24px;border:1px solid var(--glass-line);border-radius:999px;background:var(--glass);font-size:20px;color:var(--ink);box-shadow:var(--sh-1)}
+.person[aria-pressed=true]{background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(30,132,114,.3)}
+.label{display:block;font-size:19px;font-weight:600;margin:20px 0 8px}
+input[type=text],textarea{width:100%;font-size:20px;padding:16px;border:1px solid var(--glass-line);border-radius:var(--r-inner);background:rgba(255,255,255,.92);line-height:1.65;box-shadow:var(--sh-1)}
+input[type=text]:focus,textarea:focus{border-color:var(--teal)}
+textarea{min-height:132px;resize:vertical}
+input[type=file]{font-size:16px;margin:8px 0}
+.inputWrap{position:relative;margin:8px 0}
+.inputWrap input,.inputWrap textarea{padding-right:76px;min-height:132px}
+.inputTools{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:8px}
+.inputTools button{display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--glass-line);border-radius:var(--r-inner);background:var(--teal-tint);color:var(--teal-dark)}
+.inputTools .svgIcon{width:26px;height:26px}
+
+/* 底部确认区 */
+.commitArea{position:sticky;bottom:0;background:linear-gradient(rgba(242,250,246,0),rgba(242,250,246,.95) 32%);padding:20px 0 24px;margin-top:20px;z-index:2}
+.check{display:flex;gap:12px;align-items:flex-start;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-btn);padding:16px 20px;margin:12px 0;font-size:20px;line-height:1.65;cursor:pointer;box-shadow:var(--sh-1)}
+.check input{width:28px;height:28px;flex:none;margin-top:4px;accent-color:var(--teal-deep)}
+.finish{background:linear-gradient(135deg,#e8793f,#c2521f);border:1px solid rgba(255,255,255,.3);color:#fff;min-height:84px;font-size:29px;font-weight:600;box-shadow:0 10px 24px rgba(224,100,47,.38);border-radius:var(--r-card)}
+.finish small{display:block;font-size:16px;font-weight:400;opacity:.9;margin-top:2px}
+
+/* 成稿与故事 */
+.story{white-space:pre-wrap;font-family:Georgia,"Songti SC","SimSun",serif;font-size:20px;line-height:1.9}
+.storyTitle{font-family:Georgia,"Songti SC","SimSun",serif;font-size:28px;font-weight:600;text-align:center;margin:8px 0 16px}
+.photo{width:100%;display:block;border-radius:var(--r-inner);border:1px solid var(--glass-line);margin:12px 0}
+.compactStory{max-height:260px;overflow:auto}
+.success{display:grid;place-items:center;width:104px;height:104px;margin:16px auto;border-radius:50%;background:var(--glass);border:1px solid var(--glass-line);color:var(--teal-deep);font-size:44px;box-shadow:var(--sh-2)}
+
+/* 折叠区与帮助 */
+details{margin:16px 0}
+summary{font-size:19px;font-weight:600;min-height:56px;display:flex;align-items:center;cursor:pointer;color:var(--teal-deep);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:'▸';margin-right:8px;color:var(--accent);transition:transform .15s ease}
+details[open]>summary:before{transform:rotate(90deg)}
+.footer{padding:0 24px 32px}
+.footer summary{font-size:17px;color:var(--ink-3);font-weight:400;min-height:48px}
+.footer details{text-align:left}
+.helpButton{border:0;background:none;min-height:52px;color:var(--accent-deep);font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:4px;padding:0}
+
+/* 辅助弹层与全局提示 */
+.assist{position:fixed;inset:0;z-index:10;background:rgba(21,50,43,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.assistBox{max-width:440px;width:100%;background:rgba(244,251,247,.94);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:24px;padding:24px;max-height:88dvh;overflow:auto;box-shadow:0 24px 64px rgba(10,50,42,.35)}
+.assistBox h2{margin-top:0}
+.assistBox .photo{max-height:168px;width:auto;max-width:100%}
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:40;background:rgba(21,50,43,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#f2faf6;font-size:18px;line-height:1.6;padding:16px 24px;border-radius:var(--r-btn);box-shadow:0 12px 32px rgba(10,40,34,.35);max-width:86%;text-align:center}
+
+/* 动效与降级 */
+main>*{animation:fadeUp .28s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+/* 回忆录分区：整块玻璃容器 + 虚线空位槽 */
+.shelf{margin-top:24px;background:rgba(255,255,255,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-card);padding:20px;box-shadow:var(--sh-1)}
+.shelf h2{margin:0 0 12px}
+.shelf h3{font-size:18px;font-weight:600;color:var(--ink-2);margin:16px 0 8px}
+.shelf .choice{margin:8px 0}
+.emptySlot{background:rgba(255,255,255,.55);border:1.5px dashed rgba(100,128,122,.45);border-radius:var(--r-inner);padding:16px;text-align:center;margin:8px 0}
+@media print{.nav,.focus,.miniStatus,.commitArea,.assist,.footer,details,.toast{display:none!important}.compactStory{max-height:none;overflow:visible}.phone{background:#fff}.card,.choice,.check{background:#fff;border:1px solid #ccc;box-shadow:none}}
+</style></head>
+<body><div class="phone"><header><div class="brand"><span class="mark" aria-hidden="true"></span>拾光</div><span class="badge">演示版</span></header><main id="app"></main><div class="footer"><details><summary>使用帮助</summary>这是本地交互演示。说话和图片理解使用演示流程，未连接真实 AI 服务、不录音、不上传。可选择本机照片、输入文字；浏览器支持时可朗读。分享不会发送给他人。<button class="helpButton" onclick="act('resetAsk')">清除演示数据</button></details></div></div><div id="toast" class="toast hidden" role="status"></div>
+<script>
+'use strict';
+const KEY='shiguang-demo-v1';
+let inputAssist=null;
+const sample=['刚进厂那会儿，第一次上夜班，我老怕做错。王师傅带着我。','照着王师傅教的做，他在旁边看着。','总算做完了，没出错，我就没那么怕了。具体哪一年，我记不准了。'];
+const questions=['那件事，您还记得发生了什么吗？','那天您做了些什么？','后来怎么样了？'];
+const initial=()=>({screen:'home',role:'elder',consent:false,topic:'第一次上夜班',answers:[],draft:'',version:0,confirmed:0,photo:'',caption:'',paused:false,shared:false,recipient:'',edited:false,dirtyAnswers:false,history:[]});
+let state=initial(),library=[];try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved&&(saved.schema===1||saved.schema===2)){state={...initial(),...saved.data,screen:'home'};if(saved.schema===2&&Array.isArray(saved.stories))library=saved.stories;}}catch(e){}
+const el=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function rememberActive(){if(!state.consent&&!state.answers.length&&!state.draft&&!state.photo)return;if(!state.id)state.id='story-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);const copy=JSON.parse(JSON.stringify(state));const at=library.findIndex(s=>s.id===state.id);if(at<0)library.unshift(copy);else library[at]=copy;}
+function save(){rememberActive();try{localStorage.setItem(KEY,JSON.stringify({schema:2,data:state,stories:library}));return true;}catch(e){toast('本地保存失败，请导出文字；当前页面仍保留内容。');return false;}}
+function isComplete(s){return !!s.confirmed&&s.confirmed===s.version&&!s.dirtyAnswers;}
+function shelf(){const cards=(complete)=>{const list=library.filter(s=>isComplete(s)===complete);return list.length?list.map(s=>`<button class="choice" data-story="${esc(s.id)}">${icon(complete?'book':'chat')}<span><strong>${esc(s.topic)}</strong><small>${complete?'已完成 · 听听 / 看看':s.draft&&!s.dirtyAnswers?'待确认 · 接着来':!s.consent?'待参与 · 接着来':'正在聊 · 接着说'}</small></span><span aria-hidden="true">›</span></button>`).join(''):`<p class="muted emptySlot">${complete?'聊好的故事会放在这里':'还没有，开始聊聊吧'}</p>`;};return `<section class="shelf" aria-label="我的回忆录"><h2>我的回忆录</h2><h3>正在聊</h3>${cards(false)}<h3>已完成</h3>${cards(true)}</section>`;}
+function openStory(id){save();const story=library.find(s=>s.id===id);if(!story){toast('这段故事暂时找不到了。');return;}state={...initial(),...JSON.parse(JSON.stringify(story))};act('resume');}
+function toast(t){el('toast').textContent=t;el('toast').classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el('toast').classList.add('hidden'),3500);}
+function go(screen){if(window.speechSynthesis)window.speechSynthesis.cancel();state.screen=screen;save();render();window.scrollTo(0,0);}
+function btn(text,action,type='primary'){return `<button class="${type}" data-action="${action}">${text}</button>`;}
+function progress(n){return `<div class="eyebrow">一段故事 · ${['开始回忆','慢慢讲述','听读确认','留存故事'][n-1]}</div><div class="progress" aria-label="第 ${n} 步，共 4 步">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;}
+function title(t,p=''){return `<h1>${t}</h1>${p?`<p class="muted">${p}</p>`:''}`;}
+function photo(){return state.photo?`<img class="photo" src="${esc(state.photo)}" alt="您选择的故事照片"><p class="muted">${esc(state.caption||'照片说明待本人确认')}</p>`:'';}
+const iconPaths={mic:'<rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/>',camera:'<path d="M3 6h4l2-3h6l2 3h4v15H3z"/><circle cx="12" cy="13" r="4"/>',book:'<path d="M12 5C8 2 4 3 2 4v16c4-2 7-1 10 1 3-2 6-3 10-1V4c-4-2-7-1-10 1v16"/>',pause:'<path d="M8 4v16M16 4v16"/>',play:'<path d="m8 3 13 9-13 9z"/>',check:'<path d="m4 12 5 5L21 5"/>'};
+function icon(k){return `<svg class="svgIcon" viewBox="0 0 24 24" aria-hidden="true">${iconPaths[k]||iconPaths.book}</svg>`;}
+iconPaths.chat='<path d="M21 11a8 8 0 0 1-8 8H8l-5 3v-6a8 8 0 0 1-1-5 9 9 0 0 1 19 0Z"/><path d="M7 10h10M7 14h6"/>';
+function greet(){const h=new Date().getHours();return h<6?'夜深了':h<11?'上午好':h<14?'中午好':h<18?'下午好':'晚上好';}
+function tile(label,action,k,main=false){return `<button class="actionTile ${main?'mainAction':''}" data-action="${action}">${icon(k)}<span>${label}</span></button>`;}
+function inputTools(id,placeholder,multiline=false){return `<div class="inputWrap">${multiline?`<textarea id="${id}" aria-label="${placeholder}" placeholder="${placeholder}"></textarea>`:`<input id="${id}" type="text" maxlength="50" aria-label="${placeholder}" placeholder="${placeholder}">`}<div class="inputTools"><button type="button" data-input="${id}" data-mode="voice" aria-label="语音输入" title="语音输入">${icon('mic')}</button><button type="button" data-input="${id}" data-mode="camera" aria-label="拍照识别" title="拍照识别">${icon('camera')}</button></div></div>`;}
+function currentQuestion(){return state.photo?'照片里有什么故事？':!state.answers.length&&state.relatedPerson?`聊聊和${state.relatedPerson}有关的这件事吧？`:questions[Math.min(state.answers.length,2)];}
+function showInputAssist(target,mode){inputAssist={target,mode,screen:state.screen};let host=el('inputAssist');if(!host){host=document.createElement('div');host.id='inputAssist';host.className='assist';document.body.appendChild(host);}host.className='assist';host.setAttribute?.('role','dialog');host.setAttribute?.('aria-modal','true');host.setAttribute?.('aria-label',mode==='voice'?'语音输入':'拍照识别');host.innerHTML=`<div class="assistBox"><h2>${mode==='voice'?'说给我':'拍给我'}</h2><p class="muted">${mode==='voice'?'语音输入演示 · 填入前可修改':'拍照识别演示 · 请核对文字'}</p>${mode==='camera'?'<input id="assistPhoto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" aria-label="拍照或选图"><div id="assistPreview"></div>':''}<label class="label" for="assistText">${mode==='voice'?'想说的话':'照片里的文字'}</label><textarea id="assistText" placeholder="${mode==='voice'?'可输入文字，或试用演示样例':'当前未接入识别，请手动填写'}"></textarea>${mode==='voice'?btn('试用一句示例','assistExample','secondary'):''}${btn('填入输入框','assistInsert')}${btn('取消','assistCancel','secondary')}</div>`;host.onclick=e=>{const b=e.target.closest('button');if(b?.dataset.action)act(b.dataset.action);};if(mode==='camera'&&el('assistPhoto'))el('assistPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){toast('请选择 2MB 以内的照片');return;}const session=inputAssist,r=new FileReader();r.onload=()=>{if(inputAssist!==session)return;el('assistPreview').innerHTML=`<img class="photo" src="${esc(r.result)}" alt="待核对文字的照片">`;};r.readAsDataURL(f);};el('assistText')?.focus?.();}
+function closeInputAssist(){const target=inputAssist?.target;inputAssist=null;const host=el('inputAssist');if(host)host.className='assist hidden';if(target)el(target)?.focus?.();}
+function insertAssistedText(text){if(!inputAssist||inputAssist.screen!==state.screen)return false;text=text.trim();if(!text){toast('先填写需要放入的文字');return false;}const target=el(inputAssist.target);if(!target)return false;const combined=target.value.trim()+(target.value.trim()?(inputAssist.target==='answer'?'\n':' '):'')+text;if(inputAssist.target==='customTopic'&&combined.length>50){toast('主题请控制在 50 个字以内');return false;}target.value=combined;closeInputAssist();return true;}
+function simpleView(s,h){
+if(s==='home')h=`<div class="focus"><div class="bigIcon">${icon('book')}</div><h1>今天，聊一聊</h1><p class="greeting">${greet()}，很高兴见到您</p></div>${tile('开始聊','elder','chat',true)}${btn('帮长辈开始','family','secondary')}${shelf()}`;
+if(s==='consent')h=`<div class="focus"><div class="bigIcon">${icon('mic')}</div><h1>说的话，帮您记下</h1></div><label class="check"><input id="consentCheck" type="checkbox"><span>我同意录音、整理成故事</span></label>${btn('开始聊','agree')}${btn('先不聊','decline','secondary')}`;
+if(s==='topic')h=`<div class="focus"><h1>想聊点什么？</h1></div><h2>跟谁有关？<span class="muted">（可选）</span></h2><div class="people">${['自己','父母','爱人','孩子','朋友'].map(p=>`<button class="person" data-person="${p}" aria-pressed="${state.relatedPerson===p}">${p}</button>`).join('')}</div>${['第一次上夜班','一顿家常饭','一个想念的人'].map(t=>`<button class="choice" data-topic="${t}">${icon('book')}<strong>${t}</strong><span>›</span></button>`).join('')}<details><summary>聊别的</summary>${inputTools('customTopic','想聊的事')}${btn('聊这件事','customTopic')}</details>`;
+if(s==='chat')h=`<p class="miniStatus">${esc(state.topic)}${state.relatedPerson?' · '+esc(state.relatedPerson):''}</p><p class="shortPrompt">${esc(currentQuestion())}</p><div class="row">${tile('说给我','voice','mic',true)}${tile('拍给我','camera','camera')}</div>${state.answers.length?`<p class="miniStatus">记下了 ${state.answers.length} 段话</p>${btn('帮我写','prepare')}`:''}${btn('听问题','readQuestion','secondary')}<details><summary>看看 / 改用打字</summary><div class="conversation">${state.answers.map(a=>`<div class="bubble">${esc(a)}</div>`).join('')}</div>${inputTools('answer','写下想说的话',true)}${btn('存这句话','answer','secondary')}</details>`;
+if(s==='voice')h=`<div class="focus"><div class="bigIcon">${icon('mic')}</div><h1><span class="recordDot"></span>您慢慢说</h1><p class="miniStatus">语音交互演示 · 说完请点下方绿色大按钮</p></div>${btn('说好了','voiceFinish')}${btn('停止，不记这句','voiceCancel','secondary stopBlock')}`;
+if(s==='camera')h=`<div class="focus"><div class="bigIcon">${icon('camera')}</div><h1>拍给我看看</h1></div><label class="actionTile mainAction" for="cameraInput">${icon('camera')}<span>拍照 / 选照片</span></label><input class="hidden" id="cameraInput" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">${state.photo?`${photo()}<p class="shortPrompt">这张照片，您想讲什么？</p>${btn('说说这张照片','photoTalk')}${btn('不用这张','removePhoto','secondary')}`:''}<p class="miniStatus">图片理解演示 · 内容由您确认</p>`;
+if(s==='pause')h=`<div class="focus"><div class="bigIcon">${icon('pause')}</div><h1>暂停了，歇一歇</h1><p class="miniStatus">已记下的内容还在</p></div>${btn('接着来','resume')}${btn('回首页','home','secondary')}`;
+if(s==='summary')h=`<div class="focus"><div class="bigIcon">${icon('book')}</div><h1>帮您写成故事？</h1></div>${btn('帮我写','draft')}${btn('我再说说','chat','secondary')}<details><summary>看看记下的话</summary><div class="story">${esc(state.answers.join('\n\n'))}</div></details>`;
+if(s==='review')h=`<div class="focus"><h1>听听，像您说的吗？</h1></div>${tile('念给我听','readDraft','play')}${btn('停止朗读','stopRead','secondary')}<details><summary>看看 / 改一改</summary><label class="label" for="draftTitle">标题</label><input id="draftTitle" type="text" value="${esc(state.topic)}"><label class="label" for="draftText">故事</label><textarea id="draftText" style="min-height:220px">${esc(state.draft)}</textarea>${state.photo?`${photo()}<label class="label" for="caption">照片说明</label><input id="caption" type="text" value="${esc(state.caption)}">`:''}</details>${btn('再说两句','chat','secondary')}<div class="commitArea"><label class="check"><input id="confirmCheck" type="checkbox"><span>我是本人，内容${state.photo?'和照片':''}没问题</span></label>${btn('记下来<small>确认并完成这篇故事</small>','confirm','primary finish')}</div>`;
+if(s==='done')h=`<div class="focus"><div class="bigIcon">${icon('check')}</div><h1>故事留下来了</h1></div>${tile('听故事','readDone','play',true)}${btn('停止朗读','stopRead','secondary')}<article class="card"><h2 class="storyTitle">${esc(state.topic)}</h2>${photo()}<div class="story compactStory">${esc(state.draft)}</div></article>${btn('给家人看','share','secondary')}<details><summary>修改 / 导出</summary>${btn('改一改','edit','secondary')}${btn('导出文字','download','secondary')}${btn('打印 / PDF','print','secondary')}</details>`;
+if(s!=='home')h=`<nav class="nav" aria-label="返回与暂停"><button data-action="back">‹ 返回</button><button class="halt" data-action="halt">Ⅱ 暂停</button></nav>`+h;
+return h;
+}
+function render(){let h='';const s=state.screen;
+if(s==='home')h=`<div class="hero"><div class="eyebrow">把日子，留成故事</div><h1>那些年的事，<br>我们慢慢说。</h1><p class="muted">不用写字，从一件记得的事开始。</p><div class="illustration" aria-hidden="true"><div class="circle"></div><div class="book"></div><div class="sprig">⌁</div></div></div><button class="choice" data-action="elder"><span><strong>我想讲自己的故事</strong><small>说一说，我们帮您整理</small></span><span class="arrow">↗</span></button><button class="choice" data-action="family"><span><strong>我想帮长辈留下故事</strong><small>准备线索，邀请长辈来讲</small></span><span class="arrow">↗</span></button>${state.answers.length||state.draft?btn('继续上次的故事','resume','secondary'):''}<div class="notice">演示内容为虚构样例。也可输入自己的文字、选择本机照片，数据仅尝试保存在当前浏览器。</div>${btn('清除本机演示数据','resetAsk','link')}`;
+if(s==='family')h=`${btn('‹ 返回','home','back')}<div class="eyebrow">为家人准备一段回忆</div>${title('先准备一点线索','可以先选主题和照片，也可以直接请长辈来讲。')}<label class="label" for="topic">想听长辈讲什么？</label><input id="topic" type="text" maxlength="50" value="${esc(state.topic)}"><label class="label" for="photoInput">老照片（可选，仅本地预览）</label><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">${photo()}<div class="card soft">长辈决定是否参与。您准备的线索不会自动变成他的经历。</div>${btn('把手机交给长辈','handoff')}${btn('查看邀请演示','invite','secondary')}`;
+if(s==='invite')h=`${btn('‹ 返回准备','familyBack','back')}${title('邀请已经准备好','这是演示邀请，不会发送给任何人。')}<div class="card"><p>想听您讲讲「${esc(state.topic)}」。</p><p class="muted">有空时慢慢说，不想讲也没关系。</p></div>${btn('模拟长辈打开邀请','consent')}`;
+if(s==='consent')h=`${progress(1)}${title('接下来，由您来讲','我们会把您讲的话整理成故事，再念给您听。')}<div class="card"><p>① 您可以随时停下来。</p><p>② 故事写好，由您改、由您定。</p><p>③ 给谁看，之后再由您决定。</p></div><label class="check"><input id="consentCheck" type="checkbox"><span>我愿意参与并允许录音和整理。<br><span class="muted">本原型仅模拟，不会开启麦克风。</span></span></label>${btn('我愿意，开始讲','agree')}${btn('今天先不讲','decline','secondary')}`;
+if(s==='topic')h=`${progress(1)}${title('今天，想从哪里讲起？','先讲一件事就好，不用从头讲完一生。')}${['第一次上夜班','一顿难忘的家常饭','一位想念的人'].map(t=>`<button class="choice" data-topic="${t}"><strong>${t}</strong><span class="arrow">→</span></button>`).join('')}<label class="label" for="customTopic">也可以自己定一个主题</label><input id="customTopic" type="text" maxlength="50" placeholder="例如：第一次离开家">${btn('就讲这件事','customTopic','secondary')}`;
+if(s==='chat')h=`${progress(2)}<div class="row"><span class="pill">讲述中</span><button class="link" data-action="pause">先休息</button></div><h2>${esc(state.topic)}</h2><div class="card"><div class="row"><span class="avatar">拾</span><span class="muted">我在听，您慢慢说</span></div><p class="prompt">${esc(questions[Math.min(state.answers.length,2)])}</p><button class="link" data-action="readQuestion">听一遍问题</button></div><div class="conversation">${state.answers.map(a=>`<div class="bubble">${esc(a)}</div>`).join('')}</div>${state.topic==='第一次上夜班'&&state.answers.length<3?btn('<span aria-hidden="true">◉</span> 模拟讲一句','sample','primary mic'):''}<label class="label" for="answer">${state.topic==='第一次上夜班'?'也可输入回答':'输入您的回答'}</label><textarea id="answer" placeholder="这里没有真实语音识别，可以输入文字体验。"></textarea>${btn('记下这段话','answer','secondary')}${btn('先整理给我听','prepare','primary')}${btn('这个问题先跳过','skip','link')}<p class="muted small">模拟内容来自预设样例；自填内容只按原文整理，不调用 AI。</p>`;
+if(s==='pause')h=`<div class="success">Ⅱ</div>${title('歇一会儿，没关系','当前页面保留了讲述，您可以稍后继续。')}<div class="card"><span class="eyebrow">这次讲到了</span><h2>${esc(state.topic)}</h2><p class="muted">已记录 ${state.answers.length} 段讲述</p></div>${btn('继续讲','chat')}${btn('回到首页','home','secondary')}`;
+if(s==='summary')h=`${progress(2)}${title('先听听，我记下的','还没记清的地方，可以继续说；不需要记得准确年份。')}<div class="card story">${esc(state.answers.join('\n\n'))}</div>${btn('整理成草稿','draft')}${btn('我再补充一点','chat','secondary')}${btn('先休息','pause','link')}`;
+if(s==='review')h=`${progress(3)}<span class="pill">待本人确认 · 第 ${state.version} 版</span>${title('这像您说的话吗？','您可以直接改字，或者先听一遍。改完后再确认这一版。')}<label class="label" for="draftTitle">故事标题</label><input id="draftTitle" type="text" maxlength="50" value="${esc(state.topic)}"><label class="label" for="draftText">您的故事</label><textarea id="draftText" style="min-height:240px">${esc(state.draft)}</textarea>${state.photo?`${photo()}<label class="label" for="caption">这张照片怎么介绍？</label><input id="caption" type="text" maxlength="100" value="${esc(state.caption)}" placeholder="只写您确认的内容">`:''}<div class="row">${btn('听这一版','readDraft','secondary')}${btn('停止朗读','stopRead','secondary')}</div><label class="check"><input type="checkbox" id="confirmCheck"><span>我是讲述者本人，这一版的内容和口吻符合我的意思${state.photo?'，照片与图注也已核对':''}。</span></label>${btn('确认这一版，留成故事','confirm')}${btn('继续补充讲述','chat','secondary')}<p class="muted small">原型通过本人勾选演示确认步骤，不提供真实身份验证。朗读使用浏览器通用音色。</p>`;
+if(s==='done')h=`${progress(4)}<span class="pill">演示成稿 · 第 ${state.confirmed} 版</span>${title('这段回忆，留下来了。','谢谢您，把那时候的自己讲给我们听。')}<article class="card"><div class="eyebrow" style="text-align:center">我的回忆 · 一段往事</div><h2 class="storyTitle">${esc(state.topic)}</h2>${photo()}<div class="story">${esc(state.draft)}</div><p class="muted small">讲述者已确认 · 原型本地保存</p></article><div class="row">${btn('听故事','readDone')}${btn('停止朗读','stopRead','secondary')}</div>${btn('导出文字','download','secondary')}${btn('打印 / 存为 PDF','print','secondary')}${btn('决定给谁看','share','secondary')}${btn('我想再改一改','edit','link')}${btn('回到首页','home','link')}<div class="notice">图文和文字导出可用。语音为浏览器即时朗读，未生成音频文件；本页不代表真实 AI 制作完成。</div>`;
+if(s==='share')h=`${btn('‹ 回到故事','done','back')}${title('这段故事，给谁听？','您可以只留给自己，之后再决定。')}<label class="label" for="recipient">家人的称呼</label><input id="recipient" type="text" value="${esc(state.recipient)}" placeholder="例如：女儿小林" maxlength="30"><div class="card"><p>分享范围：第 ${state.confirmed} 版故事正文${state.photo?'和照片':''}</p><p class="muted">不包含原始讲述。本原型只模拟授权，不创建链接、不发送消息。</p></div>${btn('模拟授权给这位家人','grant')}${state.shared?btn('撤销模拟授权','revoke','secondary'):''}${btn('只留给自己','private','secondary')}${state.shared?`<p class="pill">已模拟授权：${esc(state.recipient)}</p>`:''}`;
+if(s==='reset')h=`${title('清除这台设备上的演示？','将删除本原型保存的文字、照片和进度。已导出的文件不受影响。')}${btn('确认清除','reset')}${btn('保留，返回首页','home','secondary')}`;
+el('app').innerHTML=simpleView(s,h);
+el('app').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.input){showInputAssist(b.dataset.input,b.dataset.mode);return;}if(b.dataset.person){const buffer=el('customTopic')?.value||'';state.relatedPerson=state.relatedPerson===b.dataset.person?'':b.dataset.person;save();render();if(el('customTopic'))el('customTopic').value=buffer;return;}if(b.dataset.story){openStory(b.dataset.story);return;}if(b.dataset.topic){if(state.answers.length&&b.dataset.topic!==state.topic){toast('先完成当前故事，避免把两件事混在一起。');return;}state.topic=b.dataset.topic;go('chat');}else if(b.dataset.action)act(b.dataset.action);};
+if(el('photoInput'))el('photoInput').onchange=upload;
+if(el('cameraInput'))el('cameraInput').onchange=upload;
+if(el('draftText'))for(const id of ['draftText','draftTitle','caption'])if(el(id))el(id).oninput=()=>{state.edited=true;if(el('confirmCheck'))el('confirmCheck').checked=false;};
+}
+function read(t){if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){toast('此浏览器不支持朗读，可直接阅读文字。');return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=.85;u.onerror=()=>toast('朗读暂不可用，请直接阅读文字。');window.speechSynthesis.speak(u);}
+function syncDraft(){const t=el('draftText');if(!t)return;const next=t.value.trim(),name=el('draftTitle').value.trim(),caption=el('caption')?el('caption').value.trim():state.caption;if(next!==state.draft||name!==state.topic||caption!==state.caption){state.version++;state.confirmed=0;state.shared=false;}state.draft=next;state.topic=name;state.caption=caption;save();}
+function addAnswer(text){if(!state.consent)return false;text=text.trim();if(!text)return false;state.answers.push(text);state.dirtyAnswers=true;state.confirmed=0;state.shared=false;save();return true;}
+function makeDraft(){if(!state.consent||!state.answers.length)return false;state.draft=state.answers.join('\n\n');state.dirtyAnswers=false;state.version++;state.confirmed=0;state.shared=false;return true;}
+function confirmDraft(approved){if(!approved||!state.consent||!state.draft.trim()||!state.topic.trim())return false;state.confirmed=state.version;return true;}
+function capturePending(){if(state.screen==='review')syncDraft();if(state.screen==='chat'&&el('answer')&&el('answer').value.trim()){addAnswer(el('answer').value);el('answer').value='';}if(state.screen==='family'&&el('topic'))state.topic=el('topic').value.trim()||state.topic;}
+function act(a){if(a==='assistCancel'){closeInputAssist();return;}if(a==='assistInsert'){insertAssistedText(el('assistText').value);return;}if(a==='assistExample'){el('assistText').value=inputAssist?.target==='customTopic'?'第一次离开家':'那天的事，我到现在还记得。';return;}if(a==='back'||a==='halt'){closeInputAssist();capturePending();if(a==='halt'){state.paused=true;go(state.consent?'pause':'home');}else{const targets={chat:'topic',topic:'home',consent:state.role==='family'?'family':'home',family:'home',invite:'family',summary:'chat',review:'summary',camera:'chat',voice:'chat',done:'home',share:'done',pause:'home',reset:'home'};go(targets[state.screen]||'home');}return;}
+if(a==='voice'){if(state.consent)go('voice');return;}
+if(a==='voiceCancel'){go('chat');return;}
+if(a==='voiceFinish'){if(state.topic==='第一次上夜班'&&!state.photo){addAnswer(sample[Math.min(state.answers.length,2)]);go('chat');toast('已记下演示语句');}else{go('chat');toast('此主题请展开“改用打字”输入，真实语音接口待接入。');}return;}
+if(a==='camera'){capturePending();go('camera');return;}
+if(a==='photoTalk'){go('chat');read('这张照片，您想讲什么？');return;}
+if(a==='removePhoto'){state.photo='';state.caption='';state.confirmed=0;state.shared=false;go('camera');return;}
+if(a==='elder'||a==='family'){capturePending();save();state=initial();state.role=a==='elder'?'elder':'family';go(a==='elder'?'consent':'family');return;}
+if(a==='home'){capturePending();go('home');return;}
+if(a==='resume'){go(state.confirmed===state.version&&state.confirmed?'done':state.dirtyAnswers?'chat':state.draft?'review':state.consent?'chat':'consent');return;}
+if(a==='handoff'||a==='invite'){state.topic=el('topic').value.trim()||'一件难忘的事';go(a==='handoff'?'consent':'invite');return;}
+if(a==='familyBack'){go('family');return;}
+if(a==='agree'){if(!el('consentCheck').checked){toast('请由讲述者本人决定是否愿意参与。');return;}state.consent=true;go(state.role==='family'?'chat':'topic');return;}
+if(a==='decline'){state.consent=false;go('home');toast('已暂停，不会开始讲述。');return;}
+if(a==='customTopic'){const t=el('customTopic').value.trim();if(!t){toast('先写下您想讲的主题。');return;}if(state.answers.length&&t!==state.topic){toast('先完成当前故事，避免把两件事混在一起。');return;}state.topic=t;go('chat');return;}
+if(a==='sample'){if(addAnswer(sample[Math.min(state.answers.length,2)]))go('chat');return;}
+if(a==='answer'){if(addAnswer(el('answer').value))go('chat');else toast('可以先写一句，也可以先休息。');return;}
+if(a==='skip'){toast('没关系，您可以讲其他想说的内容，或先整理已有讲述。');return;}
+if(a==='prepare'){const pending=el('answer')?el('answer').value.trim():'';if(pending)addAnswer(pending);if(!state.answers.length){toast('还没有讲述内容，先记下一句话吧。');return;}go('summary');return;}
+if(a==='draft'){if(makeDraft())go('review');return;}
+if(a==='confirm'){syncDraft();if(confirmDraft(el('confirmCheck').checked))go('done');else toast('请保留标题和正文，并由讲述者本人勾选确认。');return;}
+if(a==='edit'){state.history.push({version:state.confirmed,title:state.topic,draft:state.draft,caption:state.caption,photo:state.photo});state.confirmed=0;state.shared=false;state.version++;go('review');return;}
+if(a==='readQuestion'){read(currentQuestion());return;}
+if(a==='readDraft'){syncDraft();read(state.topic+'。'+state.draft);return;}
+if(a==='readDone'){read(state.topic+'。'+state.draft);return;}
+if(a==='stopRead'){if(window.speechSynthesis)window.speechSynthesis.cancel();return;}
+if(a==='pause'){capturePending();state.paused=true;go('pause');return;}
+if(a==='chat'){if(state.screen==='review')syncDraft();go('chat');return;}
+if(a==='grant'){const r=el('recipient').value.trim();if(!r){toast('请填写想分享给谁。');return;}if(!state.confirmed||state.confirmed!==state.version){toast('请先由本人确认当前版本。');return;}state.recipient=r;state.shared=true;go('share');toast('模拟授权已记录，没有发送任何内容。');return;}
+if(a==='revoke'||a==='private'){state.shared=false;state.recipient='';go(a==='private'?'done':'share');toast('仅按本机留存，没有真实分享。');return;}
+if(a==='download'){const blob=new Blob([state.topic+'\n\n'+state.draft+'\n\n'+(state.caption||'')],{type:'text/plain;charset=utf-8'});const u=URL.createObjectURL(blob),b=document.createElement('a');b.href=u;b.download='拾光回忆录.txt';b.click();setTimeout(()=>URL.revokeObjectURL(u),1000);return;}
+if(a==='print'){window.print();return;}
+if(a==='resetAsk'){go('reset');return;}
+if(a==='reset'){if(window.speechSynthesis)window.speechSynthesis.cancel();localStorage.removeItem(KEY);state=initial();library=[];render();return;}
+if(['consent','done','share'].includes(a))go(a);
+}
+function upload(e){const f=e.target.files[0];if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){toast('请选择 2MB 以内的 JPG、PNG 或 WebP 图片。');return;}if(state.screen==='family')state.topic=el('topic').value.trim()||state.topic;const screen=state.screen;const r=new FileReader();r.onload=()=>{if(state.screen!==screen)return;state.photo=r.result;state.caption='';state.confirmed=0;state.shared=false;save();render();};r.readAsDataURL(f);}
+rememberActive();render();
+</script></body></html>

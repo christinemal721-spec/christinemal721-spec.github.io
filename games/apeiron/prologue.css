@@ -1,0 +1,60 @@
+/* 序章：不存在的骰子 */
+.prologue { gap: 18px; }
+.worlds { display: grid; grid-template-columns: 1fr 2px 1fr; gap: 24px; width: 100%; max-width: 760px; align-items: center; }
+.world { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px; border-radius: 18px; }
+.world figcaption { font: 600 15px var(--serif); color: var(--muted); letter-spacing: .12em; }
+.world.mirror { background: radial-gradient(ellipse at 50% 40%, rgba(127,182,220,.1), transparent 70%); border: 1px solid rgba(214,184,120,.25); border-radius: 160px 160px 18px 18px; }
+.world.mirror figcaption { color: var(--gold); }
+.world.formed { box-shadow: 0 0 60px rgba(214,184,120,.25); }
+.mirror-line { align-self: stretch; background: linear-gradient(transparent, rgba(214,184,120,.6), transparent); }
+.cube { width: 100%; max-width: 260px; }
+/* 镜中骰子是镜外骰子的水平镜像：镜外右面 = 镜中左面 */
+.cube.is-mirror { transform: scaleX(-1); }
+.cube-shadow { fill: #000; opacity: .45; }
+.cube .face rect { fill: #e7e0cb; stroke: #9c9580; stroke-width: 1.5; }
+.cube .face:nth-child(3) rect { fill: #cfc8b2; }
+.cube .face:nth-child(4) rect { fill: #b9b29c; }
+.cube .dots { fill: #1d2a2e; color: #1d2a2e; }
+.cube.is-mirror .face rect { fill: #c8d8d6; stroke: var(--gold); }
+.cube.is-mirror .face.unknown rect { fill: rgba(200,216,214,.12); stroke-dasharray: 4 4; }
+.cube.is-mirror .face.unknown .dots { fill: var(--gold); color: var(--gold); }
+.line { min-height: 1.6em; color: var(--text); font-size: 16px; }
+.line.warn { color: var(--bad); }
+
+.controls { display: flex; align-items: flex-end; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.ctrl-group, .pad { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ctrl-label { font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg-btn { background: var(--surface); border: 0; border-right: 1px solid var(--line); min-width: 52px; height: 44px; font-size: 16px; }
+.seg-btn:last-child { border-right: 0; }
+.seg-btn:hover { background: var(--surface-2); }
+.seg-btn.on { background: var(--gold); color: var(--gold-ink); font-weight: 600; }
+.seg-btn.num { min-width: 44px; font: 600 18px var(--serif); }
+
+.controls.inside { flex-direction: column; align-items: center; gap: 16px; }
+.faces { display: grid; grid-template-columns: repeat(6, 72px); gap: 8px; }
+.face-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: var(--muted); }
+.face-tile.sel { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); color: var(--text); }
+.face-tile.locked { opacity: .55; }
+.face-tile.locked:disabled { opacity: .55; }
+.face-tile.bad { border-color: var(--bad); opacity: 1; }
+.pip-icon { width: 40px; height: 40px; }
+.pip-icon rect { fill: #e7e0cb; }
+.pip-icon circle { fill: #1d2a2e; }
+.pip-icon text { fill: #1d2a2e; font-family: var(--serif); }
+.inside-actions { display: flex; gap: 12px; }
+
+.controls.done { flex-direction: column; align-items: center; gap: 14px; }
+.roll { display: flex; align-items: center; gap: 12px; }
+.roll .pip-icon { width: 56px; height: 56px; }
+.roll b { font: 600 34px var(--serif); color: var(--gold); }
+.moral { font: 18px/1.8 var(--serif); }
+.hint { color: var(--muted); font-size: 13px; }
+.hint summary { cursor: pointer; }
+
+@media (max-width: 760px) {
+  .worlds { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mirror-line { display: none; }
+  .faces { grid-template-columns: repeat(3, 72px); }
+  .controls { gap: 14px; }
+}

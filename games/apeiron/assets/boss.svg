@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 660" fill="none">
+  <defs>
+    <linearGradient id="armor" x1="129" y1="171" x2="367" y2="581" gradientUnits="userSpaceOnUse"><stop stop-color="#9eb8ae"/><stop offset=".25" stop-color="#527f82"/><stop offset=".58" stop-color="#274a5e"/><stop offset="1" stop-color="#102637"/></linearGradient>
+    <linearGradient id="edge" x1="126" y1="95" x2="348" y2="566" gradientUnits="userSpaceOnUse"><stop stop-color="#ded2a4"/><stop offset=".5" stop-color="#a5ad8d"/><stop offset="1" stop-color="#497179"/></linearGradient>
+    <linearGradient id="shard" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8d8c2"/><stop offset=".35" stop-color="#608c8b"/><stop offset="1" stop-color="#1b3e51"/></linearGradient>
+    <radialGradient id="aura"><stop stop-color="#79c9c3" stop-opacity=".2"/><stop offset="1" stop-color="#5dbecc" stop-opacity="0"/></radialGradient>
+    <radialGradient id="core"><stop stop-color="#e2ffd9"/><stop offset=".3" stop-color="#9ce5cf"/><stop offset="1" stop-color="#65bebd" stop-opacity="0"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="7"/></filter>
+  </defs>
+  <ellipse cx="250" cy="342" rx="230" ry="294" fill="url(#aura)"/>
+  <g stroke="#a7bca3" opacity=".25"><circle cx="250" cy="279" r="201"/><circle cx="250" cy="279" r="187"/><path d="M250 55v33m0 382v33M25 279h40m370 0h40"/><path d="m107 137 13 13m260 258 13 13m0-284-13 13M120 408l-13 13"/></g>
+  <g fill="url(#shard)" stroke="#a6c3af" stroke-opacity=".4">
+    <path d="m84 168 27 37-10 49-25-48Zm324-13-23 43 17 39 23-37ZM60 331l29-31-10 64-24 11Zm374-27-28 22 16 51 23-25ZM109 443l20-17-12 55-17 15Zm295 8-25-19 12 51 26 15ZM174 95l-4-41 21 21-1 44Zm155-44-21 29 4 29 23-37Z"/>
+  </g>
+  <!-- The crown is an incomplete sundial, floating above the mask. -->
+  <path d="m181 139-18-60 37 31 18-61 32 46 31-46 18 61 38-31-19 60-67 24Z" fill="#2a4e5a" stroke="url(#edge)" stroke-width="2"/>
+  <path d="m179 102 22 25 18-52 31 42 30-42 19 52 22-25-10 30-61 24-62-24Z" fill="#92aca0" opacity=".4"/>
+  <path d="m250 62 10 22-10 22-10-22Z" fill="#c7c8a0"/><path d="m250 66 1 36-8-18Z" fill="#f0e2b7"/>
+  <!-- Behind the armor, the body is a long fold of empty night. -->
+  <path d="m171 254-45 68 15 122-31 147 83-26 57 58 57-58 83 26-31-147 15-122-45-68Z" fill="#0b202f"/>
+  <path d="m164 294 3 116-34 149 40-28 25-125-13-113Zm171 0-2 116 34 149-40-28-25-125 13-113Z" fill="#245062" opacity=".6"/>
+  <path d="m201 388-9 171 58 64 58-64-10-171Z" fill="#183849"/>
+  <path d="m250 411-15 138 15 48 17-48Z" fill="#426f79"/>
+  <path d="m237 434 13 75 13-75-13 14Z" fill="#7ba79e" opacity=".4"/>
+  <!-- Faceted pauldrons and arms retain gaps of luminous air. -->
+  <path d="m172 215-56 27-22 52 38 21 62-57Zm156 0 56 27 22 52-38 21-62-57Z" fill="url(#armor)" stroke="url(#edge)" stroke-width="1.5"/>
+  <path d="m171 221-36 49-35 18 20-43Zm158 0 36 49 35 18-20-43Z" fill="#a0baad" opacity=".55"/>
+  <path d="m135 272-13 30 50-48Zm230 0 13 30-50-48Z" fill="#173b4e"/>
+  <path d="m107 316 30 8-4 64-25 33-18-38Zm286 0-30 8 4 64 25 33 18-38Z" fill="url(#armor)"/>
+  <path d="m107 324-9 55 10 29 4-43 18-33Zm286 0 9 55-10 29-4-43-18-33Z" fill="#8caea3" opacity=".45"/>
+  <path d="m107 428 18-23 12 35-13 45-8-7 3-30-10 21-9-2-5-18Zm286 0-18-23-12 35 13 45 8-7-3-30 10 21 9-2 5-18Z" fill="#466e78" stroke="#a0b4a0" stroke-opacity=".5"/>
+  <!-- A broken mirrored breastplate around a visible heart. -->
+  <path d="m185 231 30-19 35 13 34-13 31 19-10 63-30 19-9 38-16 15-16-15-9-38-30-19Z" fill="url(#armor)"/>
+  <path d="m185 231 47 13-7 69-30-19Zm130 0-47 13 7 69 30-19Z" fill="#8db3a7" opacity=".5"/>
+  <path d="m185 231 30-19 35 13-18 19Zm130 0-31-19-34 13 18 19Z" fill="#c5cfb3" opacity=".6"/>
+  <path d="m227 249 23-12 23 12-9 56-14 24-14-24Z" fill="#062b3b" stroke="#a4c1a8"/>
+  <path d="m250 253 10 29-10 28-10-28Z" fill="#a4e9cd"/>
+  <ellipse cx="250" cy="281" rx="26" ry="38" fill="url(#core)" filter="url(#glow)"/>
+  <path d="m198 245 9 37 15 8m80-45-9 37-15 8M239 316l11 24 11-24" stroke="#d1d0a8" stroke-opacity=".7"/>
+  <path d="m209 320 13 36 28 24 28-24 13-36 9 25-21 47-29 22-29-22-21-47Z" fill="url(#armor)" stroke="url(#edge)"/>
+  <path d="m217 365 33 26 33-26-6 24-27 19-26-19Z" fill="#87aa9e" opacity=".5"/>
+  <!-- A mask of four shards: no literal human face beneath it. -->
+  <path d="m201 156 28-13 16 16-12 34-27-10Z" fill="#a5bfae" stroke="#d4d3ae" stroke-opacity=".6"/>
+  <path d="m253 156 20-13 27 13-5 31-30 7Z" fill="#67958e" stroke="#c2c8a4" stroke-opacity=".6"/>
+  <path d="m207 192 28 10 9 26-27-16Z" fill="#608e88" stroke="#a4ba9e" stroke-opacity=".6"/>
+  <path d="m266 204 27-10-14 20-25 14Z" fill="#356675" stroke="#8fac9b" stroke-opacity=".6"/>
+  <path d="m211 169 21 9-3 9-15-5Zm59 10 22-10-4 15-15 5Z" fill="#0c303f"/>
+  <path d="m214 175 13 5m47 1 13-6" stroke="#d8ffd4" stroke-width="3"/>
+  <path d="m214 175 13 5m47 1 13-6" stroke="#a4f0ce" stroke-width="7" filter="url(#glow)"/>
+  <path d="m248 153-7 39 9 21 9-21Z" fill="#acc7b1"/>
+  <path d="m248 153 2 60 9-21Z" fill="#487e7e"/>
+  <!-- Floating skirt plates keep the silhouette monumental. -->
+  <g fill="url(#armor)" stroke="url(#edge)" stroke-opacity=".6">
+    <path d="m191 391 29 25-13 84-38 51 8-94Z"/>
+    <path d="m309 391-29 25 13 84 38 51-8-94Z"/>
+    <path d="m219 432 24 21-17 96-22 22 3-66Z"/>
+    <path d="m281 432-24 21 17 96 22 22-3-66Z"/>
+  </g>
+  <path d="m191 405-9 109 15-26 13-70Zm118 0 9 109-15-26-13-70Z" fill="#93b7a5" opacity=".35"/>
+  <g stroke="#a1bdab" opacity=".45"><path d="m147 195-20-14-9 9 20 15Zm219 6 14-23 9 9-16 23ZM88 509l-5 25 17 18-1-27Zm330-4 5 25-17 18 1-27Z"/><path d="M170 600h160m-147 9h134" stroke-opacity=".3"/></g>
+  <g fill="#c9d7b7"><circle cx="80" cy="252" r="1.5" opacity=".6"/><circle cx="426" cy="265" r="1.5" opacity=".5"/><circle cx="162" cy="566" r="1.3" opacity=".6"/><circle cx="351" cy="541" r="1.5" opacity=".6"/><circle cx="250" cy="37" r="2" opacity=".6"/></g>
+</svg>
