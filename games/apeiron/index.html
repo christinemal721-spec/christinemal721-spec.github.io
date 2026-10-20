@@ -326,6 +326,34 @@ canvas{display:block;width:100%;height:100%}
     </pattern>
   </defs>
 </svg>
+<div id="rotateHint" role="status" hidden><span aria-hidden="true">▱ ↻</span><h2>请横过手机</h2><p>横屏探索潮汐之岸</p><small>竖屏时游戏暂停，横屏后继续</small></div>
+<style>
+#rotateHint{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--fog);text-align:center;padding:24px}
+#rotateHint>span{font-size:64px;color:var(--accent)}
+#rotateHint h2{font:32px var(--f-title);letter-spacing:.15em;margin:24px 0 0}
+#rotateHint p{font-size:16px}#rotateHint small{color:var(--ink-soft)}
+@media (pointer:coarse) and (orientation:landscape) and (max-height:600px){
+  #stage{touch-action:none}
+  .screen{padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  #start h1{font-size:42px;margin-top:6px}#start .greek{font-size:14px}
+  .screen .meander{margin-top:6px}.go{margin-top:12px;font-size:21px}.ctl{margin-top:8px;line-height:1.6;max-width:600px}
+  .phead{gap:2px}.phead h2{font-size:24px}.phead p{margin-top:2px;font-size:12px}
+  .cards{width:100%;gap:10px;margin-top:8px;justify-content:flex-start;overflow-x:auto;touch-action:pan-x pan-y}
+  .card{width:calc((100% - 20px)/3);min-width:180px;padding:10px;gap:5px}.card .portrait{height:64px}
+  .card .cname{font-size:20px}.card p{font-size:12px;line-height:1.5}.card .cfit{font-size:11px}.card .wicon{width:44px;height:44px}
+  .pickscreen{touch-action:pan-y}.pickscreen>.row{position:sticky;bottom:0;background:var(--paper);flex-shrink:0;z-index:2;margin-top:10px;padding:6px 12px}
+  .tl{left:max(16px,env(safe-area-inset-left));top:12px}.tl .greek,.tl .meander,.tl .sub{display:none}
+  .tl .ttl{font-size:17px}.tc{top:10px;min-width:0}.tc .ttl{font-size:20px}.tc .roster{margin-top:3px}.tc .note{margin-top:3px;font-size:11px}.bossbar{width:180px;margin-top:4px}
+  .tr{right:max(12px,env(safe-area-inset-right));top:10px;gap:2px}.mapwrap,.mapwrap canvas{width:76px;height:76px}.tr .cyclewrap{display:none}
+  .bl{left:max(16px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));transform:none;gap:6px}.bl .hexslot{width:40px;height:40px}.bl .ttl{font-size:18px}.bl .rel{max-width:150px;font-size:10px}
+  #acts{right:max(12px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));transform:scale(.78);transform-origin:right bottom}
+  #php{bottom:max(16px,env(safe-area-inset-bottom));width:25vw}
+  #wheel{top:auto;bottom:50px;gap:2px}#wheel button{width:44px;height:48px}
+  #tut{bottom:115px;font-size:12px;padding:8px 12px;gap:6px;white-space:normal;max-width:42vw}
+  #hint{bottom:96px;font-size:11px;white-space:normal;max-width:40vw}#msg{top:30%;font-size:12px;white-space:normal;max-width:45vw}
+  #zoneToast .ttl{font-size:28px}#end,#fall{overflow-y:auto;justify-content:flex-start}#end h2,#fall h2{font-size:32px}#end p,#fall p{font-size:13px;margin-top:8px;line-height:1.5}
+}
+</style>
 <div id="stage">
   <canvas id="c" aria-label="潮汐之岸三维场景"></canvas>
   <div class="vignette"></div>
@@ -61374,7 +61402,7 @@ if(isTouch){
   $('ctlText').innerHTML = '<span>拖动左侧 移动</span><span><span class="kc">击</span> 普通攻击，按住连击</span><span><span class="kc">元</span> 元素攻击</span><span><span class="kc">跳</span> 跳跃</span><span><span class="kc">闪</span> 闪避</span><span><span class="kc">技</span> 职业技能</span><span><span class="kc">器</span> 随身之物</span>';
   const stick = $('stick'), knob = stick.querySelector('i');
   addEventListener('touchstart', e => {
-    if(state!=='play') return;
+    if(state!=='play' || portraitPaused) return;
     for(const t of e.changedTouches){ if(t.clientX < innerWidth*0.45 && touch.id===null){ touch.id=t.identifier; touch.ox=t.clientX; touch.oy=t.clientY; touch.x=touch.y=0; stick.style.display='block'; stick.style.left=t.clientX+'px'; stick.style.top=t.clientY+'px'; } }
   }, {passive:true});
   addEventListener('touchmove', e => { for(const t of e.changedTouches){ if(t.identifier===touch.id){ let dx=t.clientX-touch.ox, dy=t.clientY-touch.oy; const L=Math.hypot(dx,dy), mx=50; if(L>mx){dx*=mx/L;dy*=mx/L;} touch.x=dx/mx; touch.y=dy/mx; knob.style.transform=`translate(${dx}px,${dy}px)`; } } }, {passive:true});
@@ -62367,7 +62395,18 @@ function updateCamera(dt, t){
 }
 
 /* ---------------- 主循环 ---------------- */
-function resize(){ renderer.setSize(innerWidth, innerHeight, false); world.resize(); applyCamera(); }
+let portraitPaused = false;
+function syncOrientation(){
+  portraitPaused = matchMedia('(pointer:coarse)').matches && innerHeight > innerWidth;
+  $('rotateHint').hidden = !portraitPaused;
+  $('stage').inert = portraitPaused;
+  keys.clear(); ptr.lmb = false; ptr.down = false; touchAtk = false;
+  touch.id = null; touch.x = touch.y = 0;
+  $('stick').style.display = 'none';
+  $('stick').querySelector('i').style.transform = '';
+  for(const k in act) act[k] = false;
+}
+function resize(){ syncOrientation(); renderer.setSize(innerWidth, innerHeight, false); world.resize(); applyCamera(); }
 addEventListener('resize', resize); resize();
 function tick(raw){
   gameTime += raw;
@@ -62394,7 +62433,7 @@ function tick(raw){
 }
 function frame(){
   const d = Math.min(clock.getDelta(), 1/20);
-  if(!window.__freeze) tick(d);
+  if(!window.__freeze && !portraitPaused) tick(d);
   world.render();
   requestAnimationFrame(frame);
 }
