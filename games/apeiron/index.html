@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#f3ede4">
-<title>阿派朗 潮汐之岸</title>
+<title>阿派朗：无界岛 · 天空之岸</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=GFS+Didot&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
@@ -142,8 +142,9 @@ canvas{display:block;width:100%;height:100%}
 .screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px max(16px,env(safe-area-inset-right)) 24px max(16px,env(safe-area-inset-left))}
 #start{background:radial-gradient(40% 36% at 50% 40%,#f6f1eaee 0%,#f6f1eab0 55%,#f3ede400 100%);pointer-events:none}
 #start button{pointer-events:auto}
+body[data-island="snow"] #start{background:radial-gradient(38% 34% at 50% 38%,#eef4f8d9 0%,#eef4f880 55%,#eef4f800 100%)}
 #start .greek{font-size:18px;color:var(--ink-soft)}
-#start h1{font-size:clamp(46px,8vw,86px);margin:14px 0 0;letter-spacing:.3em;padding-left:.3em}
+#start h1{font-size:clamp(38px,6.2vw,76px);margin:14px 0 0;letter-spacing:.18em;padding-left:.18em;white-space:nowrap}
 #start .sub{font-size:14px;letter-spacing:.24em;color:var(--ink-soft);margin-top:4px}
 .screen .meander{margin:14px auto 0}
 .go{all:unset;cursor:pointer;position:relative;margin-top:30px;font-family:var(--f-title);font-size:24px;letter-spacing:.4em;padding:10px 22px 12px calc(22px + .4em)}
@@ -151,6 +152,31 @@ canvas{display:block;width:100%;height:100%}
 .go:hover svg.frame{color:var(--accent)}
 .go:focus-visible{outline:1px dashed var(--ink);outline-offset:6px}
 .go.ghost{opacity:.6}
+/* 「前往下一座岛」比「重新开始」醒目：实底、浅色字、慢慢呼吸的光 */
+#nextBtn{color:#faf6ef;font-size:21px}
+#nextBtn span{position:relative}
+#nextBtn .frame polygon{fill:#3f6f93;stroke:#3f6f93;stroke-opacity:1}
+#nextBtn::after{content:'';position:absolute;inset:-6px;border:1px solid #3f6f9366;clip-path:polygon(5% 0,100% 0,100% 80%,95% 100%,0 100%,0 20%);animation:nextGlow 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes nextGlow{0%,100%{opacity:.25;transform:scale(.98)}50%{opacity:.9;transform:scale(1.02)}}
+@media (prefers-reduced-motion: reduce){#nextBtn::after{animation:none;opacity:.6}}
+#end .row #againBtn{opacity:.55;font-size:16px}
+#islPick{display:flex;gap:10px;margin-top:18px}
+#islPick[hidden]{display:none}
+/* 标题字体 ZCOOL XiaoWei 的「回」是方框套方框，按钮这么小会糊成一块，返回键改用正文的宋体 */
+#backStart{font-family:var(--f-body);font-weight:500;letter-spacing:.32em}
+#devBtn{all:unset;pointer-events:auto;cursor:pointer;position:fixed;right:18px;bottom:14px;font-size:11px;letter-spacing:.2em;color:var(--ink-soft);opacity:.38}
+#devBtn:hover{opacity:.8}
+#devBox{position:fixed;right:18px;bottom:40px;pointer-events:auto;display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:#faf6eff2;border:1px solid #2e2a3a33;box-shadow:0 6px 24px #2e2a3a1f;min-width:200px}
+#devBox[hidden]{display:none}
+#devBox .dt{font-family:var(--f-title);font-size:14px;letter-spacing:.2em}
+#devBox input{all:unset;font-size:14px;padding:6px 8px;border:1px solid #2e2a3a40;background:#fff;color:var(--ink)}
+#devBox .row2{display:flex;gap:8px;justify-content:flex-end}
+#devBox button{all:unset;cursor:pointer;font-size:13px;letter-spacing:.15em;padding:4px 12px;border:1px solid #2e2a3a40}
+#devBox #devOk{border-color:#2e2a3a99}
+#devErr{font-size:12px;color:#9b4a33;min-height:1em}
+#islPick button{all:unset;pointer-events:auto;cursor:pointer;font-family:var(--f-title);font-size:14px;letter-spacing:.18em;padding:6px 14px;color:var(--ink-soft);border:1px solid #2e2a3a2a;background:#faf6ef99}
+#islPick button[aria-pressed="true"]{color:var(--ink);border-color:#2e2a3a8c;background:#faf6efe6}
+#islPick button small{font-size:11px;letter-spacing:.06em;margin-left:6px;opacity:.7}
 .ctl{margin-top:16px;font-size:12px;color:var(--ink-soft);letter-spacing:.06em;line-height:2.3;display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;max-width:760px}
 .ctl span{white-space:nowrap}
 .pickscreen{background:#f3ede4d9;justify-content:flex-start;padding-top:max(26px,4vh);overflow-y:auto}
@@ -326,7 +352,7 @@ canvas{display:block;width:100%;height:100%}
     </pattern>
   </defs>
 </svg>
-<div id="rotateHint" role="status" hidden><span aria-hidden="true">▱ ↻</span><h2>请关闭设备竖屏锁定后横过手机</h2><p>横屏探索潮汐之岸</p><small>竖屏时游戏暂停，横屏后继续</small></div>
+<div id="rotateHint" role="status" hidden><span aria-hidden="true">▱ ↻</span><h2>请关闭设备竖屏锁定后横过手机</h2><p id="rotateText">横屏探索天空之岸</p><small>竖屏时游戏暂停，横屏后继续</small></div>
 <style>
 #rotateHint{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--fog);text-align:center;padding:24px}
 #rotateHint>span{font-size:64px;color:var(--accent)}
@@ -335,7 +361,7 @@ canvas{display:block;width:100%;height:100%}
 @media (pointer:coarse) and (orientation:landscape) and (max-height:600px){
   #stage{touch-action:none}
   .screen{padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom))}
-  #start h1{font-size:42px;margin-top:6px}#start .greek{font-size:14px}
+  #start h1{font-size:34px;margin-top:6px}#start .greek{font-size:14px}
   .screen .meander{margin-top:6px}.go{margin-top:12px;font-size:21px}.ctl{margin-top:8px;line-height:1.6;max-width:600px}
   .phead{gap:2px}.phead h2{font-size:24px}.phead p{margin-top:2px;font-size:12px}
   .cards{width:100%;gap:10px;margin-top:8px;justify-content:flex-start;overflow-x:auto;touch-action:pan-x pan-y}
@@ -355,7 +381,7 @@ canvas{display:block;width:100%;height:100%}
 }
 </style>
 <div id="stage">
-  <canvas id="c" aria-label="潮汐之岸三维场景"></canvas>
+  <canvas id="c" aria-label="天空之岸三维场景"></canvas>
   <div class="vignette"></div>
 
   <div id="hud" hidden>
@@ -366,7 +392,7 @@ canvas{display:block;width:100%;height:100%}
 
     <div class="tl">
       <div class="greek">ἄπειρον</div>
-      <div class="ttl" id="zoneName">潮汐之岸<span class="mir" aria-hidden="true">潮汐之岸</span></div>
+      <div class="ttl" id="zoneName">天空之岸<span class="mir" aria-hidden="true">天空之岸</span></div>
       <svg class="meander" width="120" height="9" aria-hidden="true"><rect width="120" height="9" fill="url(#mz)"/></svg>
       <div class="sub" id="zoneSub"></div>
     </div>
@@ -424,12 +450,15 @@ canvas{display:block;width:100%;height:100%}
 
   <div class="screen" id="start">
     <div class="greek">ἄπειρον</div>
-    <h1 class="ttl">阿派朗<span class="mir" aria-hidden="true">阿派朗</span></h1>
-    <div class="sub">镜生非我　第一座岛：潮汐之岸</div>
+    <h1 class="ttl">阿派朗：无界岛<span class="mir" aria-hidden="true">阿派朗：无界岛</span></h1>
+    <div class="sub" id="startSub">第一座岛：天空之岸</div>
     <svg class="meander" width="168" height="9" aria-hidden="true"><rect width="168" height="9" fill="url(#mz)"/></svg>
     <button class="go" id="startBtn" disabled>角色载入中…</button>
     <p id="modelStatus" role="status" aria-live="polite" style="font-size:12px">正在准备三位旅者</p>
-    <div class="ctl">拖动旋转小岛，点一点水面和果冻试试</div>
+    <div id="islPick" role="group" aria-label="选择岛屿" hidden></div>
+    <button type="button" id="devBtn">开发者</button>
+    <div id="devBox" hidden role="dialog" aria-label="开发者入口"><span class="dt">开发者入口</span><input type="password" id="devPw" placeholder="输入密码" autocomplete="off"><span class="row2"><button type="button" id="devCancel">取消</button><button type="button" id="devOk">进入</button></span><span id="devErr" role="status"></span></div>
+    <div class="ctl" id="startHint">拖动旋转小岛，点一点水面和果冻试试</div>
   </div>
 
   <div class="screen pickscreen" id="pickClass" hidden>
@@ -439,7 +468,7 @@ canvas{display:block;width:100%;height:100%}
       <p>三个人走在同一座岛上，走法和本事各不相同</p>
     </div>
     <div class="cards" id="classCards"></div>
-    <div class="row"><button class="go" id="toWeapon">下一步</button></div>
+    <div class="row"><button class="go ghost" id="backStart">返回</button><button class="go" id="toWeapon">下一步</button></div>
   </div>
 
   <div class="screen pickscreen" id="pickWeapon" hidden>
@@ -476,7 +505,7 @@ canvas{display:block;width:100%;height:100%}
     <svg class="meander" width="140" height="9" aria-hidden="true"><rect width="140" height="9" fill="url(#mz)"/></svg>
     <p id="endText"></p>
     <div class="facts" id="endFacts"></div>
-    <div class="row"><button class="go" id="againBtn">重新开始</button></div>
+    <div class="row"><button class="go ghost" id="againBtn">重新开始</button><button class="go" id="nextBtn" hidden><span id="nextTxt">前往凝冰之原</span></button></div>
   </div>
 </div>
 <div id="shards"></div>
@@ -59868,74 +59897,1048 @@ function rig_inverses(rig) {
 return { CHARACTER_URL, loadCharacterModels, createCharacter };
 })();
 
+const __ISL_snow = (() => {
+/* 阿派朗：无界岛 · 第二座岛「凝冰之原」
+ * 真实、安静的雪：雪面不做果冻光泽，弹性只留在人物和小怪身上。
+ *
+ * 布局（镜头默认从东南方看过来，画面上方是西北）：
+ *   主峰在西北角，峰下一块平台是覆雪者的居所，一条缓坡山脊从登岛处通上平台；
+ *   东南是冰湖凹地，湖的北岸有一处温泉。
+ * 切面从上到下：新雪、粒雪（一年一层的细亮线）、冰川蓝冰（半透明，冻着气泡）、花岗岩、基岩；岛底挂冰棱。
+ *
+ * 第 1 步：地形切片。雪面变形、冻融、细节、生物在后面的步骤里加。 */
+function createSnow(ctx){
+const { THREE, renderer, camera, clamp, lerp, sstep, rand, pick, hash, burst, game, obstacles } = ctx;
+const scene = ctx.root;
 
+/* ---------------- 轮廓与高度 ---------------- */
+const SX = 23, SZ = 16, BOTTOM = -6;
+const OA = 19.6, OB = 14.2;
+function outlineR(a){
+  const c = Math.cos(a), s = Math.sin(a), e = 1/Math.sqrt(c*c/(OA*OA) + s*s/(OB*OB));
+  const dPeak = Math.atan2(Math.sin(a+2.82), Math.cos(a+2.82));   // 主峰一侧向外鼓出
+  const dBay = Math.atan2(Math.sin(a-1.05), Math.cos(a-1.05));    // 南边一处小湾
+  return e*(1 + 0.06*Math.sin(3*a+0.4) + 0.04*Math.sin(5*a+1.9) + 0.022*Math.sin(8*a+0.7) + 0.011*Math.sin(15*a+2.2)
+    + 0.08*Math.exp(-dPeak*dPeak*6) - 0.06*Math.exp(-dBay*dBay*18));
+}
+const slabD = (x,z) => (Math.hypot(x,z) - outlineR(Math.atan2(z,x)))*0.92;
+const inIsland = (x,z,m=1) => slabD(x,z) < -(1-m)*20;
+function clampToSlab(x,z){ const r = outlineR(Math.atan2(z,x)), L = Math.hypot(x,z); return L > r ? [x/L*r, z/L*r] : [x,z]; }
+function inward(x,z,margin=1.2){ let i = 0; while(slabD(x,z) > -margin && i++ < 60){ x *= 0.97; z *= 0.97; } return [x,z]; }
+const n2 = (x,z) => Math.sin(x*0.45 + Math.sin(z*0.3)*1.7)*0.5 + Math.sin(z*0.52 + Math.cos(x*0.27)*1.3)*0.5;
+// 值噪声（-1..1）与山脊噪声：用来雕出山体的沟壑和岩脊
+function vn(x,z){
+  const xi = Math.floor(x), zi = Math.floor(z), xf = x-xi, zf = z-zi, u = xf*xf*(3-2*xf), v = zf*zf*(3-2*zf);
+  return lerp(lerp(hash(xi,zi), hash(xi+1,zi), u), lerp(hash(xi,zi+1), hash(xi+1,zi+1), u), v)*2 - 1;
+}
+function ridged(x,z){ let s = 0, a = 0.55, f = 1; for(let i=0;i<4;i++){ const r = 1 - Math.abs(vn(x*f + i*7.3, z*f - i*3.1)); s += a*r*r; f *= 2.1; a *= 0.5; } return s; }
+function segT(px,pz,ax,az,bx,bz){ const vx=bx-ax, vz=bz-az; const t = clamp(((px-ax)*vx+(pz-az)*vz)/(vx*vx+vz*vz),0,1); return [t, Math.hypot(px-ax-vx*t, pz-az-vz*t)]; }
 
-const { loadCharacterModels, createCharacter } = __CM;
+const BASE = 0.8;
+const PEAK  = {x:-13.4, z:-4.8};
+const PLAT  = {x:-6.0, z:-1.9, r:3.0, h:2.6};
+const RIDGE = {ax:-2.2, az:6.0, bx:-4.7, bz:0.8};        // 低端在登岛处附近，高端接平台边缘
+const LAKE  = {x:8.2, z:-2.0, r:3.0};
+// 冰湖的岸线：基圆加几层起伏，一侧伸出一个小湾，一侧凹进去
+function lakeQ(x,z){
+  const dx = x - LAKE.x, dz = z - LAKE.z, a = Math.atan2(dz, dx);
+  const da = Math.atan2(Math.sin(a-2.4), Math.cos(a-2.4)), db = Math.atan2(Math.sin(a+0.9), Math.cos(a+0.9));
+  const R = LAKE.r*(1 + 0.16*Math.sin(2*a+0.7) + 0.1*Math.sin(3*a+2.1) + 0.06*Math.sin(5*a+0.3) + 0.04*Math.sin(8*a+1.4)
+    + 0.38*Math.exp(-da*da*5) - 0.22*Math.exp(-db*db*9));
+  return Math.hypot(dx, dz)/R;
+}
+const SPRING= {x:2.2, z:-7.4, r:1.3};
+const WL0 = 0.32;                                            // 冰湖水位（冰面）
+const SPRING_LV = 0.62;
 
-/* ---------------- 规则 ---------------- */
-const EL = {
-  earth:{name:'土', color:0xc9a47a, css:'#a5784a', light:0xe6cfae, freq:330},
-  water:{name:'水', color:0x7fb6dc, css:'#3f6f93', light:0xc6e2f2, freq:440},
-  fire: {name:'火', color:0xef8a64, css:'#c8603c', light:0xf8c6b0, freq:523},
-  metal:{name:'金', color:0xe3c86f, css:'#a28630', light:0xf3e6b6, freq:659},
-  wood: {name:'木', color:0x93c07c, css:'#5c8a46', light:0xcfe4c2, freq:392},
-};
+/* 脚下的雪原：平滑的起伏 + 平台 + 山脊 + 冰湖 + 温泉 */
+function Hbase(x,z){
+  let h = BASE + 0.22*n2(x*0.33, z*0.33) + 0.06*n2(x*1.05+3, z*1.05-2) + 0.05*Math.sin((x*0.6 - z*0.8)*1.3 + n2(x*0.5,z*0.5)*2.0);
+  const dpl = Math.hypot(x-PLAT.x, z-PLAT.z);
+  const plat = PLAT.h + 0.05*n2(x*1.8, z*1.8);
+  h = Math.max(h, lerp(h, plat, sstep(PLAT.r+1.5, PLAT.r, dpl)));
+  const [t, dr] = segT(x,z, RIDGE.ax,RIDGE.az, RIDGE.bx,RIDGE.bz);
+  const ramp = lerp(BASE+0.12, PLAT.h, sstep(0, 1, t)) + 0.04*n2(x*2.2, z*2.2);
+  h = Math.max(h, lerp(h, ramp, sstep(3.6, 1.3, dr)));
+  h -= 1.25*sstep(1.5, 0.55, lakeQ(x,z));
+  const ds = Math.hypot(x-SPRING.x, z-SPRING.z)/SPRING.r;
+  h += 0.14*Math.exp(-Math.pow((ds-1.05)/0.25, 2));
+  h = lerp(h, Math.min(h, SPRING_LV-0.24), sstep(1.05, 0.35, ds));
+  return h;
+}
+
+/* ---------------- 主峰：低多边形的群峰（参考：尖峰、岩脊、雪落在朝上的面上，陡面露出暖色岩石） ----------------
+ * 在一张较粗的三角网上取高度，网格内线性插值，所以每个三角形都是一块平面。
+ * 游戏里的地面高度 = max(雪原, 山)，切面顶边和碰撞用的也是它，和画出来的山完全对齐。 */
+const SUMMITS = [
+  {x:-13.4, z:-4.8, h:13.2, r:4.1},     // 主峰
+  {x:-10.0, z:-8.8, h:8.0, r:2.5}, {x:-15.8, z:-8.6, h:8.8, r:2.5}, {x:-16.8, z:-1.2, h:6.8, r:2.3},
+  {x:-12.2, z:-11.6, h:5.6, r:2.0}, {x:-18.2, z:-5.0, h:6.0, r:2.1}, {x:-9.8, z:-5.2, h:5.0, r:1.7},
+  {x:-14.4, z:1.6, h:4.4, r:1.8}, {x:-7.6, z:-10.8, h:4.0, r:1.6}, {x:-19.0, z:-9.6, h:4.6, r:1.7},
+];
+function mountainRaw(x,z){
+  let pk = -4;
+  SUMMITS.forEach((s,k) => { const d = Math.hypot(x-s.x, z-s.z); pk = Math.max(pk, s.h*(1 - Math.pow(d/(s.r*(k ? 1.75 : 1.85)), 0.85))); });  // 尖锥，侧面略内凹；小峰更尖、彼此分开
+  const rd = ridged(x*0.46, z*0.46);
+  return pk + rd*2.3*sstep(-1, 4, pk) - 1.2;
+}
+const MZ = {x0:-23.5, z0:-16.5, s:0.82};
+MZ.nx = Math.ceil((-2 - MZ.x0)/MZ.s); MZ.nz = Math.ceil((6 - MZ.z0)/MZ.s);
+const MV = new Float32Array((MZ.nx+1)*(MZ.nz+1));
+for(let j=0;j<=MZ.nz;j++) for(let i=0;i<=MZ.nx;i++){
+  const x = MZ.x0 + i*MZ.s, z = MZ.z0 + j*MZ.s, m = mountainRaw(x,z);
+  MV[j*(MZ.nx+1)+i] = BASE + 0.22*n2(x*0.33, z*0.33) + m + (hash(i*1.7, j*2.3) - 0.5)*0.38*sstep(0, 2.5, m);   // 每个顶点一点随机起伏，让切面更碎
+}
+const mFlip = (i,j) => hash(i*3.1+0.7, j*1.9+0.3) > 0.5;   // 每格对角线方向随机，避免网格感
+function Fm(x,z){
+  const gx = (x - MZ.x0)/MZ.s, gz = (z - MZ.z0)/MZ.s;
+  if(gx < 0 || gz < 0 || gx >= MZ.nx || gz >= MZ.nz) return -99;
+  const i = Math.floor(gx), j = Math.floor(gz), u = gx - i, v = gz - j, W = MZ.nx + 1;
+  const a = MV[j*W+i], b = MV[j*W+i+1], c = MV[(j+1)*W+i], d = MV[(j+1)*W+i+1];
+  if(!mFlip(i,j)) return u + v < 1 ? a + (b-a)*u + (c-a)*v : d + (c-d)*(1-u) + (b-d)*(1-v);
+  return u > v ? a + (b-a)*u + (d-b)*v : a + (c-a)*v + (d-c)*u;
+}
+function H(x,z){ return Math.max(Hbase(x,z), Fm(x,z)); }
+const inMountain = (x,z) => Fm(x,z) > Hbase(x,z);
+// 冰够厚时站在冰面上，否则落到湖底（水里）
+const groundY = (x,z) => (onLake(x,z) && iceAt(x,z) >= 0.5) ? Math.max(H(x,z), WL0 + 0.02) : H(x,z);
+let WL = WL0;
+const waveH = () => 0;
+
+/* ---------------- 光：低一点的暖色太阳，蓝紫色的天光，背阴面是冷的蓝紫 ---------------- */
+const lighting = {sky:0x7898d8, ground:0x433d7a, hemi:0.58, sun:0xffd0aa, sunI:3.5, exposure:1.0, sunPos:[-21, 15, 13]};
+// 环境反射也换成冷色的天空（第一座岛的是暖白），这样背阴面才是蓝紫色
+const environment = (() => {
+  const pm = new THREE.PMREMGenerator(renderer), es = new THREE.Scene();
+  es.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,16), new THREE.ShaderMaterial({side:THREE.BackSide,
+    vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader:'varying vec3 vP; void main(){ float y=normalize(vP).y; vec3 top=vec3(0.42,0.58,0.9), hor=vec3(0.72,0.8,0.9), bot=vec3(0.3,0.28,0.48); gl_FragColor=vec4(y>0.?mix(hor,top,pow(y,.6)):mix(hor,bot,pow(-y,.5)),1.); }'})));
+  const sd = new THREE.Mesh(new THREE.SphereGeometry(1.2,16,8), new THREE.MeshBasicMaterial({color:new THREE.Color(1,0.75,0.5).multiplyScalar(6)}));
+  sd.position.set(-21,15,13).normalize().multiplyScalar(8); es.add(sd);
+  const t = pm.fromScene(es, 0.04).texture; pm.dispose(); es.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); }); return t;
+})();
+// 背景：上浅下深的蓝
+const background = (() => {
+  const cv = document.createElement('canvas'); cv.width = 4; cv.height = 256; const c = cv.getContext('2d');
+  const g = c.createLinearGradient(0,0,0,256); g.addColorStop(0, '#c4dbe9'); g.addColorStop(0.55, '#8fb6d2'); g.addColorStop(1, '#5f86ad');
+  c.fillStyle = g; c.fillRect(0,0,4,256);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+
+/* 主峰网格：每个三角形一种颜色 */
+{
+  const pos = [], col = [], W = MZ.nx + 1, C = new THREE.Color();
+  const SNOWC = new THREE.Color(0.93, 0.935, 0.955), ROCK1 = new THREE.Color(0.6, 0.44, 0.38), ROCK2 = new THREE.Color(0.44, 0.33, 0.32);
+  const e1 = new THREE.Vector3(), e2 = new THREE.Vector3(), n = new THREE.Vector3();
+  const tri = (ax,az,ay, bx,bz,by, cx,cz,cy) => {
+    // 只画露在雪原上面的部分
+    if(Math.max(ay - Hbase(ax,az), by - Hbase(bx,bz), cy - Hbase(cx,cz)) < -0.02) return;
+    e1.set(bx-ax, by-ay, bz-az); e2.set(cx-ax, cy-ay, cz-az); n.crossVectors(e2, e1).normalize(); if(n.y < 0) n.negate();
+    const y = (ay+by+cy)/3, hz = hash(ax*5.3 + az, az*3.7 - ax);
+    // 越高、越平的面越容易积雪；陡面露出岩石（雪山只是轻微露岩，所以阈值偏低）
+    const snow = n.y + (y - 3)*0.03 + (hz - 0.5)*0.16;
+    if(snow > 0.5) C.copy(SNOWC).multiplyScalar(0.92 + hz*0.1);
+    else if(snow > 0.42) C.copy(ROCK1).lerp(SNOWC, 0.55).multiplyScalar(0.94 + hz*0.08);
+    else C.copy(ROCK1).lerp(ROCK2, hz);
+    for(const [x,yy,z] of [[ax,ay,az],[cx,cy,cz],[bx,by,bz]]){ pos.push(x,yy,z); col.push(C.r,C.g,C.b); }   // 逆时针朝上
+  };
+  for(let j=0;j<MZ.nz;j++) for(let i=0;i<MZ.nx;i++){
+    const x0 = MZ.x0 + i*MZ.s, z0 = MZ.z0 + j*MZ.s, x1 = x0 + MZ.s, z1 = z0 + MZ.s;
+    const a = MV[j*W+i], b = MV[j*W+i+1], c = MV[(j+1)*W+i], d = MV[(j+1)*W+i+1];
+    // 只保留岛内的格子（切面会把边缘封住）
+    if(!inIsland((x0+x1)/2, (z0+z1)/2, 1.02)) continue;
+    if(!mFlip(i,j)){ tri(x0,z0,a, x1,z0,b, x0,z1,c); tri(x1,z1,d, x0,z1,c, x1,z0,b); }
+    else { tri(x0,z0,a, x1,z0,b, x1,z1,d); tri(x0,z0,a, x1,z1,d, x0,z1,c); }
+  }
+  // 把露出岛外的三角形压回轮廓里
+  for(let k=0;k<pos.length;k+=3){ const [x,z] = clampToSlab(pos[k], pos[k+2]); if(x !== pos[k] || z !== pos[k+2]){ pos[k] = x; pos[k+2] = z; pos[k+1] = H(x,z); } }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col,3));
+  g.computeVertexNormals();
+  const m = new THREE.MeshStandardMaterial({vertexColors:true, flatShading:true, roughness:0.9, metalness:0, envMapIntensity:0.25});
+  const mtn = new THREE.Mesh(g, m); mtn.castShadow = true; mtn.receiveShadow = true; scene.add(mtn);
+  // 背光一侧一点冷色的补光，让背阴面的一块块切面也分得清
+  const fill = new THREE.DirectionalLight(0x8f9fe6, 0.55); fill.position.set(18, 9, -12); scene.add(fill);
+}
+
+/* ---------------- 雪面 ---------------- */
+function slopeAt(x,z){ const e = 0.25; return Math.hypot(Hbase(x+e,z)-Hbase(x-e,z), Hbase(x,z+e)-Hbase(x,z-e))/(2*e); }
+function curvAt(x,z){ const e = 0.4; return (Hbase(x+e,z) + Hbase(x-e,z) + Hbase(x,z+e) + Hbase(x,z-e) - 4*Hbase(x,z))/(e*e); }
+const SNOW = new THREE.Color(0.92, 0.93, 0.95), ROCK_A = new THREE.Color(0.5, 0.39, 0.36), ROCK_B = new THREE.Color(0.6, 0.47, 0.41);
+function groundColor(x,z,y){
+  const v = vn(x*1.3+1, z*1.3)*0.5 + 0.5, C = SNOW.clone();
+  const sl = slopeAt(x,z), cv = curvAt(x,z);
+  C.multiplyScalar(0.985 + 0.03*v);
+  // 凹处积雪更深更暗一点，凸起的雪脊更亮
+  C.multiplyScalar(clamp(1 - cv*0.05, 0.86, 1.05));
+  // 平台的陡坎：只在最陡处露一点岩
+  const n = vn(x*0.9-4, z*0.9+2);
+  const rock = sstep(1.9 + 0.3*n, 2.8, sl)*0.55;
+  if(rock > 0){ const R = ROCK_A.clone().lerp(ROCK_B, vn(x*2.4, z*2.4)*0.5+0.5); C.lerp(R, clamp(rock, 0, 0.95)); }
+  // 温泉一圈：雪化了，湿的深色土和枯草
+  const ds = Math.hypot(x-SPRING.x, z-SPRING.z);
+  // 温泉边：一圈被热气化成湿雪的灰蓝色，紧挨水边是深色的石沿
+  const wet = sstep(SPRING.r+0.9, SPRING.r+0.2, ds);
+  if(wet > 0){ const g = new THREE.Color().setRGB(0.66 + 0.04*v, 0.69 + 0.04*v, 0.74 + 0.03*v); C.lerp(g, wet*0.8); }
+  if(ds < SPRING.r*1.12) C.lerp(new THREE.Color(0.38, 0.38, 0.42), sstep(SPRING.r*1.12, SPRING.r*0.98, ds));
+  if(y < WL0 - 0.04) C.lerp(new THREE.Color(0x7f93a3), 0.75);
+  return C;
+}
+/* ---------------- 积雪变形：一张俯视的「压痕」贴图 ----------------
+ * R 通道 = 这一点被压下去多深（世界单位）。脚印、落地、砸击往里盖印章；每帧乘一个略小于 1 的系数，
+ * 新雪慢慢把坑填平（半衰期约 12 秒，40 秒后基本看不出）。地形顶点按它下压，片元按它的梯度算法线。 */
+const DW = 1024, DH = Math.round(1024*SZ/SX);
+const dentBounds = new THREE.Vector4(-SX, -SZ, 2*SX, 2*SZ);
+const dentOpt = {type:THREE.HalfFloatType, format:THREE.RGBAFormat, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter, depthBuffer:false, stencilBuffer:false};
+let dentA = new THREE.WebGLRenderTarget(DW, DH, dentOpt), dentB = new THREE.WebGLRenderTarget(DW, DH, dentOpt);
+{ const pc = renderer.getClearColor(new THREE.Color()), pa = renderer.getClearAlpha(), prev = renderer.getRenderTarget();
+  [dentA, dentB].forEach(r => { renderer.setRenderTarget(r); renderer.setClearColor(0x000000, 0); renderer.clear(); });
+  renderer.setRenderTarget(prev); renderer.setClearColor(pc, pa); }
+const MAXS = 16;
+const stampMat = new THREE.ShaderMaterial({
+  uniforms:{ uTex:{value:null}, uS:{value:Array.from({length:MAXS},()=>new THREE.Vector4())}, uP:{value:Array.from({length:MAXS},()=>new THREE.Vector4())},
+    uCount:{value:0}, uBounds:{value:dentBounds}, uFade:{value:1} },
+  vertexShader:'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader:`uniform sampler2D uTex; uniform vec4 uS[${MAXS}], uP[${MAXS}]; uniform int uCount; uniform vec4 uBounds; uniform float uFade; varying vec2 vUv;
+void main(){
+  float d = texture2D(uTex, vUv).r * uFade;
+  vec2 wp = uBounds.xy + vUv*uBounds.zw;
+  for(int i=0;i<${MAXS};i++){
+    if(i >= uCount) break;
+    vec4 S = uS[i], P = uP[i];
+    vec2 q = wp - S.xy;
+    vec2 l = vec2(q.x*S.z - q.y*S.w, q.x*S.w + q.y*S.z) / P.xy;      // 转到印章自己的方向（长轴朝前）
+    float r = length(l);
+    d = max(d, P.z*(1.0 - smoothstep(0.55, 1.0, r)));
+    d -= P.w*exp(-pow((r - 1.22)/0.22, 2.0));                          // 一圈被挤起来的雪
+  }
+  gl_FragColor = vec4(max(d, -0.03), 0.0, 0.0, 1.0);
+}`, depthTest:false, depthWrite:false });
+const dentCam = new THREE.OrthographicCamera(-1,1,1,-1,0,1), dentScene = new THREE.Scene();
+const dentQuad = new THREE.Mesh(new THREE.PlaneGeometry(2,2), stampMat); dentScene.add(dentQuad);
+const stampQ = [];
+let dentDt = 0;
+function stamp(x, z, {rx=0.1, rz=0.1, depth=0.05, rim=0.008, yaw=0}={}){
+  if(stampQ.length < 96) stampQ.push([x, z, Math.cos(yaw), Math.sin(yaw), rx, rz, depth, rim]);
+}
+function dentStep(){
+  const prev = renderer.getRenderTarget();
+  let first = true;
+  do {   // 每帧至少一遍（填平），印章多时多跑几遍
+    const n = Math.min(MAXS, stampQ.length);
+    for(let i=0;i<n;i++){ const q = stampQ.shift(); stampMat.uniforms.uS.value[i].set(q[0],q[1],q[2],q[3]); stampMat.uniforms.uP.value[i].set(q[4],q[5],q[6],q[7]); }
+    stampMat.uniforms.uCount.value = n;
+    stampMat.uniforms.uFade.value = first ? Math.pow(0.5, dentDt/12) : 1;
+    stampMat.uniforms.uTex.value = dentA.texture;
+    renderer.setRenderTarget(dentB); renderer.render(dentScene, dentCam); [dentA, dentB] = [dentB, dentA];
+    first = false;
+  } while(stampQ.length);
+  dentDt = 0;
+  renderer.setRenderTarget(prev);
+}
+
+/* 哪里积着雪（岩石、温泉边、冰面上不留雪坑），哪里是深雪（走得慢、坑更深） */
+function snowAmt(x,z){
+  const y = H(x,z); if(y < WL0 + 0.02) return 0;
+  if(inMountain(x,z)) return 0;
+  const sl = slopeAt(x,z), n = vn(x*0.9-4, z*0.9+2);
+  const rock = sstep(1.9 + 0.3*n, 2.8, sl)*0.55;
+  const ds = Math.hypot(x-SPRING.x, z-SPRING.z);
+  return clamp((1 - rock)*(1 - sstep(SPRING.r+1.15, SPRING.r+0.25, ds)), 0, 1);
+}
+const deepAt = (x,z) => sstep(0.25, 0.75, vn(x*0.22+11, z*0.22-4)*0.5 + 0.5) * (1 - sstep(0.4, 1.0, slopeAt(x,z)));
+
+const snowU = { uDent:{value:null}, uDB:{value:dentBounds}, uDTex:{value:new THREE.Vector2(1/DW, 1/DH)},
+  uSunW:{value:new THREE.Vector3(-14, 26, 12).normalize()}, uViewW:{value:new THREE.Vector3(0,1,0)} };
+{
+  const NX = 170, NZ = 118, pos = [], col = [], snw = [], idx = [];
+  for(let j=0;j<=NZ;j++) for(let i=0;i<=NX;i++){
+    const [x,z] = clampToSlab(-SX + 2*SX*i/NX, -SZ + 2*SZ*j/NZ), y = Hbase(x,z);
+    pos.push(x,y,z); const c = groundColor(x,z,y); col.push(c.r,c.g,c.b); snw.push(snowAmt(x,z));
+  }
+  for(let j=0;j<NZ;j++) for(let i=0;i<NX;i++){ const a=j*(NX+1)+i, b=a+1, c=a+NX+1, d=c+1; idx.push(a,c,b, b,c,d); }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col,3));
+  g.setAttribute('aSnow', new THREE.Float32BufferAttribute(snw,1));
+  g.setIndex(idx); g.computeVertexNormals();
+  const m = new THREE.MeshStandardMaterial({vertexColors:true, roughness:0.9, metalness:0, envMapIntensity:0.45});
+  // 雪面：压痕（下压 + 法线 + 坑里一点冷色遮蔽）、顺着风向的细碎雪纹、掠射角的细小闪光
+  m.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, snowU);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>',`#include <common>
+attribute float aSnow; uniform sampler2D uDent; uniform vec4 uDB;
+varying vec3 vWP; varying vec2 vDu; varying float vSnow;`)
+      .replace('#include <begin_vertex>',`#include <begin_vertex>
+vDu = (position.xz - uDB.xy)/uDB.zw; vSnow = aSnow;
+transformed.y -= texture2D(uDent, vDu).r * aSnow;`)
+      .replace('#include <project_vertex>','#include <project_vertex>\nvWP = (modelMatrix*vec4(transformed,1.0)).xyz;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+varying vec3 vWP; varying vec2 vDu; varying float vSnow;
+uniform sampler2D uDent; uniform vec4 uDB; uniform vec2 uDTex; uniform vec3 uSunW, uViewW;
+float h1(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
+float vn1(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(h1(i),h1(i+vec2(1,0)),f.x), mix(h1(i+vec2(0,1)),h1(i+vec2(1,1)),f.x), f.y); }`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+float dn = texture2D(uDent, vDu).r * vSnow;
+{ float k = clamp(dn*5.0, 0.0, 0.34); diffuseColor.rgb *= vec3(1.0 - k, 1.0 - k*0.88, 1.0 - k*0.62);    // 坑里偏冷的遮蔽
+  diffuseColor.rgb *= 1.0 + clamp(-dn*6.0, 0.0, 0.08); }                                                   // 挤起的雪沿更亮`)
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+{ vec2 p = vWP.xz; vec2 wd = normalize(vec2(0.6, -0.8));
+  float ph = dot(p, vec2(-wd.y, wd.x))*5.5 + vn1(p*0.7)*5.0 + vn1(p*2.3)*1.2;
+  float k = cos(ph) * (0.55 + 0.45*vn1(p*1.1 + 7.0));
+  vec2 g = vec2(-wd.y, wd.x)*k*0.07 + (vec2(vn1(p*6.0), vn1(p*6.0 + 3.7)) - 0.5)*0.05;
+  // 压痕的坡度
+  vec2 tx = vec2(uDTex.x, 0.0), tz = vec2(0.0, uDTex.y);
+  float wx = uDB.z*uDTex.x, wz = uDB.w*uDTex.y;
+  g += vec2(texture2D(uDent, vDu+tx).r - texture2D(uDent, vDu-tx).r, texture2D(uDent, vDu+tz).r - texture2D(uDent, vDu-tz).r) / vec2(2.0*wx, 2.0*wz) * vSnow * 1.5;
+  normal = normalize(normal + (viewMatrix*vec4(g.x, 0.0, g.y, 0.0)).xyz); }`)
+      .replace('#include <opaque_fragment>', `{ // 细小的闪光：每一小格里一粒朝向随机的冰晶，正好把太阳反进镜头时亮一下
+  vec2 q = vWP.xz*12.0; vec2 cell = floor(q);
+  vec3 rn = normalize(vec3(h1(cell+1.3) - 0.5, 0.42, h1(cell+2.7) - 0.5));
+  float gl = pow(max(dot(rn, normalize(uSunW + uViewW)), 0.0), 260.0) * step(0.5, h1(cell));
+  gl *= 1.0 - smoothstep(0.06, 0.16, length(fract(q) - 0.5 - (vec2(h1(cell+4.1), h1(cell+5.9)) - 0.5)*0.5));
+  outgoingLight += vec3(1.0, 0.98, 0.94) * gl * 1.8 * vSnow * (1.0 - clamp(dn*12.0, 0.0, 1.0));
+}
+#include <opaque_fragment>`);
+  };
+  m.customProgramCacheKey = () => 'snowTop2';
+  const terrain = new THREE.Mesh(g, m); terrain.receiveShadow = true; terrain.castShadow = true;
+  scene.add(terrain);
+}
+
+/* ---------------- 切面：雪、粒雪、蓝冰、花岗岩、基岩 ---------------- */
+function perimeter(step){
+  const fine = [], M = 4000;
+  for(let i=0;i<M;i++){ const a = i/M*Math.PI*2, r = outlineR(a); fine.push([Math.cos(a)*r, Math.sin(a)*r]); }
+  const pts = []; let acc = 0;
+  for(let i=0;i<M;i++){ const p = fine[i], q = fine[(i+1)%M]; if(i===0 || acc >= step){ pts.push({x:p[0], z:p[1]}); acc = 0; } acc += Math.hypot(q[0]-p[0], q[1]-p[1]); }
+  const N = pts.length;
+  pts.forEach((p,i) => { const a = pts[(i-1+N)%N], b = pts[(i+1)%N]; let nx = b.z-a.z, nz = -(b.x-a.x); const L = Math.hypot(nx,nz)||1; nx/=L; nz/=L; if(nx*p.x+nz*p.z < 0){ nx=-nx; nz=-nz; } p.nx = nx; p.nz = nz; });
+  return pts;
+}
+const PERIM = perimeter(0.25);
+const STRATA_GLSL = `
+float hh(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
+float vn(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(hh(i),hh(i+vec2(1,0)),f.x), mix(hh(i+vec2(0,1)),hh(i+vec2(1,1)),f.x), f.y); }
+float gIce;
+// 深度 d：从这一点的雪面往下量；y：绝对高度
+vec3 strata(vec3 wp, float top){
+  vec2 u = vec2(wp.x + wp.z, wp.y);                  // 沿着切面展开
+  float w = sin(wp.x*0.37 + wp.z*0.29)*0.07 + sin((wp.x - wp.z)*1.2)*0.025 + (vn(u*vec2(0.8,0.0)+3.0)-0.5)*0.08;
+  float d = top - wp.y + w;
+  float y = wp.y + w*3.0 + (vn(u*vec2(0.35,0.0))-0.5)*0.6;
+  vec3 snow = vec3(0.94,0.952,0.97), firn = vec3(0.885,0.9,0.925);
+  vec3 iceA = vec3(0.62,0.84,0.94), iceB = vec3(0.17,0.45,0.7);
+  vec3 granA = vec3(0.63,0.62,0.61), granB = vec3(0.5,0.49,0.49), bed = vec3(0.4,0.375,0.37);
+  float mFirn = smoothstep(0.30, 0.36, d);
+  float mIce  = smoothstep(1.12, 1.2, d);
+  float mGran = smoothstep(3.12, 3.2, d);
+  float mBed  = smoothstep(-3.45, -3.55, y);
+  vec3 c = mix(snow, firn, mFirn);
+  // 粒雪里一年一层的细亮线，略有起伏
+  float ph = fract((d - 0.36)/0.135 + 0.02*sin(u.x*3.1));
+  float ln = (1.0 - smoothstep(0.0, 0.1, min(ph, 1.0-ph))) * mFirn * (1.0 - mIce);
+  c = mix(c, vec3(1.0), ln*0.8);
+  c *= 1.0 - 0.06*smoothstep(0.3, 0.7, ph)*mFirn*(1.0-mIce);
+  // 冰川蓝冰：越深越蓝，竖直的细裂纹，冻在里面的气泡
+  float t = smoothstep(1.2, 3.15, d);
+  vec3 ice = mix(iceA, iceB, t);
+  ice *= 0.94 + 0.06*sin(u.x*2.3 + vn(u*vec2(1.0,4.0))*3.0);
+  vec2 bp = u*vec2(5.0, 6.0); vec2 bc = floor(bp), bf = fract(bp) - 0.5;
+  float br = hh(bc);
+  float bub = step(0.78, br) * (1.0 - smoothstep(0.08 + 0.12*hh(bc+1.7), 0.1 + 0.14*hh(bc+1.7), length(bf + (vec2(hh(bc+3.1), hh(bc+5.3))-0.5)*0.5)));
+  ice = mix(ice, vec3(0.93,0.97,1.0), bub*0.75);
+  c = mix(c, ice, mIce);
+  // 花岗岩：颗粒斑点；基岩：更暗，带水平层理
+  vec2 gp = floor(u*vec2(14.0, 16.0));
+  float sp = hh(gp);
+  vec3 gran = mix(granA, granB, vn(u*1.3)) * (0.9 + 0.2*step(0.85, sp)) * (1.0 - 0.18*step(sp, 0.08));
+  { // 节理：大块的岩体被细缝分开
+    vec2 q = u*vec2(0.9, 1.15); q.x += floor(q.y)*0.47; vec2 f = fract(q);
+    float joint = 1.0 - smoothstep(0.0, 0.035, min(min(f.x, 1.0-f.x)*1.6, min(f.y, 1.0-f.y)));
+    gran *= 1.0 - joint*0.28; }
+  vec3 bd = bed * (0.92 + 0.1*vn(u*vec2(0.6, 5.0))) * (1.0 - 0.15*step(0.9, hh(gp+9.0)));
+  { float by = y*2.2 + vn(u*vec2(0.5, 0.0))*1.5; float bl = 1.0 - smoothstep(0.0, 0.12, abs(fract(by) - 0.5) - 0.38);
+    bd = mix(bd, bd*1.22, bl*0.6); }                   // 基岩里浅色的水平层理
+  vec3 rock = mix(gran, bd, mBed);
+  c = mix(c, rock, mGran);
+  // 每层交界一道浅色细线（和第一座岛同一种画法）
+  float edge = (1.0 - smoothstep(0.0, 0.03, abs(d - 0.33))) + (1.0 - smoothstep(0.0, 0.035, abs(d - 1.16)))
+             + (1.0 - smoothstep(0.0, 0.035, abs(d - 3.16))) + (1.0 - smoothstep(0.0, 0.04, abs(y + 3.5)))*mGran;
+  c = mix(c, vec3(1.0,0.99,0.97), clamp(edge, 0.0, 1.0)*0.5);
+  gIce = mIce*(1.0 - mGran);
+  return c;
+}`;
+{
+  const R = 26, pos = [], nor = [], tops = [], idx = [], N = PERIM.length;
+  PERIM.forEach(p => {
+    const top = H(p.x,p.z) + 0.02;
+    for(let k=0;k<=R;k++){
+      const y = lerp(top, BOTTOM, Math.pow(k/R, 1.12));
+      pos.push(p.x, y, p.z); tops.push(top);
+      const up = k===0 ? 0.7 : k===1 ? 0.25 : 0;
+      const v = new THREE.Vector3(p.nx*(1-up), up, p.nz*(1-up)).normalize(); nor.push(v.x,v.y,v.z);
+    }
+  });
+  for(let i=0;i<N;i++){ const a=i*(R+1), b=((i+1)%N)*(R+1); for(let k=0;k<R;k++) idx.push(a+k, a+k+1, b+k, b+k, a+k+1, b+k+1); }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor,3));
+  g.setAttribute('aTop', new THREE.Float32BufferAttribute(tops,1));
+  g.setIndex(idx);
+  const m = new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.85, metalness:0, envMapIntensity:0.5, side:THREE.DoubleSide});
+  m.onBeforeCompile = sh => {
+    sh.vertexShader = sh.vertexShader.replace('#include <common>','#include <common>\nattribute float aTop;\nvarying vec3 vWP;\nvarying float vTop;')
+      .replace('#include <project_vertex>','#include <project_vertex>\nvWP = (modelMatrix*vec4(transformed,1.0)).xyz; vTop = aTop;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP;\nvarying float vTop;' + STRATA_GLSL)
+      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb = strata(vWP, vTop);')
+      .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.18, gIce);')
+      .replace('#include <opaque_fragment>', `{ // 蓝冰透光：像有光从冰里透出来
+  float fr = pow(1.0 - saturate(dot(normalize(normal), normalize(vViewPosition))), 2.0);
+  outgoingLight += gIce * (vec3(0.05, 0.13, 0.18) + vec3(0.1, 0.16, 0.2)*fr);
+}
+#include <opaque_fragment>`);
+  };
+  m.customProgramCacheKey = () => 'snowStrata';
+  const wall = new THREE.Mesh(g, m); wall.castShadow = true; wall.receiveShadow = true;
+  scene.add(wall);
+  // 底面
+  const shape = new THREE.Shape(); const pp = PERIM;
+  shape.moveTo(pp[0].x, -pp[0].z); for(let i=1;i<pp.length;i++) shape.lineTo(pp[i].x, -pp[i].z);
+  const bg = new THREE.ShapeGeometry(shape); bg.rotateX(Math.PI/2);
+  const bottom = new THREE.Mesh(bg, new THREE.MeshStandardMaterial({color:0x4a4d57, roughness:0.9, side:THREE.DoubleSide}));
+  bottom.position.y = BOTTOM; scene.add(bottom);
+  // 悬浮投影：冷一点的灰
+  const cv = document.createElement('canvas'); cv.width = cv.height = 128; const cx = cv.getContext('2d');
+  const gr = cx.createRadialGradient(64,64,4,64,64,64); gr.addColorStop(0,'rgba(90,98,118,0.3)'); gr.addColorStop(0.6,'rgba(90,98,118,0.11)'); gr.addColorStop(1,'rgba(90,98,118,0)');
+  cx.fillStyle = gr; cx.fillRect(0,0,128,128);
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(64,48), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv), transparent:true, depthWrite:false, toneMapped:false}));
+  sh.rotation.x = -Math.PI/2; sh.position.set(-3, BOTTOM-7, 3); scene.add(sh);
+}
+
+/* ---------------- 岛底的冰棱 ---------------- */
+const iceMat = new THREE.MeshPhysicalMaterial({color:0xd6e9f2, roughness:0.12, metalness:0, clearcoat:1, clearcoatRoughness:0.08,
+  transparent:true, opacity:0.82, envMapIntensity:0.9, emissive:0x9cc4d8, emissiveIntensity:0.08});
+{
+  const g = new THREE.ConeGeometry(1, 1, 7, 3); g.rotateX(Math.PI); g.translate(0, -0.5, 0);  // 底在 y=0，尖朝下
+  const pa = g.attributes.position;
+  for(let i=0;i<pa.count;i++){ const y = pa.getY(i); const k = 1 + 0.12*Math.sin(y*14 + pa.getX(i)*9); pa.setX(i, pa.getX(i)*k); pa.setZ(i, pa.getZ(i)*k); }
+  g.computeVertexNormals();
+  const list = [];
+  for(let i=0;i<PERIM.length;i+=2){
+    if(rand() > 0.45) continue;
+    const p = PERIM[i], k = 0.975 + rand()*0.02, len = 0.5 + Math.pow(rand(), 1.6)*2.8, w = 0.07 + len*0.05 + rand()*0.05;
+    list.push({x:p.x*k, z:p.z*k, len, w, ry:rand()*6});
+    if(rand() < 0.5){ const k2 = k - 0.05 - rand()*0.08, l2 = len*(0.35 + rand()*0.4); list.push({x:p.x*k2 + (rand()-0.5)*0.3, z:p.z*k2 + (rand()-0.5)*0.3, len:l2, w:w*0.7, ry:rand()*6}); }
+  }
+  for(let i=0;i<70;i++){ const a = rand()*Math.PI*2, r = Math.sqrt(rand())*0.8; const R0 = outlineR(a); const len = 0.4 + Math.pow(rand(), 2)*1.8;
+    list.push({x:Math.cos(a)*R0*r, z:Math.sin(a)*R0*r, len, w:0.06 + len*0.06, ry:rand()*6}); }
+  const im = new THREE.InstancedMesh(g, iceMat, list.length), d = new THREE.Object3D();
+  list.forEach((it,i) => { d.position.set(it.x, BOTTOM + 0.02, it.z); d.rotation.set(0, it.ry, 0); d.scale.set(it.w, it.len, it.w); d.updateMatrix(); im.setMatrixAt(i, d.matrix); });
+  scene.add(im);
+}
+
+/* ---------------- 冰湖：冻融循环 ----------------
+ * 周期 36 秒。freeze 0..1 是「冰从岸边往湖心长到了哪」：岸线 q=1，湖心 q=0，q > 1-freeze 的地方有冰。
+ * 某一点的冰厚 = (q - (1-freeze)) 换算到 0..1；厚度大于 0.6 才能走上去。
+ * 结冰：从岸边往中心长，带白霜和裂纹；融冰：先出现深色湿斑和裂开的碎冰，再变回开阔水面。 */
+const ICE_PERIOD = 36;
+const lake = {freeze:1, prev:1, thaw:0, crackT:0, snd:0};
+function freezeAt(t){ const c = Math.cos(t*Math.PI*2/ICE_PERIOD); return clamp(0.5 + 0.8*c, 0, 1); }   // 两头停留一会儿
+const iceAt = (x,z) => { const q = lakeQ(x,z); if(q > 1.08) return 1; return clamp((q - (1 - lake.freeze*1.08))*3.2, 0, 1); };
+const onLake = (x,z) => lakeQ(x,z) < 1.02 && Hbase(x,z) < WL0 - 0.02;
+const inSpring = (x,z) => Math.hypot(x-SPRING.x, z-SPRING.z) < SPRING.r*0.95;
+const lakeU = { uFreeze:{value:1}, uThaw:{value:0}, uTime:ctx.SH.uTime };
+{
+  const NX = 90, NZ = 90, pos = [], qs = [], idx = [], keep = [], E = LAKE.r*1.9 + 1;
+  const x0 = LAKE.x - E, x1 = LAKE.x + E, z0 = LAKE.z - E, z1 = LAKE.z + E;
+  for(let j=0;j<=NZ;j++) for(let i=0;i<=NX;i++){ const x = lerp(x0,x1,i/NX), z = lerp(z0,z1,j/NZ); pos.push(x, WL0, z); qs.push(lakeQ(x,z)); keep.push(H(x,z) < WL0 && inIsland(x,z,0.99)); }
+  for(let j=0;j<NZ;j++) for(let i=0;i<NX;i++){ const a=j*(NX+1)+i, b=a+1, c=a+NX+1, d=c+1; if(keep[a]||keep[b]||keep[c]||keep[d]) idx.push(a,c,b, b,c,d); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos,3)); g.setAttribute('aQ', new THREE.Float32BufferAttribute(qs,1)); g.setIndex(idx); g.computeVertexNormals();
+  const VS_HEAD = '#include <common>\nattribute float aQ;\nvarying vec3 vWP;\nvarying float vQ;';
+  const VS_PROJ = '#include <project_vertex>\nvWP = (modelMatrix*vec4(transformed,1.0)).xyz; vQ = aQ;';
+  const FS_HEAD = `#include <common>
+varying vec3 vWP; varying float vQ; uniform float uFreeze, uThaw, uTime;
+float hh(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
+float vn2(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(hh(i),hh(i+vec2(1,0)),f.x), mix(hh(i+vec2(0,1)),hh(i+vec2(1,1)),f.x), f.y); }
+// 冰块的裂缝：Voronoi 边
+float cells(vec2 p){ vec2 i = floor(p), f = fract(p); float d1 = 8.0, d2 = 8.0;
+  for(int y=-1;y<=1;y++) for(int x=-1;x<=1;x++){ vec2 o = vec2(x,y); vec2 r = o + vec2(hh(i+o), hh(i+o+7.1)) - f; float d = dot(r,r); if(d < d1){ d2 = d1; d1 = d; } else if(d < d2) d2 = d; }
+  return sqrt(d2) - sqrt(d1); }`;
+  // 水：深色，随时间起伏的细波纹法线，掠射角反光
+  const wm = new THREE.MeshPhysicalMaterial({color:0x3f6f86, roughness:0.08, metalness:0, clearcoat:1, clearcoatRoughness:0.05, transparent:true, opacity:0.9, envMapIntensity:1.1});
+  wm.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, lakeU);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', VS_HEAD).replace('#include <project_vertex>', VS_PROJ);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', FS_HEAD)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+diffuseColor.rgb = mix(vec3(0.16,0.33,0.45), vec3(0.42,0.62,0.68), smoothstep(0.55, 1.0, vQ));        // 湖心深，岸边浅`)
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+{ vec2 p = vWP.xz; float t = uTime;
+  vec2 g = vec2(sin(p.x*3.1 + t*1.3 + sin(p.y*1.7)) + 0.6*sin(p.x*5.7 - p.y*2.3 - t*1.9), cos(p.y*2.9 - t*1.1 + sin(p.x*1.3)) + 0.6*cos(p.y*6.1 + p.x*1.9 + t*2.3))*0.045;
+  normal = normalize(normal + (viewMatrix*vec4(g.x, 0.0, g.y, 0.0)).xyz); }`);
+  };
+  wm.customProgramCacheKey = () => 'snowLakeWater';
+  const water = new THREE.Mesh(g, wm); water.position.y = -0.02; water.renderOrder = 1; scene.add(water);
+  // 冰：岸边长出来，中间是水；融化时先出湿斑和裂缝
+  const im = new THREE.MeshPhysicalMaterial({color:0xe4f0f5, roughness:0.25, metalness:0, clearcoat:0.8, clearcoatRoughness:0.15, transparent:true, opacity:1, envMapIntensity:0.8, depthWrite:false});
+  im.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, lakeU);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', VS_HEAD).replace('#include <project_vertex>', VS_PROJ);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', FS_HEAD)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+{ float edge = 1.0 - uFreeze*1.08;
+  float jag = (vn2(vWP.xz*2.2) - 0.5)*0.14 + (vn2(vWP.xz*6.0) - 0.5)*0.05;       // 冰缘参差不齐
+  float k = clamp((vQ - edge + jag)*3.2, 0.0, 1.0);
+  if(k <= 0.001) discard;
+  vec3 ice = mix(vec3(0.6,0.77,0.85), vec3(0.92,0.95,0.98), smoothstep(0.0, 1.0, k));    // 薄冰透出水色，厚冰发白
+  float fr = sin(vWP.x*1.7 + sin(vWP.z*0.9)*2.0)*sin(vWP.z*2.3 - vWP.x*0.6);
+  ice = mix(ice, vec3(0.99), smoothstep(0.92, 0.99, fr)*0.35*k + smoothstep(0.82, 0.98, vQ)*0.45);   // 白霜
+  float cr = cells(vWP.xz*1.4);
+  float crack = (1.0 - smoothstep(0.02, 0.07, cr)) * (0.35 + 0.65*uThaw);                 // 裂纹，融冰时更明显
+  ice = mix(ice, vec3(0.34,0.5,0.6), crack*0.7);
+  float wet = uThaw * smoothstep(0.55, 0.0, k) + uThaw*0.35*smoothstep(0.5, 0.8, vn2(vWP.xz*1.3 + 4.0));   // 深色湿斑
+  ice = mix(ice, vec3(0.45,0.6,0.68), clamp(wet, 0.0, 0.8));
+  diffuseColor.rgb = ice;
+  diffuseColor.a = smoothstep(0.0, 0.25, k) * (1.0 - uThaw*0.25*(1.0 - k)) ;
+}`);
+  };
+  im.customProgramCacheKey = () => 'snowLakeIce2';
+  const ice = new THREE.Mesh(g, im); ice.receiveShadow = true; ice.renderOrder = 2; scene.add(ice);
+}
+/* 湖里的鱼影：冰薄或开冻时看得见 */
+const fish = [];
+{
+  const m = new THREE.MeshBasicMaterial({color:0x1d3442, transparent:true, opacity:0.45, depthWrite:false});
+  const geo = new THREE.SphereGeometry(0.16, 10, 6); geo.scale(0.55, 0.25, 1.3);
+  for(let i=0;i<4;i++){ const f = new THREE.Mesh(geo, m); f.renderOrder = 1; scene.add(f); fish.push({mesh:f, a:rand()*6.28, r:0.8 + rand()*1.4, sp:(0.25 + rand()*0.25)*(rand()<0.5?-1:1), ph:rand()*6}); }
+}
+/* ---------------- 温泉：全程不结冰，冒蒸汽 ---------------- */
+const steam = [];
+{
+  const sg = new THREE.CircleGeometry(SPRING.r*0.98, 40); sg.rotateX(-Math.PI/2);
+  const sw = new THREE.Mesh(sg, new THREE.MeshPhysicalMaterial({color:0x5f9f9c, roughness:0.06, clearcoat:1, transparent:true, opacity:0.85, envMapIntensity:1.1}));
+  sw.position.set(SPRING.x, SPRING_LV, SPRING.z); scene.add(sw);
+  const cv = document.createElement('canvas'); cv.width = cv.height = 64; const c = cv.getContext('2d');
+  const gr = c.createRadialGradient(32,32,2,32,32,32); gr.addColorStop(0,'rgba(255,255,255,0.95)'); gr.addColorStop(0.45,'rgba(255,255,255,0.5)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle = gr; c.fillRect(0,0,64,64);
+  const tex = new THREE.CanvasTexture(cv);
+  for(let i=0;i<22;i++){
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true, depthWrite:false, opacity:0, color:0xdbe4ee, toneMapped:false}));
+    scene.add(sp); steam.push({sp, t:rand()*4, life:3.2 + rand()*1.5, x:0, z:0});
+  }
+}
+function updateSteam(dt, wind){
+  for(const s of steam){
+    s.t += dt;
+    if(s.t > s.life){ s.t = 0; s.life = 3.2 + rand()*1.5; const a = rand()*6.28, r = Math.sqrt(rand())*SPRING.r*0.8; s.x = SPRING.x + Math.cos(a)*r; s.z = SPRING.z + Math.sin(a)*r; }
+    const k = s.t/s.life;
+    s.sp.position.set(s.x + k*1.2*wind + Math.sin(s.t*1.3 + s.life)*0.15, SPRING_LV + 0.1 + k*2.6, s.z - k*0.4*wind);
+    s.sp.scale.setScalar(1.0 + k*2.4);
+    s.sp.material.opacity = Math.sin(k*Math.PI)*0.85;
+  }
+}
+function updateLake(dt, t){
+  lake.prev = lake.freeze; lake.freeze = freezeAt(t);
+  const melting = lake.freeze < lake.prev - 1e-5;
+  lake.thaw = lerp(lake.thaw, melting ? 1 : 0, 1 - Math.exp(-dt*1.5));
+  lakeU.uFreeze.value = lake.freeze; lakeU.uThaw.value = lake.thaw;
+  // 冻和裂的时候，冰面低沉地嘎吱响
+  lake.snd -= dt;
+  const G = game.G;
+  if(G && game.state === 'play' && lake.snd <= 0 && lake.freeze > 0.05 && lake.freeze < 0.98 && Math.hypot(G.px - LAKE.x, G.pz - LAKE.z) < 12){
+    ctx.audio.creak?.(melting); lake.snd = 2.5 + rand()*3;
+  }
+  // 鱼：冰越薄越看得清
+  for(const f of fish){
+    f.a += dt*f.sp/f.r; const x = LAKE.x + Math.cos(f.a)*f.r*1.4, z = LAKE.z + Math.sin(f.a)*f.r;
+    if(lakeQ(x,z) > 0.8){ f.sp = -f.sp; }
+    f.mesh.position.set(x, WL0 - 0.18 + Math.sin(t + f.ph)*0.03, z); f.mesh.rotation.y = f.a + (f.sp > 0 ? 0 : Math.PI);
+    f.mesh.material.opacity = 0.12 + 0.4*(1 - iceAt(x,z));
+  }
+  // 站在冰上冰化了：被推向最近的岸
+  if(G && game.state === 'play' && G.jy <= 0.001 && onLake(G.px, G.pz) && iceAt(G.px, G.pz) < 0.6){
+    const dx = G.px - LAKE.x, dz = G.pz - LAKE.z, L = Math.hypot(dx,dz) || 1;
+    G.px += dx/L*2.6*dt; G.pz += dz/L*2.6*dt;
+    if(rand() < dt*5) splash(G.px, G.pz, false);
+  }
+}
+function splash(x, z, big){
+  const y = inSpring(x,z) ? SPRING_LV : WL0;
+  burst(x, y + 0.1, z, {n:big ? 16 : 7, color:pick([0xffffff, 0xdcebf2, 0xbcd8e2]), speed:big ? 4 : 2.2, up:big ? 6 : 4, size:big ? 1.1 : 0.8, life:big ? 1 : 0.7});
+  ctx.ringFx(x, z, {y:y + 0.03, r1:big ? 3.2 : 1.6, life:big ? 1.1 : 0.7, opacity:0.55});
+  ctx.audio.splash(big);
+}
+function addRipple(x, z, amp=0.15){ const y = inSpring(x,z) ? SPRING_LV : WL0; ctx.ringFx(x, z, {y:y + 0.03, r0:0.2, r1:0.6 + amp*6, life:0.6 + amp*2, opacity:0.45}); }
+const inWater = (x,z) => inSpring(x,z) || (onLake(x,z) && iceAt(x,z) < 0.6);
+const surfaceY = (x,z) => inSpring(x,z) ? SPRING_LV : WL0;
+
+/* ---------------- 云：安静的哑光软云 ---------------- */
+const clouds = [];
+{
+  const m = new THREE.MeshStandardMaterial({color:0xffffff, roughness:1, metalness:0, transparent:true, opacity:0.9, envMapIntensity:0.6});
+  for(let i=0;i<8;i++){
+    const g = new THREE.Group(), a = i/8*Math.PI*2 + rand()*0.4, r = 29 + rand()*10, k = 3 + Math.floor(rand()*3);
+    for(let j=0;j<k;j++){ const b = new THREE.Mesh(new THREE.SphereGeometry(1.2+rand()*1.3, 24, 16), m); b.position.set((j-(k-1)/2)*1.7, rand()*0.5, (rand()-0.5)*1.2); b.scale.y = 0.6; g.add(b); }
+    g.position.set(Math.cos(a)*r, -10 + rand()*6, Math.sin(a)*r*0.75);
+    scene.add(g); clouds.push({g, a, r, y:g.position.y, ph:rand()*6, sp:0.003+rand()*0.003});
+  }
+}
+
+/* ---------------- 踩在雪上：脚印、雪粉、踩雪声 ---------------- */
+const POWDER = 0xf2f5fa;
+function onStep(x, z, o){
+  const G = game.G;
+  if(o.cls === 'mage'){ if(snowAmt(x,z) > 0.3) ctx.audio.swish(); return; }   // 法师浮空：痕迹在 update 里划
+  const fx = x, fz = z, sa = snowAmt(fx,fz), y = H(fx,fz);
+  if(sa > 0.3){
+    const dp = deepAt(fx,fz);
+    ctx.audio.crunch(o.heavy, {gain:0.75 + dp*0.45});
+    burst(fx, y + 0.03, fz, {n:o.heavy ? 4 : 3, color:POWDER, speed:0.9 + G.speed*0.08, up:1.1, grav:3.2, size:0.42, life:0.45});
+  } else {
+    ctx.audio.step(o.heavy);
+    burst(fx, y + 0.04, fz, {n:2, color:0xb9bcc2, speed:0.8, up:0.8, grav:5, size:0.45, life:0.35});
+  }
+}
+function onLand(x, z){
+  const sa = snowAmt(x,z), y = H(x,z);
+  if(sa > 0.3){
+    const dp = deepAt(x,z);
+    stamp(x, z, {rx:0.36, rz:0.36, depth:(0.07 + dp*0.04)*sa, rim:0.016});
+    ctx.audio.crunch(true, {land:true, gain:0.9 + dp*0.3});
+    burst(x, y + 0.05, z, {n:9, color:POWDER, speed:1.9, up:1.4, grav:3, size:0.55, life:0.55});
+  } else { ctx.audio.land(false); burst(x, y + 0.05, z, {n:5, color:0xb9bcc2, speed:1.6, up:1, grav:5, size:0.6, life:0.4}); }
+}
+function onHop(x, z){
+  if(snowAmt(x,z) < 0.3) return;
+  stamp(x, z, {rx:0.24, rz:0.24, depth:0.035, rim:0.006});
+  burst(x, H(x,z) + 0.04, z, {n:2, color:POWDER, speed:0.9, up:0.9, grav:3, size:0.4, life:0.35});
+  const G = game.G; if(G){ const d = Math.hypot(G.px - x, G.pz - z); if(d < 8) ctx.audio.crunch(false, {gain:0.35*(1 - d/8)}); }
+}
+function onImpact(x, z, r, depth){
+  if(snowAmt(x,z) < 0.3) return;
+  stamp(x, z, {rx:r, rz:r, depth, rim:depth*0.22});
+  for(let i=0;i<6;i++){ const a = i/6*Math.PI*2; burst(x + Math.cos(a)*r*0.8, H(x,z) + 0.1, z + Math.sin(a)*r*0.8, {n:2, color:POWDER, speed:2.2, up:2.4, grav:3, size:0.6, life:0.6}); }
+}
+// 走路的脚印：每走一小段盖一个，左右交替，长轴朝着走的方向
+const walk = {x:null, z:null, foot:0};
+const STRIDE = {thief:0.34, medic:0.42};
+function walkPrints(G){
+  if(!G || G.cls === 'mage' || G.jy > 0.001 || G.dash > 0 || Math.hypot(G.vx, G.vz) < 0.6){ walk.x = null; return; }
+  if(walk.x === null){ walk.x = G.px; walk.z = G.pz; return; }
+  const d = Math.hypot(G.px - walk.x, G.pz - walk.z), st = STRIDE[G.cls] || 0.38;
+  if(d < st) return;
+  const yaw = Math.atan2(G.px - walk.x, G.pz - walk.z), c = Math.cos(yaw), s = Math.sin(yaw);
+  walk.foot ^= 1; const side = walk.foot ? 1 : -1, heavy = G.cls === 'medic';
+  const fx = G.px + c*0.12*side, fz = G.pz - s*0.12*side, sa = snowAmt(fx,fz);
+  if(sa > 0.3) stamp(fx, fz, {rx:heavy ? 0.12 : 0.1, rz:heavy ? 0.21 : 0.18, depth:(heavy ? 0.085 : 0.07)*(1 + deepAt(fx,fz)*0.7)*sa, rim:0.013, yaw});
+  walk.x = G.px; walk.z = G.pz;
+}
+// 法师浮空滑过：衣摆在雪面上划出一道浅痕
+const glide = {x:null, z:null};
+function glideTrail(G){
+  if(!G || G.cls !== 'mage' || G.jy > 0.001 || G.dash > 0){ glide.x = null; return; }
+  const sp = Math.hypot(G.vx, G.vz);
+  if(sp < 0.8){ glide.x = null; return; }
+  if(glide.x === null){ glide.x = G.px; glide.z = G.pz; return; }
+  const d = Math.hypot(G.px - glide.x, G.pz - glide.z);
+  if(d < 0.12) return;
+  const yaw = Math.atan2(G.px - glide.x, G.pz - glide.z), sa = snowAmt(G.px, G.pz);
+  if(sa > 0.3) stamp((G.px + glide.x)/2, (G.pz + glide.z)/2, {rx:0.2, rz:d*0.7 + 0.08, depth:0.035*sa, rim:0.007, yaw});
+  if(sa > 0.3 && rand() < 0.35) burst(G.px, H(G.px,G.pz) + 0.03, G.pz, {n:1, color:POWDER, speed:0.5, up:0.5, grav:2, size:0.35, life:0.4});
+  glide.x = G.px; glide.z = G.pz;
+}
+
+/* ---------------- 雪松：低多边形的尖塔，每层顶上压着雪 ---------------- */
+const SPAWN = {x:0.6, z:8.4};
+const MINION_SPOTS = [[-10.5,5.8],[5.8,2.8],[9.6,6.4],[1.2,-1.6],[3.6,-5.8]];
+const trees = [];
+const _d = new THREE.Object3D();
+function setTreeMatrix(t, ax, az){
+  _d.position.set(t.x, Hbase(t.x,t.z) - 0.04, t.z); _d.rotation.set(t.tx + ax, t.ry, t.tz + az); _d.scale.setScalar(t.s); _d.updateMatrix();
+  t.im.setMatrixAt(t.i, _d.matrix); t.im.instanceMatrix.needsUpdate = true;
+}
+function shakeTree(t, dir, hard){
+  if(t.shake > 0.5) return;
+  t.shake = 1; t.dx = dir ? dir.x : 1; t.dz = dir ? dir.z : 0;
+  const y = Hbase(t.x,t.z);
+  for(let k=0;k<(hard ? 4 : 2);k++) burst(t.x + (rand()-0.5)*0.6*t.s, y + (1.0 + rand()*1.2)*t.s, t.z + (rand()-0.5)*0.6*t.s, {n:5, color:POWDER, speed:0.9, up:0.4, grav:2.2, size:0.6, life:1.1});
+  ctx.audio.crunch(false, {gain:hard ? 0.7 : 0.45});
+}
+function updateTrees(dt){
+  for(const t of trees){ if(t.shake <= 0) continue; t.shake = Math.max(0, t.shake - dt*1.6);
+    const w = Math.sin((1 - t.shake)*22)*0.09*t.shake; setTreeMatrix(t, t.dz*w, -t.dx*w); }
+}
+{
+  // 一棵树的几何：把几层圆锥拼成一个网格，每个面一种颜色
+  const parts = [];
+  const add = (geo, color, y) => { geo = geo.index ? geo.toNonIndexed() : geo; geo.translate(0, y, 0); const c = new THREE.Color(color), n = geo.attributes.position.count, cols = new Float32Array(n*3);
+    for(let i=0;i<n;i++){ cols[i*3] = c.r; cols[i*3+1] = c.g; cols[i*3+2] = c.b; } geo.setAttribute('color', new THREE.BufferAttribute(cols, 3)); parts.push(geo); };
+  function treeGeo(tiers, seed){
+    parts.length = 0;
+    add(new THREE.CylinderGeometry(0.09, 0.13, 0.55, 5), 0x5e4337, 0.27);
+    for(let k=0;k<tiers;k++){
+      const t = k/(tiers-1), r = lerp(0.78, 0.3, t), h = lerp(0.95, 0.62, t), y = 0.35 + k*0.5;
+      const cone = new THREE.ConeGeometry(r, h, 6 + (k===0 ? 1 : 0), 1); cone.rotateY(seed + k*0.7);
+      add(cone, k % 2 ? 0x3d6c63 : 0x33605a, y + h/2);
+      // 雪：同样斜度的小一圈的圆锥，盖住这一层的上半截
+      const sc = new THREE.ConeGeometry(r*0.8, h*0.8, 6, 1); sc.rotateY(seed + k*0.7);
+      add(sc, 0xf3f5f9, y + h*0.6 + 0.035);
+      // 积雪的边缘往下垂一点：一圈扁的雪檐
+      const lip = new THREE.CylinderGeometry(r*0.82, r*0.86, 0.06, 6, 1); lip.rotateY(seed + k*0.7);
+      add(lip, 0xe6eaf2, y + h*0.2 + 0.035);
+    }
+    let n = 0; for(const g of parts) n += g.attributes.position.count;
+    const pos = new Float32Array(n*3), col = new Float32Array(n*3); let o = 0;
+    for(const g of parts){ pos.set(g.attributes.position.array, o*3); col.set(g.attributes.color.array, o*3); o += g.attributes.position.count; g.dispose(); }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    geo.computeVertexNormals(); return geo;
+  }
+  const geos = [treeGeo(3, 0.3), treeGeo(4, 1.1), treeGeo(4, 2.0)];
+  const mat = new THREE.MeshStandardMaterial({vertexColors:true, flatShading:true, roughness:0.88, metalness:0, envMapIntensity:0.3});
+  // 可以种树的地方：岛内、不在陡坡和山上、避开冰湖、温泉、平台、山脊、登岛处和小怪的地盘
+  const ok = (x,z) => {
+    if(!inIsland(x,z,0.9) || inMountain(x,z) || slopeAt(x,z) > 0.45) return false;
+    if(lakeQ(x,z) < 1.35 || Math.hypot(x-SPRING.x, z-SPRING.z) < SPRING.r + 2.2) return false;
+    if(Math.hypot(x-PLAT.x, z-PLAT.z) < PLAT.r + 2.4) return false;
+    if(segT(x,z, RIDGE.ax,RIDGE.az, RIDGE.bx,RIDGE.bz)[1] < 2.6) return false;
+    if(Math.hypot(x-SPAWN.x, z-SPAWN.z) < 3.4) return false;
+    if(MINION_SPOTS.some(([mx,mz]) => Math.hypot(x-mx, z-mz) < 2.4)) return false;
+    return !trees.some(t => Math.hypot(x-t.x, z-t.z) < 0.95*(t.s + 0.6));
+  };
+  // 几片小林子：山脚、湖边、岛边
+  const groves = [[-9.6,3.2,6],[-5.4,-7.6,5],[-1.4,-9.6,4],[6.2,-7.6,5],[12.6,1.8,5],[11.8,-6.6,4],[3.2,9.6,4],[-11.4,8.6,4],[8.6,9.4,3],[-4.6,10.6,3]];
+  for(const [cx,cz,n] of groves){
+    let placed = 0, tries = 0;
+    while(placed < n && tries++ < 60){
+      const a = rand()*Math.PI*2, r = Math.sqrt(rand())*2.4, x = cx + Math.cos(a)*r, z = cz + Math.sin(a)*r;
+      const sc = 0.75 + rand()*0.75*(1 - placed/(n+1)*0.4);      // 林子中间的高一点
+      if(!ok(x,z)) continue;
+      trees.push({x, z, s:sc, v:Math.floor(rand()*3), ry:rand()*6.28, tx:(rand()-0.5)*0.08, tz:(rand()-0.5)*0.08}); placed++;
+    }
+  }
+  geos.forEach((geo, v) => {
+    const list = trees.filter(t => t.v === v); if(!list.length) return;
+    const im = new THREE.InstancedMesh(geo, mat, list.length);
+    list.forEach((t,i) => { t.im = im; t.i = i; t.shake = 0; setTreeMatrix(t, 0, 0); });
+    im.castShadow = true; im.receiveShadow = true; scene.add(im);
+  });
+  // 碰到、打到树：树晃一下，枝上的雪簌簌落下
+  for(const t of trees) obstacles.push({x:t.x, z:t.z, r:0.38*t.s, onBump:(dir, hard) => shakeTree(t, dir, hard)});
+  console.debug?.('snow pines', trees.length);
+}
+
+/* ---------------- 布景：岩石、登岛处的残柱、冰晶、温泉边的枯草 ---------------- */
+const flatMat = new THREE.MeshStandardMaterial({vertexColors:true, flatShading:true, roughness:0.9, metalness:0, envMapIntensity:0.3});
+// 按面朝向上色：朝上的面积雪，侧面是岩石/石头本色
+function snowCapGeo(geo, base, snowAbove=0.45){
+  geo = geo.index ? geo.toNonIndexed() : geo; geo.computeVertexNormals();
+  const p = geo.attributes.position, n = geo.attributes.normal, cols = new Float32Array(p.count*3), C = new THREE.Color(), S = new THREE.Color(0xeef1f6), B = new THREE.Color(base);
+  for(let i=0;i<p.count;i+=3){
+    const ny = (n.getY(i) + n.getY(i+1) + n.getY(i+2))/3, hz = hash(p.getX(i)*13.1, p.getZ(i)*7.7);
+    C.copy(ny > snowAbove ? S : B).multiplyScalar(0.92 + hz*0.12);
+    for(let k=0;k<3;k++){ cols[(i+k)*3] = C.r; cols[(i+k)*3+1] = C.g; cols[(i+k)*3+2] = C.b; }
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(cols, 3)); return geo;
+}
+function boulder(x, z, s){
+  const g = new THREE.IcosahedronGeometry(1, 0), p = g.attributes.position;
+  for(let i=0;i<p.count;i++){ const k = 0.75 + hash(p.getX(i)*3 + x, p.getZ(i)*3 + z)*0.5; p.setXYZ(i, p.getX(i)*k, p.getY(i)*k*0.7, p.getZ(i)*k); }
+  const m = new THREE.Mesh(snowCapGeo(g, pick([0x6e5a54, 0x5d4f4f, 0x7a6359]), 0.35), flatMat);
+  m.scale.setScalar(s); m.rotation.y = hash(x,z)*6.28; m.position.set(x, Hbase(x,z) + s*0.1, z);
+  m.castShadow = m.receiveShadow = true; scene.add(m);
+  obstacles.push({x, z, r:s*0.85, onBump:() => {}});
+}
+function brokenColumn(x, z, h, cap){
+  const grp = new THREE.Group(), y = Hbase(x,z);
+  const base = new THREE.Mesh(snowCapGeo(new THREE.CylinderGeometry(0.62, 0.68, 0.26, 8), 0xd7d3d0), flatMat); base.position.y = 0.13;
+  const shaft = new THREE.Mesh(snowCapGeo(new THREE.CylinderGeometry(0.4, 0.45, h, 8), 0xe3dfdb), flatMat); shaft.position.y = 0.26 + h/2;
+  grp.add(base, shaft);
+  if(cap){ const c = new THREE.Mesh(snowCapGeo(new THREE.CylinderGeometry(0.6, 0.42, 0.26, 8), 0xd7d3d0), flatMat); c.position.y = 0.26 + h + 0.13; grp.add(c); }
+  else shaft.rotation.z = (hash(x,z) - 0.5)*0.12;
+  // 顶上的一团积雪
+  const sn = new THREE.Mesh(new THREE.IcosahedronGeometry(cap ? 0.5 : 0.36, 0), new THREE.MeshStandardMaterial({color:0xf1f4f8, flatShading:true, roughness:0.9}));
+  sn.scale.y = 0.35; sn.position.y = 0.26 + h + (cap ? 0.3 : 0.05); grp.add(sn);
+  grp.position.set(x, y - 0.06, z); grp.traverse(o => { if(o.isMesh){ o.castShadow = o.receiveShadow = true; } }); scene.add(grp);
+  obstacles.push({x, z, r:0.62, onBump:() => {}});
+}
+// 登岛处的一圈残柱（呼应第一座岛）
+[[-2.4,9.6,2.2,true],[1.6,10.8,1.0,false],[-1.6,6.4,0.7,false],[3.2,7.6,1.8,true],[-3.2,7.8,0.5,false]].forEach(([x,z,h,c]) => { if(inIsland(x,z,0.92)) brokenColumn(x,z,h,c); });
+// 岩石：山脚、岛边、湖边
+{
+  const spots = [[-9.4,-1.0,0.7],[-4.2,-6.0,0.6],[-1.2,-11.4,0.9],[4.8,-10.4,0.7],[13.4,-3.6,0.8],[12.8,4.4,0.6],[6.6,11.0,0.7],[-7.6,11.2,0.8],[-12.6,3.6,0.9],[10.2,0.6,0.45],[5.4,-1.2,0.4],[-3.6,3.4,0.45],[1.6,-4.0,0.5]];
+  for(const [x,z,s] of spots){ if(inIsland(x,z,0.9) && !inMountain(x,z) && lakeQ(x,z) > 1.15 && !trees.some(t => Math.hypot(t.x-x, t.z-z) < 0.9)) boulder(x, z, s); }
+}
+// 冰晶簇：半透明的六棱柱
+{
+  const crystalMat = new THREE.MeshPhysicalMaterial({color:0xbfe2f2, roughness:0.08, metalness:0, clearcoat:1, transparent:true, opacity:0.75, flatShading:true, emissive:0x6fb6d6, emissiveIntensity:0.18, envMapIntensity:1});
+  const cg = new THREE.CylinderGeometry(0.08, 0.12, 1, 6); cg.translate(0, 0.5, 0);
+  const tip = new THREE.ConeGeometry(0.08, 0.22, 6); tip.translate(0, 1.11, 0);
+  const clusters = [[-8.8,-7.2],[-4.4,-3.6],[11.2,-2.0],[5.4,1.2],[-12.2,-0.2],[0.2,-7.2]];
+  for(const [cx,cz] of clusters){
+    if(!inIsland(cx,cz,0.9) || (lakeQ(cx,cz) < 1.1)) continue;
+    const g = new THREE.Group(); const n = 3 + Math.floor(rand()*4);
+    for(let i=0;i<n;i++){ const h = 0.35 + rand()*0.7, a = rand()*6.28;
+      const sh = new THREE.Mesh(cg, crystalMat), tp = new THREE.Mesh(tip, crystalMat);
+      const sub = new THREE.Group(); sub.add(sh, tp); sub.scale.set(1, h, 1); sub.position.set(Math.cos(a)*0.18*i/n, 0, Math.sin(a)*0.18*i/n);
+      sub.rotation.set((rand()-0.5)*0.9, rand()*6.28, (rand()-0.5)*0.9); g.add(sub); }
+    g.position.set(cx, H(cx,cz) - 0.05, cz); scene.add(g);
+  }
+}
+// 温泉边露出来的枯草
+{
+  const g = new THREE.ConeGeometry(0.03, 0.4, 3); g.translate(0, 0.2, 0);
+  const m = new THREE.MeshStandardMaterial({color:0xa79a6b, roughness:0.9, flatShading:true});
+  const list = [];
+  for(let i=0;i<90;i++){ const a = rand()*6.28, r = SPRING.r + 0.15 + rand()*0.9, x = SPRING.x + Math.cos(a)*r, z = SPRING.z + Math.sin(a)*r;
+    for(let b=0;b<3;b++) list.push([x + (rand()-0.5)*0.15, z + (rand()-0.5)*0.15, 0.6 + rand()*0.8]); }
+  const im = new THREE.InstancedMesh(g, m, list.length), d = new THREE.Object3D();
+  list.forEach(([x,z,s],i) => { d.position.set(x, H(x,z) - 0.02, z); d.rotation.set((rand()-0.5)*0.6, rand()*3, (rand()-0.5)*0.6); d.scale.set(1, s, 1); d.updateMatrix(); im.setMatrixAt(i, d.matrix); });
+  im.castShadow = true; scene.add(im);
+}
+
+/* ---------------- 生物：雪兔、小鸟 ---------------- */
+const critters = [];
+function lowpolyMesh(geo, color){ return new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color, flatShading:true, roughness:0.85})); }
+function makeHare(x, z){
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const b = lowpolyMesh(new THREE.IcosahedronGeometry(0.2, 0), 0xf4f5f8); b.scale.set(0.9, 0.8, 1.25); b.position.y = 0.18; body.add(b);
+  const h = lowpolyMesh(new THREE.IcosahedronGeometry(0.12, 0), 0xf4f5f8); h.position.set(0, 0.32, 0.2); body.add(h);
+  for(const sx of [-1, 1]){ const e = lowpolyMesh(new THREE.ConeGeometry(0.035, 0.24, 4), 0xeadfe2); e.position.set(sx*0.05, 0.48, 0.17); e.rotation.x = -0.25; body.add(e);
+    const eye = lowpolyMesh(new THREE.SphereGeometry(0.018, 6, 4), 0x2e2a3a); eye.position.set(sx*0.06, 0.34, 0.29); body.add(eye); }
+  const tail = lowpolyMesh(new THREE.IcosahedronGeometry(0.06, 0), 0xffffff); tail.position.set(0, 0.2, -0.24); body.add(tail);
+  g.traverse(o => { if(o.isMesh) o.castShadow = true; });
+  g.position.set(x, Hbase(x,z), z); scene.add(g);
+  critters.push({type:'hare', g, body, x, z, hx:x, hz:z, yaw:rand()*6.28, hop:0, rest:rand()*2, flee:0});
+}
+function makeBird(x, z){
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const col = pick([0x55606e, 0x7d5a4f, 0x48566a]);
+  const b = lowpolyMesh(new THREE.IcosahedronGeometry(0.1, 0), col); b.scale.set(0.8, 0.8, 1.2); b.position.y = 0.12; body.add(b);
+  const h = lowpolyMesh(new THREE.IcosahedronGeometry(0.065, 0), col); h.position.set(0, 0.2, 0.08); body.add(h);
+  const beak = lowpolyMesh(new THREE.ConeGeometry(0.02, 0.06, 4), 0xe2a25a); beak.rotation.x = Math.PI/2; beak.position.set(0, 0.2, 0.15); body.add(beak);
+  const belly = lowpolyMesh(new THREE.IcosahedronGeometry(0.07, 0), 0xd9a07d); belly.position.set(0, 0.1, 0.05); body.add(belly);
+  const wings = [-1, 1].map(sx => { const w = lowpolyMesh(new THREE.BoxGeometry(0.14, 0.015, 0.09), col); w.position.set(sx*0.09, 0.14, 0); body.add(w); return w; });
+  g.position.set(x, Hbase(x,z), z); scene.add(g);
+  critters.push({type:'bird', g, body, wings, x, z, hx:x, hz:z, yaw:rand()*6.28, hop:0, rest:rand()*1.5, fly:0, vy:0, y:0});
+}
+[[4.4,5.0],[-8.2,6.2],[10.6,-5.2]].forEach(([x,z]) => { if(inIsland(x,z,0.9)) makeHare(x,z); });
+[[0.4,2.6],[0.9,3.0],[-6.4,8.4],[7.2,7.4],[1.4,-9.0]].forEach(([x,z]) => { if(inIsland(x,z,0.9)) makeBird(x,z); });
+function critterOk(x,z){ return inIsland(x,z,0.9) && !inMountain(x,z) && !onLake(x,z) && !obstacles.some(o => (x-o.x)**2 + (z-o.z)**2 < (o.r+0.2)**2) && slopeAt(x,z) < 0.6; }
+function updateCritters(dt, t){
+  const G = game.G, play = game.state === 'play';
+  const px = G ? G.px : 99, pz = G ? G.pz : 99;
+  for(const c of critters){
+    const dp = Math.hypot(c.x - px, c.z - pz);
+    if(c.type === 'hare'){
+      if(play && dp < 3.4 && c.flee <= 0){ c.flee = 1.8; c.yaw = Math.atan2(c.x - px, c.z - pz) + (rand()-0.5)*0.6; c.rest = 0; }
+      c.flee -= dt; c.rest -= dt;
+      const moving = c.flee > 0 || c.rest <= 0;
+      if(moving){
+        const sp = c.flee > 0 ? 4.2 : 1.3, prev = c.hop % 1; c.hop += dt*(c.flee > 0 ? 3.2 : 1.8);
+        if(c.hop % 1 < prev){ stamp(c.x, c.z, {rx:0.09, rz:0.16, depth:0.03, yaw:c.yaw}); if(c.flee <= 0 && rand() < 0.35){ c.rest = 1 + rand()*3; c.yaw += (rand()-0.5)*1.6; } }
+        if(Math.hypot(c.x - c.hx, c.z - c.hz) > 5 && c.flee <= 0) c.yaw = Math.atan2(c.hx - c.x, c.hz - c.z);
+        const nx = c.x + Math.sin(c.yaw)*sp*dt, nz = c.z + Math.cos(c.yaw)*sp*dt;
+        if(critterOk(nx, nz)){ c.x = nx; c.z = nz; } else c.yaw += 1.4 + rand();
+      }
+      const ph = c.hop % 1, up = moving ? Math.sin(ph*Math.PI)*0.18 : 0;
+      c.g.position.set(c.x, Hbase(c.x,c.z) + up, c.z); c.g.rotation.y = c.yaw;
+      c.body.rotation.x = moving ? -Math.cos(ph*Math.PI)*0.25 : Math.sin(t*3 + c.hx)*0.03;
+    } else {
+      if(c.fly > 0){   // 被惊飞：飞上去，过一会儿落回原处附近
+        c.fly -= dt; c.vy = lerp(c.vy, 3.2, dt*2); c.y += c.vy*dt; c.x += Math.sin(c.yaw)*3*dt; c.z += Math.cos(c.yaw)*3*dt;
+        c.wings.forEach((w,i) => w.rotation.z = Math.sin(t*38)*0.9*(i ? 1 : -1));
+        if(c.fly <= 0){ c.x = c.hx + (rand()-0.5)*2; c.z = c.hz + (rand()-0.5)*2; c.y = 0; c.vy = 0; }
+        c.g.visible = c.fly < 4.5 || c.y < 14;
+      } else {
+        c.g.visible = true;
+        if(play && dp < 2.6){ c.fly = 6; c.vy = 2; c.yaw = Math.atan2(c.x - px, c.z - pz); ctx.audio.flutter?.(); }
+        c.rest -= dt;
+        if(c.rest <= 0){ c.hop += dt*4; if(c.hop >= 1){ c.hop = 0; c.rest = 0.3 + rand()*1.2; if(rand() < 0.4) c.yaw += (rand()-0.5)*2; stamp(c.x, c.z, {rx:0.05, rz:0.07, depth:0.015, yaw:c.yaw}); }
+          const nx = c.x + Math.sin(c.yaw)*0.9*dt, nz = c.z + Math.cos(c.yaw)*0.9*dt; if(critterOk(nx,nz) && Math.hypot(nx-c.hx, nz-c.hz) < 2.5){ c.x = nx; c.z = nz; } else c.yaw += 2; }
+        c.wings.forEach(w => w.rotation.z = 0);
+        c.body.rotation.x = Math.max(0, Math.sin(t*2.5 + c.hx*3))*0.5*(c.rest > 0 ? 1 : 0);   // 低头啄雪
+      }
+      const hy = c.rest <= 0 && c.fly <= 0 ? Math.sin(c.hop*Math.PI)*0.08 : 0;
+      c.g.position.set(c.x, Hbase(c.x,c.z) + hy + c.y, c.z); c.g.rotation.y = c.yaw;
+    }
+  }
+}
+
+/* ---------------- 落雪与阵风 ---------------- */
+const snowfall = (() => {
+  const N = 1400, pos = new Float32Array(N*3), sd = new Float32Array(N);
+  for(let i=0;i<N;i++){ pos[i*3] = (rand()-0.5)*48; pos[i*3+1] = rand()*22 - 4; pos[i*3+2] = (rand()-0.5)*36; sd[i] = rand(); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
+  const cv = document.createElement('canvas'); cv.width = cv.height = 32; const c = cv.getContext('2d');
+  const gr = c.createRadialGradient(16,16,0,16,16,16); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.5,'rgba(255,255,255,0.6)'); gr.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0,0,32,32);
+  const m = new THREE.PointsMaterial({size:4.5, sizeAttenuation:false, map:new THREE.CanvasTexture(cv), transparent:true, depthWrite:false, opacity:0.85, color:0xffffff});
+  const pts = new THREE.Points(g, m); pts.frustumCulled = false; scene.add(pts);
+  return {pts, pos, sd, N, wind:0, gust:0, nextGust:8};
+})();
+const mist = [];
+{
+  const cv = document.createElement('canvas'); cv.width = cv.height = 64; const c = cv.getContext('2d');
+  const gr = c.createRadialGradient(32,32,2,32,32,32); gr.addColorStop(0,'rgba(255,255,255,0.35)'); gr.addColorStop(1,'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0,0,64,64);
+  const tex = new THREE.CanvasTexture(cv);
+  for(let i=0;i<10;i++){ const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true, depthWrite:false, opacity:0})); sp.scale.set(4, 1.6, 1); scene.add(sp); mist.push({sp, t:99, life:3, x:0, z:0}); }
+}
+function updateSnowfall(dt, t){
+  const S = snowfall;
+  // 偶尔一阵风：雪横着飘，地上卷起一层雪雾
+  S.nextGust -= dt;
+  if(S.nextGust <= 0){ S.gust = 1; S.nextGust = 10 + rand()*9;
+    const G = game.G, cx = G ? G.px : 0, cz = G ? G.pz : 0;
+    for(const m of mist){ m.t = -rand()*1.2; m.life = 2.6 + rand()*1.4; m.x = cx - 9 + rand()*6; m.z = cz - 4 + rand()*8; }
+    if(game.state === 'play') ctx.audio.gust?.(); }
+  S.gust = Math.max(0, S.gust - dt*0.28);
+  S.wind = lerp(S.wind, 0.25 + S.gust*3.2, 1 - Math.exp(-dt*2));
+  const p = S.pos;
+  for(let i=0;i<S.N;i++){
+    const k = i*3, sd = S.sd[i];
+    p[k+1] -= (0.55 + sd*0.6)*dt;
+    p[k] += (S.wind*(0.7 + sd*0.6) + Math.sin(t*0.9 + sd*40)*0.25)*dt;
+    p[k+2] += (Math.cos(t*0.7 + sd*31)*0.2 - S.wind*0.25)*dt;
+    if(p[k+1] < -4 || p[k] > 24){ p[k] = (rand()-0.5)*48 - S.wind*3; p[k+1] = 16 + rand()*4; p[k+2] = (rand()-0.5)*36; }
+  }
+  S.pts.geometry.attributes.position.needsUpdate = true;
+  for(const m of mist){
+    m.t += dt; const k = m.t/m.life;
+    if(k < 0 || k > 1){ m.sp.material.opacity = 0; continue; }
+    m.sp.position.set(m.x + k*10, Hbase(m.x + k*10, m.z) + 0.5 + k*0.6, m.z);
+    m.sp.material.opacity = Math.sin(k*Math.PI)*0.55;
+  }
+  return S.wind;
+}
+
+/* ---------------- 人物在雪地里：深雪里脚陷下去一截，呼出白气 ---------------- */
+const sinkAt = (x,z) => onLake(x,z) ? 0 : (0.04 + 0.1*deepAt(x,z))*snowAmt(x,z);
+let breathT = 1;
+function breathe(dt){
+  const G = game.G; if(!G || game.state !== 'play') return;
+  breathT -= dt; if(breathT > 0) return;
+  breathT = 1.6 + rand()*0.8;
+  if(!G._headY){ const bb = new THREE.Box3().setFromObject(G.hero.root); G._headY = (bb.max.y - G.hero.root.position.y)*0.82; }
+  const hp = G.hero.root.position;
+  burst(hp.x + G.face.x*0.22, hp.y + G._headY, hp.z + G.face.z*0.22, {n:3, color:0xf6f8fb, speed:0.35, up:0.25, grav:-0.4, size:0.5, life:0.9});
+}
+
+/* ---------------- 小怪：顶着一小团雪；火灵身上的热把周围的雪化出一圈湿痕 ---------------- */
+function decorateMinion(m){
+  m.core.geometry.computeBoundingBox();
+  const top = m.core.geometry.boundingBox.max.y;
+  const cap = new THREE.Mesh(new THREE.IcosahedronGeometry(0.22, 1), new THREE.MeshStandardMaterial({color:0xf3f6fa, roughness:0.9, flatShading:true}));
+  cap.scale.set(1.15, 0.42, 1.05); cap.position.set(0.04, top*0.86, 0); cap.rotation.z = -0.12; cap.castShadow = true;
+  if(m.el === 'fire'){ cap.visible = false; m.heat = 0; }   // 火灵头上积不住雪
+  m.body.add(cap); m.snowCap = cap;
+}
+function updateMinionHeat(dt){
+  const G = game.G; if(!G) return;
+  for(const m of G.minions){
+    if(m.el !== 'fire' || !m.alive) continue;
+    m.heat = (m.heat || 0) - dt;
+    if(m.heat <= 0){ m.heat = 0.45; stamp(m.x, m.z, {rx:1.05, rz:1.05, depth:0.045, rim:0}); if(rand() < 0.5) burst(m.x + (rand()-0.5)*0.6, H(m.x,m.z) + 0.2, m.z + (rand()-0.5)*0.6, {n:1, color:0xf4f7fb, speed:0.2, up:0.8, grav:-0.6, size:0.55, life:1}); }
+  }
+}
+
 const ORDER = ['earth','water','fire','metal','wood'];
-const BEATS = {earth:'water', water:'fire', fire:'metal', metal:'wood', wood:'earth'};
-const COUNTER = Object.fromEntries(Object.entries(BEATS).map(([a,b]) => [b,a]));
-const rel = (a,b) => !a||!b ? 'neutral' : BEATS[a]===b ? 'beat' : BEATS[b]===a ? 'beaten' : 'neutral';
-const MULT = {beat:1.6, beaten:0.6, neutral:1};
-const REL_TXT = {beat:'克制', beaten:'被克', neutral:'平'};
-
-// 五个区域按相生顺序围成一圈：水 → 木 → 火 → 土 → 金 → 水
-const ZONE_ORDER = ['water','wood','fire','earth','metal'];
-const ZONES = {
-  water:{name:'潮汐之岸', guardian:'守潮者', ang:0},
-  wood: {name:'青林之丘', guardian:'守林者', ang:Math.PI*0.4},
-  fire: {name:'熔岩之谷', guardian:'守焰者', ang:Math.PI*0.8},
-  earth:{name:'赭石台地', guardian:'守岩者', ang:Math.PI*1.2},
-  metal:{name:'晶簇峰林', guardian:'守晶者', ang:Math.PI*1.6},
+const PLAT_EDGE = PLAT.r + 1.5;
+return {
+  id:'snow',
+  next:null,
+  text:{
+    name:'凝冰之原', ordinal:'第二座岛', title:'阿派朗：无界岛 · 凝冰之原', canvas:'凝冰之原三维场景',
+    startHint:'拖动旋转小岛', rotate:'横屏探索凝冰之原',
+    goal:'峰下的平台上沉睡着覆雪者。找到克制它的元素，击败它',
+    deceive:'覆雪者被冰壳包住，看不见它的本原',
+    shell:'覆雪者被冰壳包住，看不见它的本原。普通攻击和别的元素都打不进去',
+    fireHint:'温泉边有一只火灵。拿到火，用元素攻击融化冰壳',
+    wake:'积雪簌簌落下，覆雪者站了起来', near:'山脊尽头的平台就是覆雪者的居所。准备好再走近', calm:'覆雪者已归于平静',
+  },
+  lighting, background, environment,
+  get WL(){ return WL; }, WL0, dryMin:WL0 - 0.05,
+  H, groundY, inWater, waveH, inIsland, slabD,
+  addRipple, splash,
+  get freeze(){ return lake.freeze; }, iceAt, onLake,
+  onStep, onLand, onHop, onImpact, dustColor:POWDER,
+  speedMul:(x,z) => 1 - 0.15*deepAt(x,z)*snowAmt(x,z),          // 深雪处走得慢一点
+  stamp, snowAmt, deepAt, sinkAt, decorateMinion,
+  spawn:SPAWN,
+  minionSpots:MINION_SPOTS,
+  // 前四只随机，温泉边那只总是火
+  minionEls:() => [...ORDER.filter(e => e!=='fire').sort(() => rand()-0.5), 'fire'],
+  boss:{key:'snow', name:'覆雪者', x:PLAT.x, z:PLAT.z, gy:PLAT.h, isWater:false, rad:1.9, hp:280, nearR:9, iceShell:3},
+  // 引导：第二座岛不重复操作教程。冰壳、温泉两条在第一次打中冰壳时由核心依次弹出
+  tut:() => [
+    {id:'goal', info:true, html:() => '峰下的平台上沉睡着覆雪者。找到克制它的元素，击败它'},
+    {id:'lake', info:true, html:() => '冰湖会冻会化：冰够厚时能走上去，化开就只能绕着走', ready:() => { const G = game.G; return G && lakeQ(G.px, G.pz) < 2.2; }},
+  ],
+  // 结局：按融冰之前的准备来分
+  ending(g, G){
+    const N = {earth:'土', water:'水', fire:'火', metal:'金', wood:'木'}, BEAT = {earth:'water', water:'fire', fire:'metal', metal:'wood', wood:'earth'};
+    const counter = Object.keys(BEAT).find(k => BEAT[k] === g.truth);
+    const held = [...(G.held || [])];
+    if(g.prepared){
+      const how = g.hinted === 'staff' ? '用法杖隐约看出了克它的元素' : g.hinted === 'steal' ? '用窃元隐约看出了克它的元素' : `先后拿过${held.map(e => N[e]).join('、')}，把相克记在了心里`;
+      return {title:'证实', text:`冰壳碎开之前，你已经${how}。碎冰那一刻看见的本原，只是印证了你的准备，再换上${N[counter]}击败了它。`};
+    }
+    return {title:'临机', text:`你只拿了火就直奔覆雪者。冰碎开，才看清它的本原是${N[g.truth]}，临时去找来克制它的${N[counter]}。这一次随机应变赶上了，可在看见之前，你并没有准备。`};
+  },
+  layout:{PEAK, PLAT, RIDGE, LAKE, SPRING},
+  walkable(x,z,fx,fz){
+    if(!inIsland(x,z,0.95)) return false;
+    const h = H(x,z);
+    // 冰湖：冰够厚才能走；已经在水里时总能往岸边走
+    if(onLake(x,z) && iceAt(x,z) < 0.6){ if(fx === undefined) return false; if(!(onLake(fx,fz) && iceAt(fx,fz) < 0.6)) return false; return lakeQ(x,z) >= lakeQ(fx,fz) - 0.002; }
+    // 主峰本身不能走上去（只在山脚和雪原上活动），免得爬进峰与峰之间的洼地出不来
+    if(Fm(x,z) - Hbase(x,z) > 0.25) return false;
+    if(fx === undefined) return h < PLAT.h + 0.6;          // 小怪：不上平台以上的地方
+    // 只有 Boss 平台的陡坎拦人：从下面爬不上去，只能走山脊；别处（温泉、湖岸、雪垄）的坡都能走
+    const dpl = Math.hypot(x-PLAT.x, z-PLAT.z);
+    if(dpl > PLAT.r - 0.2 && dpl < PLAT_EDGE + 0.4){
+      const step = Math.hypot(x-fx, z-fz) || 1e-4;
+      if((h - H(fx,fz))/step > 1.05) return false;
+    }
+    return true;
+  },
+  update(dt, t){
+    dentDt += dt;
+    updateLake(dt, t);
+    const wind = updateSnowfall(dt, t);
+    updateSteam(dt, wind);
+    updateTrees(dt);
+    updateCritters(dt, t);
+    updateMinionHeat(dt);
+    breathe(dt);
+    glideTrail(game.state === 'play' ? game.G : null);
+    walkPrints(game.state === 'play' ? game.G : null);
+    for(const c of clouds){ c.a += dt*c.sp; c.g.position.set(Math.cos(c.a)*c.r, c.y + Math.sin(t*0.3+c.ph)*0.4, Math.sin(c.a)*c.r*0.75); }
+  },
+  render(){
+    dentStep(); snowU.uDent.value = dentA.texture;
+    camera.getWorldDirection(snowU.uViewW.value).negate(); snowU.uSunW.value.copy(ctx.sun.position).normalize();
+    renderer.shadowMap.needsUpdate = true; renderer.setRenderTarget(null); renderer.render(ctx.scene, camera);
+  },
+  resize(){},
+  dispose(){ environment.dispose(); background.dispose(); dentA.dispose(); dentB.dispose(); stampMat.dispose(); dentQuad.geometry.dispose(); },
 };
+}
 
-const CLASSES = {
-  mage: {name:'魔法师', color:'#3e4f88', tag:'高瘦 · 浮空而行', hp:75, speed:5.1, atkRate:1, elemMul:1.2, dmgMul:1, dashCd:0.62,
-    skill:'元素爆发', cd:7, short:'以自己为中心炸开手中的元素',
-    desc:'以自己为中心，炸开手中的元素，打中周围所有敌人；克制时伤害更高。需要先持有一种元素。',
-    fit:'擅长：元素攻击伤害 +20%，适合远远试探守护者', stats:[['生命',0.55,'75'],['速度',0.6,'中']]},
-  thief:{name:'盗贼', color:'#a8473a', tag:'矮小 · 轻巧疾行', hp:70, speed:6.1, atkRate:1.25, elemMul:1, dmgMul:1, dashCd:0.42,
-    skill:'窃元', cd:9, short:'冲到最近的小怪身边，偷走它的元素',
-    desc:'瞬间冲到最近的小怪身边，偷走它的元素，不用击杀，它会晕眩片刻。对守护者使用：直接看穿它的本原。',
-    fit:'擅长：移动最快、出手快、闪避冷却短', stats:[['生命',0.48,'70'],['速度',0.95,'快']]},
-  medic:{name:'医师', color:'#4f7f63', tag:'敦实 · 稳重慢行', hp:100, speed:4.7, atkRate:0.9, elemMul:1, dmgMul:1.15, dashCd:0.7,
-    skill:'愈合', cd:12, short:'立刻恢复 30 点生命，之后持续回血',
-    desc:'立刻恢复 30 点生命，之后 4 秒内持续回血。',
-    fit:'擅长：生命最多、每一击更重，适合硬碰硬', stats:[['生命',1,'100'],['速度',0.35,'慢']]},
-};
-const WEAPONS = {
-  staff:   {name:'法杖', verb:'照见', short:'立刻看清附近守护者的本原', desc:'立刻看清附近那位守护者的本原，也就是它真正的元素，不用去试探。', when:'用在：想直接知道答案的时候'},
-  scissors:{name:'剪刀', verb:'剪断', short:'一下剪掉身边的一只小怪', desc:'一下剪掉身边的一只小怪，它的元素照常掉落。', when:'用在：急着要某个元素的时候'},
-  syringe: {name:'针管', verb:'注入', short:'凭空获得任意一种元素', desc:'凭空获得你指定的任意一种元素。', when:'用在：附近没有你需要的小怪的时候'},
-};
+return { createSnow };
+})();
 
-/* ---------------- 工具 ---------------- */
-const $ = id => document.getElementById(id);
-const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
-const lerp = (a,b,t) => a + (b-a)*t;
-const sstep = (e0,e1,x) => { const t = clamp((x-e0)/(e1-e0),0,1); return t*t*(3-2*t); };
-const rand = Math.random;
-const pick = arr => arr[Math.floor(rand()*arr.length)];
-const hash = (x,z) => { const s = Math.sin(x*127.1 + z*311.7)*43758.5453; return s - Math.floor(s); };
-const angDiff = (a,b) => Math.atan2(Math.sin(a-b), Math.cos(a-b));
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const clock = new THREE.Clock();
-let gameTime = 0;
-let state = 'title';
-let G = null;
-
-/* ================= 场景：漂浮的果冻海岸切片 ================= */
+const __ISL_tide = (() => {
+/* 阿派朗：无界岛 · 第一座岛「天空之岸」
+ * 地形、果冻地层切面、水（涟漪模拟 + 折射 + 焦散）、潮汐、布景和生物。
+ * 由 index.html 的核心调用 createTide(ctx)；ctx 提供 three.js、渲染器、共享材质与特效函数。
+ * 岛上的所有物体都加在 ctx.root 里，换岛时整体移除。 */
+function createTide(ctx){
+const { THREE, renderer, camera, settings, SH, SUN_DIR, jelly, roundBlob, addJiggle, poke, burst, ringFx,
+  clamp, lerp, sstep, rand, pick, hash, game, obstacles, smallJelly } = ctx;
+const scene = ctx.root;
 const WL0 = 0.6, TIDE_AMP = 0.3, TIDE_PERIOD = 36;
 let WL = WL0;
-const settings = { wave:1, clarity:1, soft:1 };
 const SX = 23, SZ = 15.6, BOTTOM = -6;
 // 不规则海岸轮廓：椭圆基底 + 几层起伏 + 一处凸出的岬角
 const OA = 19.8, OB = 13.3;
@@ -59974,114 +60977,6 @@ function waveH(x,z,t){
   return A*(0.085*Math.sin(x*0.72+z*0.1 + t*1.45 + 0.35*Math.sin(z*0.3)) + 0.045*Math.sin(-x*0.28+z*1.05 - t*1.85)
     + 0.026*Math.sin(x*1.55-z*1.15 + t*2.6) + 0.014*Math.sin(-x*2.2-z*1.8 + t*3.5));
 }
-
-/* ---------------- 渲染器、相机、光 ---------------- */
-const canvas = $('c');
-const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.shadowMap.autoUpdate = false;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.98;
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xf3ede4);
-const camera = new THREE.OrthographicCamera(-10,10,10,-10,0.1,400);
-const view = {yaw:0.55, pitch:0.68, size:22, target:new THREE.Vector3(1.5,12,0.5), dist:110};
-function applyCamera(){
-  const cp = Math.cos(view.pitch), a = innerWidth/innerHeight;
-  camera.position.set(view.target.x + Math.sin(view.yaw)*cp*view.dist, view.target.y + Math.sin(view.pitch)*view.dist, view.target.z + Math.cos(view.yaw)*cp*view.dist);
-  camera.lookAt(view.target);
-  camera.left = -view.size*a; camera.right = view.size*a; camera.top = view.size; camera.bottom = -view.size;
-  camera.updateProjectionMatrix();
-}
-applyCamera();
-
-scene.add(new THREE.HemisphereLight(0xfff8ee, 0xcbb89c, 0.85));
-const sun = new THREE.DirectionalLight(0xfff0dc, 2.3);
-sun.position.set(-14, 26, 12);
-sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
-Object.assign(sun.shadow.camera, {left:-27, right:27, top:24, bottom:-24, near:1, far:90});
-sun.shadow.bias = -0.0005; sun.shadow.normalBias = 0.03;
-scene.add(sun);
-const SUN_DIR = sun.position.clone().normalize();
-// 环境光照：暖白天空 + 太阳，给果冻材质反光
-{
-  const pm = new THREE.PMREMGenerator(renderer);
-  const es = new THREE.Scene();
-  es.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,16), new THREE.ShaderMaterial({side:THREE.BackSide,
-    vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
-    fragmentShader:'varying vec3 vP; void main(){ float y=normalize(vP).y; vec3 top=vec3(1.0,0.96,0.9), hor=vec3(0.93,0.88,0.82), bot=vec3(0.55,0.68,0.66); gl_FragColor=vec4(y>0.?mix(hor,top,pow(y,.6)):mix(hor,bot,pow(-y,.5)),1.); }'})));
-  const s = new THREE.Mesh(new THREE.SphereGeometry(1.3,16,8), new THREE.MeshBasicMaterial({color:new THREE.Color(1,0.95,0.86).multiplyScalar(7)}));
-  s.position.copy(SUN_DIR).multiplyScalar(8); es.add(s);
-  scene.environment = pm.fromScene(es, 0.03).texture;
-  pm.dispose();
-}
-
-/* ---------------- 果冻材质 ---------------- */
-const SH = { uTime:{value:0} };
-function jellyfy(m, rim){
-  m.onBeforeCompile = sh => {
-    sh.uniforms.uRim = {value:rim};
-    sh.fragmentShader = sh.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform float uRim;')
-      .replace('#include <opaque_fragment>', `float jfr = pow(1.0 - saturate(dot(normalize(normal), normalize(vViewPosition))), 2.2);
-outgoingLight += diffuseColor.rgb * (jfr * uRim * 0.9 + 0.1) + vec3(1.0) * jfr * uRim * 0.18;
-#include <opaque_fragment>`);
-  };
-  m.customProgramCacheKey = () => 'jelly' + rim;
-  return m;
-}
-function jelly(color, o={}){
-  const {rim=0.45, ...rest} = o;
-  const c = new THREE.Color(color);
-  return jellyfy(new THREE.MeshPhysicalMaterial({color:c, roughness:0.32, metalness:0, clearcoat:0.9, clearcoatRoughness:0.2,
-    sheen:0.6, sheenRoughness:0.55, sheenColor:c.clone().lerp(new THREE.Color(0xffffff),0.55), envMapIntensity:0.75, ...rest}), rim);
-}
-const lam = (c, extra={}) => { const {flatShading, ...r} = extra; return jelly(c, r); };
-
-/* ---------------- 布料、陶土、金属 ---------------- */
-function fabric(color, {pleats=14, side=THREE.FrontSide, map=null}={}){
-  const c = new THREE.Color(color);
-  const m = new THREE.MeshPhysicalMaterial({color:c, roughness:0.9, metalness:0, sheen:1, sheenRoughness:0.42, sheenColor:c.clone().lerp(new THREE.Color(0xffffff),0.4), envMapIntensity:0.32, side, map});
-  m.onBeforeCompile = sh => {
-    sh.vertexShader = sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
-      .replace('#include <begin_vertex>','#include <begin_vertex>\nvOP = position;');
-    sh.fragmentShader = sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
-      .replace('#include <color_fragment>', `#include <color_fragment>
-{ float pl = sin(atan(vOP.z, vOP.x)*${pleats.toFixed(1)});
-  float wv = sin(vOP.x*70.0 + vOP.z*70.0)*sin(vOP.y*70.0 - vOP.x*35.0);
-  diffuseColor.rgb *= 0.9 + 0.09*pl + 0.035*wv; }`);
-  };
-  m.customProgramCacheKey = () => 'fabric' + pleats + (map ? 'm' : '');
-  return m;
-}
-// 陶土：粗糙、带细小颗粒
-function clay(color){
-  const m = new THREE.MeshPhysicalMaterial({color, roughness:0.74, metalness:0, sheen:0.25, sheenRoughness:0.7, sheenColor:new THREE.Color(0xffffff), envMapIntensity:0.4});
-  m.onBeforeCompile = sh => {
-    sh.vertexShader = sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
-      .replace('#include <begin_vertex>','#include <begin_vertex>\nvOP = position;');
-    sh.fragmentShader = sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;\nfloat ch(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,45.164)))*43758.5453); }')
-      .replace('#include <color_fragment>', `#include <color_fragment>
-diffuseColor.rgb *= 0.93 + 0.1*ch(floor(vOP*90.0));`);
-  };
-  m.customProgramCacheKey = () => 'clay';
-  return m;
-}
-const gold = (c=0xd6b46a) => new THREE.MeshPhysicalMaterial({color:c, metalness:0.78, roughness:0.32, envMapIntensity:1.1});
-// 希腊回纹贴图（用于衣摆、陶罐腰带）
-function meanderTex(bg, fg, reps=8){
-  const cv = document.createElement('canvas'); cv.width = 256; cv.height = 32; const c = cv.getContext('2d');
-  c.fillStyle = bg; c.fillRect(0,0,256,32);
-  c.strokeStyle = fg; c.lineWidth = 2.6; c.lineCap = 'square';
-  c.beginPath(); c.moveTo(0,3); c.lineTo(256,3); c.moveTo(0,29); c.lineTo(256,29); c.stroke();
-  for(let i=0;i<8;i++){ const x = i*32; c.beginPath(); c.moveTo(x+2,25); c.lineTo(x+2,7); c.lineTo(x+24,7); c.lineTo(x+24,21); c.lineTo(x+10,21); c.lineTo(x+10,13); c.lineTo(x+18,13); c.moveTo(x+24,25); c.lineTo(x+32,25); c.stroke(); }
-  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping; t.repeat.set(reps,1); t.anisotropy = 4;
-  return t;
-}
-
 
 /* ---------------- 地形顶面 ---------------- */
 const terrainU = { uLevel:{value:WL}, uWetTop:{value:WL}, uClarity:{value:1} };
@@ -60372,41 +61267,7 @@ void main(){ if(dot(vec3(vN.x,0.0,vN.y), uViewDir) < 0.0) discard; float d = max
 }` });
   const wall = new THREE.Mesh(wg, wm); wall.frustumCulled = false; wall.renderOrder = 3; scene.add(wall); waterObjs.push(wall);
 }
-
-/* ---------------- 果冻抖动（挤压后回弹） ---------------- */
-const jigglers = [];
-function addJiggle(obj, {k=1, amp=1}={}){
-  const j = {obj, base:obj.scale.clone(), s:0, v:0, tx:0, tz:0, vtx:0, vtz:0, k, amp, br:Math.random()*6, idle:0};
-  obj.userData.jig = j; jigglers.push(j); return j;
-}
-function poke(obj, strength=1, dir=null){
-  let o = obj; while(o && !o.userData.jig) o = o.parent;
-  if(!o) return false;
-  const j = o.userData.jig, s = strength*j.amp*(0.5+settings.soft*0.5);
-  j.v -= 3.2*s;
-  if(dir){ j.vtx += dir.z*2.2*s; j.vtz -= dir.x*2.2*s; }
-  return true;
-}
-function updateJiggles(dt){
-  const soft = Math.max(0.05, settings.soft);
-  const K = 150/(0.45+soft) , C = 7.5/(0.55+soft*0.9);
-  for(const j of jigglers){
-    j.v += (-K*j.k*j.s - C*j.v)*dt; j.s += j.v*dt;
-    j.vtx += (-K*0.5*j.tx - C*j.vtx)*dt; j.tx += j.vtx*dt;
-    j.vtz += (-K*0.5*j.tz - C*j.vtz)*dt; j.tz += j.vtz*dt;
-    const s = clamp(j.s, -0.6, 0.6) + Math.sin(gameTime*1.6 + j.br)*0.012*j.idle*soft;
-    j.obj.scale.set(j.base.x*(1-s*0.5), j.base.y*(1+s), j.base.z*(1-s*0.5));
-    j.obj.rotation.x = (j.obj.userData.rx||0) + j.tx*0.6; j.obj.rotation.z = (j.obj.userData.rz||0) + j.tz*0.6;
-  }
-}
-
 /* ---------------- 布景 ---------------- */
-const obstacles = [];
-const roundBlob = (r, det=3, lump=0.18, seed=1) => {
-  const g = new THREE.IcosahedronGeometry(r, det), p = g.attributes.position, v = new THREE.Vector3();
-  for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i); const n = 1 + lump*(Math.sin(v.x*3.1/r+seed)*Math.sin(v.y*2.7/r+seed*1.7)*Math.sin(v.z*2.9/r+seed*0.6)); v.multiplyScalar(n); p.setXYZ(i,v.x,v.y,v.z); }
-  g.computeVertexNormals(); return g;
-};
 const ROCK_COLS = [0xb7a9bd, 0xa89dba, 0xc4b2bf, 0x9fa9c0];
 function rock(x,z,s,inWaterOK=true){
   const m = new THREE.Mesh(roundBlob(s,3,0.2,x*1.3+z), jelly(pick(ROCK_COLS),{rim:0.5}));
@@ -60436,7 +61297,6 @@ function bush(x,z,s=1){
   const j = addJiggle(g, {k:0.8, amp:1.2}); j.idle = 1;
   obstacles.push({x,z,r:0.7*s,obj:g});
 }
-const smallJelly = [];
 function pebble(x,z){
   const s = 0.09 + hash(x,z)*0.12;
   const m = new THREE.Mesh(new THREE.SphereGeometry(s, 16, 12), jelly(pick([0xd9c7d6,0xc7d6d9,0xe6d1c0,0xcfc4e0,0xb9c8b5]),{rim:0.6}));
@@ -60634,6 +61494,7 @@ for(let i=0;i<14 && creatures.filter(c=>c.type==='fish').length<9;i++){ const x 
 POOLS.forEach(p => makeStar(p));
 
 function updateCreatures(dt, t){
+  const G = game.G, state = game.state;
   const px = G ? G.px : 99, pz = G ? G.pz : 99;
   for(const c of creatures){
     c.t += dt;
@@ -60678,12 +61539,305 @@ function updateCreatures(dt, t){
     }
   }
 }
+function splash(x,z,big=false){
+  burst(x,WL+0.1,z,{n:big?22:9,color:pick([0xffffff,0xdff3f2,0xbfe8e6]),speed:big?4.5:2.4,up:big?7:4.5,size:big?1.3:0.9,life:big?1.1:0.7});
+  ringFx(x,z,{r1:big?4:1.8, life:big?1.3:0.8, opacity:0.6});
+  addRipple(x,z,big?0.35:0.16);
+  ctx.audio.splash(big);
+}
 
+/* ---------------- 每帧：潮汐、水、生物、渲染 ---------------- */
+let wetTop = WL;
+const world = {
+  update(dt, t){
+    WL = WL0 + TIDE_AMP*Math.sin(t*Math.PI*2/TIDE_PERIOD);
+    seaLevelU.value = WL;
+    wetTop = Math.max(WL + 0.12*settings.wave, wetTop - 0.012*dt);
+    terrainU.uLevel.value = WL; terrainU.uWetTop.value = wetTop; terrainU.uClarity.value = settings.clarity;
+    waterU.uWave.value = settings.wave; waterU.uClarity.value = settings.clarity;
+    for(const p of POOLS){ const lv = WL + waveH(p.x,p.z,t)*0.6; if(lv >= p.rim) p.level = lv; else p.level = Math.max(lv, p.floor + 0.02, p.level - 0.016*dt); p.u.value = p.level; }
+    updateCreatures(dt, t);
+    for(const c of clouds){ c.a += dt*c.sp; c.g.position.set(Math.cos(c.a)*c.r, c.y + Math.sin(t*0.3+c.ph)*0.5, Math.sin(c.a)*c.r*0.75); }
+  },
+  render(){
+    simStep();
+    waterU.uSim.value = simA.texture;
+    const v = new THREE.Vector3(); camera.getWorldDirection(v); waterU.uViewDir.value.copy(v).negate();
+    waterU.uNear.value = camera.near; waterU.uFar.value = camera.far;
+    renderer.shadowMap.needsUpdate = true;
+    waterObjs.forEach(o => o.visible = false); underOnly.forEach(o => o.visible = true);
+    renderer.setRenderTarget(rtScene); renderer.render(ctx.scene, camera);
+    waterObjs.forEach(o => o.visible = true); underOnly.forEach(o => o.visible = false);
+    renderer.setRenderTarget(null); renderer.render(ctx.scene, camera);
+  },
+  resize(){
+    const s = new THREE.Vector2(); renderer.getDrawingBufferSize(s);
+    rtScene.setSize(s.x, s.y); waterU.uRes.value.copy(s);
+  },
+};
+{ const z = new THREE.Color(0,0,0); const pc = renderer.getClearColor(new THREE.Color()), pa = renderer.getClearAlpha();
+  [simA, simB].forEach(r => { renderer.setRenderTarget(r); renderer.setClearColor(z, 0); renderer.clear(); });
+  renderer.setRenderTarget(null); renderer.setClearColor(pc, pa); }
+
+const ORDER = ['earth','water','fire','metal','wood'];
+const island = {
+  id:'tide', next:'snow', nextName:'凝冰之原',
+  text:{
+    name:'天空之岸', ordinal:'第一座岛', title:'阿派朗：无界岛 · 天空之岸', canvas:'天空之岸三维场景',
+    startHint:'拖动旋转小岛，点一点水面和果冻试试', rotate:'横屏探索天空之岸',
+    goal:'湖心深处沉睡着守潮者。找到克制它的元素，击败它',
+    deceive:'守潮者的本原不一定是水。用元素打中它，就能揭晓',
+    wake:'湖心的水开始翻涌', near:'深水处就是守潮者的居所。准备好再走近', calm:'守潮者已归于平静',
+  },
+  get WL(){ return WL; }, WL0, dryMin:WL0-0.45,
+  H, groundY, inWater, waveH, inIsland, slabD,
+  addRipple, splash,
+  spawn:{x:-4.5, z:10.4},
+  minionSpots:[[-14,-5],[-10,5],[-1.5,-4.5],[-6,-1.5],[4.5,7.2]],
+  // 前四只随机，最后一只（守潮者身边）总是水
+  minionEls:() => [...ORDER.filter(e => e!=='water').sort(() => rand()-0.5), 'water'],
+  boss:{key:'water', name:'守潮者', x:LAKE.x, z:LAKE.z, gy:WL0, isWater:true, rad:1.9, hp:280, nearR:9},
+  walkable(x,z,fx,fz){
+    if(!inIsland(x,z,0.95)) return false;
+    const dep = WL - H(x,z);
+    // 深水里不能走，但已经在深处时总能往浅处走
+    return !(dep > 0.85 && !(fx!==undefined && dep < WL - H(fx,fz)));
+  },
+  update:world.update, render:world.render, resize:world.resize,
+  dispose(){
+    [simA, simB, rtScene].forEach(r => r.dispose());
+    terrTex.dispose(); simUpdate.dispose(); simDrop.dispose(); simQuad.geometry.dispose();
+  },
+};
+return island;
+}
+
+return { createTide };
+})();
+
+
+
+const { loadCharacterModels, createCharacter } = __CM;
+const { createTide } = __ISL_tide;
+const { createSnow } = __ISL_snow;
+
+/* ---------------- 规则 ---------------- */
+const EL = {
+  earth:{name:'土', color:0xc9a47a, css:'#a5784a', light:0xe6cfae, freq:330},
+  water:{name:'水', color:0x7fb6dc, css:'#3f6f93', light:0xc6e2f2, freq:440},
+  fire: {name:'火', color:0xef8a64, css:'#c8603c', light:0xf8c6b0, freq:523},
+  metal:{name:'金', color:0xe3c86f, css:'#a28630', light:0xf3e6b6, freq:659},
+  wood: {name:'木', color:0x93c07c, css:'#5c8a46', light:0xcfe4c2, freq:392},
+};
+const ORDER = ['earth','water','fire','metal','wood'];
+const BEATS = {earth:'water', water:'fire', fire:'metal', metal:'wood', wood:'earth'};
+const COUNTER = Object.fromEntries(Object.entries(BEATS).map(([a,b]) => [b,a]));
+const rel = (a,b) => !a||!b ? 'neutral' : BEATS[a]===b ? 'beat' : BEATS[b]===a ? 'beaten' : 'neutral';
+const MULT = {beat:1.6, beaten:0.6, neutral:1};
+const REL_TXT = {beat:'克制', beaten:'被克', neutral:'平'};
+
+// 五个区域按相生顺序围成一圈：水 → 木 → 火 → 土 → 金 → 水
+const ZONE_ORDER = ['water','wood','fire','earth','metal'];
+const ZONES = {
+  water:{name:'天空之岸', guardian:'守潮者', ang:0},
+  wood: {name:'青林之丘', guardian:'守林者', ang:Math.PI*0.4},
+  fire: {name:'熔岩之谷', guardian:'守焰者', ang:Math.PI*0.8},
+  earth:{name:'赭石台地', guardian:'守岩者', ang:Math.PI*1.2},
+  metal:{name:'晶簇峰林', guardian:'守晶者', ang:Math.PI*1.6},
+};
+
+const CLASSES = {
+  mage: {name:'魔法师', color:'#3e4f88', tag:'高瘦 · 浮空而行', hp:75, speed:5.1, atkRate:1, elemMul:1.2, dmgMul:1, dashCd:0.62,
+    skill:'元素爆发', cd:7, short:'以自己为中心炸开手中的元素',
+    desc:'以自己为中心，炸开手中的元素，打中周围所有敌人；克制时伤害更高。需要先持有一种元素。',
+    fit:'擅长：元素攻击伤害 +20%，适合远远试探守护者', stats:[['生命',0.55,'75'],['速度',0.6,'中']]},
+  thief:{name:'盗贼', color:'#a8473a', tag:'矮小 · 轻巧疾行', hp:70, speed:6.1, atkRate:1.25, elemMul:1, dmgMul:1, dashCd:0.42,
+    skill:'窃元', cd:9, short:'冲到最近的小怪身边，偷走它的元素',
+    desc:'瞬间冲到最近的小怪身边，偷走它的元素，不用击杀，它会晕眩片刻。对守护者使用：直接看穿它的本原。',
+    fit:'擅长：移动最快、出手快、闪避冷却短', stats:[['生命',0.48,'70'],['速度',0.95,'快']]},
+  medic:{name:'医师', color:'#4f7f63', tag:'敦实 · 稳重慢行', hp:100, speed:4.7, atkRate:0.9, elemMul:1, dmgMul:1.15, dashCd:0.7,
+    skill:'愈合', cd:12, short:'立刻恢复 30 点生命，之后持续回血',
+    desc:'立刻恢复 30 点生命，之后 4 秒内持续回血。',
+    fit:'擅长：生命最多、每一击更重，适合硬碰硬', stats:[['生命',1,'100'],['速度',0.35,'慢']]},
+};
+const WEAPONS = {
+  staff:   {name:'法杖', verb:'照见', short:'立刻看清附近守护者的本原', desc:'立刻看清附近那位守护者的本原，也就是它真正的元素，不用去试探。', when:'用在：想直接知道答案的时候'},
+  scissors:{name:'剪刀', verb:'剪断', short:'一下剪掉身边的一只小怪', desc:'一下剪掉身边的一只小怪，它的元素照常掉落。', when:'用在：急着要某个元素的时候'},
+  syringe: {name:'针管', verb:'注入', short:'凭空获得任意一种元素', desc:'凭空获得你指定的任意一种元素。', when:'用在：附近没有你需要的小怪的时候'},
+};
+
+/* ---------------- 工具 ---------------- */
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const lerp = (a,b,t) => a + (b-a)*t;
+const sstep = (e0,e1,x) => { const t = clamp((x-e0)/(e1-e0),0,1); return t*t*(3-2*t); };
+const rand = Math.random;
+const pick = arr => arr[Math.floor(rand()*arr.length)];
+const hash = (x,z) => { const s = Math.sin(x*127.1 + z*311.7)*43758.5453; return s - Math.floor(s); };
+const angDiff = (a,b) => Math.atan2(Math.sin(a-b), Math.cos(a-b));
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clock = new THREE.Clock();
+let gameTime = 0;
+let state = 'title';
+let G = null;
+
+/* ================= 岛屿：地形、水、布景、生物都在 islands/*.mjs =================
+ * I 是当前的岛。核心只通过它取地面高度、水位、障碍物、出生点、守护者位置和文字。 */
+const settings = { wave:1, clarity:1, soft:1 };
+let I = null;
+const groundY = (x,z) => I.groundY(x,z);
+const inWater = (x,z) => I.inWater(x,z);
+const inIsland = (x,z,m=1) => I.inIsland(x,z,m);
+const waveH = (x,z,t) => I.waveH(x,z,t);
+const addRipple = (x,z,amp) => I.addRipple(x,z,amp);
+const splash = (x,z,big) => I.splash(x,z,big);
+
+
+/* ---------------- 渲染器、相机、光 ---------------- */
+const canvas = $('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.autoUpdate = false;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.98;
+const scene = new THREE.Scene();
+const BG0 = new THREE.Color(0xf3ede4);
+let ENV0 = null;
+scene.background = BG0;
+const camera = new THREE.OrthographicCamera(-10,10,10,-10,0.1,400);
+const view = {yaw:0.55, pitch:0.68, size:22, target:new THREE.Vector3(1.5,12,0.5), dist:110};
+function applyCamera(){
+  const cp = Math.cos(view.pitch), a = innerWidth/innerHeight;
+  camera.position.set(view.target.x + Math.sin(view.yaw)*cp*view.dist, view.target.y + Math.sin(view.pitch)*view.dist, view.target.z + Math.cos(view.yaw)*cp*view.dist);
+  camera.lookAt(view.target);
+  camera.left = -view.size*a; camera.right = view.size*a; camera.top = view.size; camera.bottom = -view.size;
+  camera.updateProjectionMatrix();
+}
+applyCamera();
+
+const hemi = new THREE.HemisphereLight(0xfff8ee, 0xcbb89c, 0.85);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff0dc, 2.3);
+sun.position.set(-14, 26, 12);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, {left:-27, right:27, top:24, bottom:-24, near:1, far:90});
+sun.shadow.bias = -0.0005; sun.shadow.normalBias = 0.03;
+scene.add(sun);
+const SUN_DIR = sun.position.clone().normalize();
+// 环境光照：暖白天空 + 太阳，给果冻材质反光
+{
+  const pm = new THREE.PMREMGenerator(renderer);
+  const es = new THREE.Scene();
+  es.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,16), new THREE.ShaderMaterial({side:THREE.BackSide,
+    vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader:'varying vec3 vP; void main(){ float y=normalize(vP).y; vec3 top=vec3(1.0,0.96,0.9), hor=vec3(0.93,0.88,0.82), bot=vec3(0.55,0.68,0.66); gl_FragColor=vec4(y>0.?mix(hor,top,pow(y,.6)):mix(hor,bot,pow(-y,.5)),1.); }'})));
+  const s = new THREE.Mesh(new THREE.SphereGeometry(1.3,16,8), new THREE.MeshBasicMaterial({color:new THREE.Color(1,0.95,0.86).multiplyScalar(7)}));
+  s.position.copy(SUN_DIR).multiplyScalar(8); es.add(s);
+  scene.environment = ENV0 = pm.fromScene(es, 0.03).texture;
+  pm.dispose();
+}
+
+/* ---------------- 果冻材质 ---------------- */
+const SH = { uTime:{value:0} };
+function jellyfy(m, rim){
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uRim = {value:rim};
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform float uRim;')
+      .replace('#include <opaque_fragment>', `float jfr = pow(1.0 - saturate(dot(normalize(normal), normalize(vViewPosition))), 2.2);
+outgoingLight += diffuseColor.rgb * (jfr * uRim * 0.9 + 0.1) + vec3(1.0) * jfr * uRim * 0.18;
+#include <opaque_fragment>`);
+  };
+  m.customProgramCacheKey = () => 'jelly' + rim;
+  return m;
+}
+function jelly(color, o={}){
+  const {rim=0.45, ...rest} = o;
+  const c = new THREE.Color(color);
+  return jellyfy(new THREE.MeshPhysicalMaterial({color:c, roughness:0.32, metalness:0, clearcoat:0.9, clearcoatRoughness:0.2,
+    sheen:0.6, sheenRoughness:0.55, sheenColor:c.clone().lerp(new THREE.Color(0xffffff),0.55), envMapIntensity:0.75, ...rest}), rim);
+}
+const lam = (c, extra={}) => { const {flatShading, ...r} = extra; return jelly(c, r); };
+
+/* ---------------- 布料、陶土、金属 ---------------- */
+function fabric(color, {pleats=14, side=THREE.FrontSide, map=null}={}){
+  const c = new THREE.Color(color);
+  const m = new THREE.MeshPhysicalMaterial({color:c, roughness:0.9, metalness:0, sheen:1, sheenRoughness:0.42, sheenColor:c.clone().lerp(new THREE.Color(0xffffff),0.4), envMapIntensity:0.32, side, map});
+  m.onBeforeCompile = sh => {
+    sh.vertexShader = sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
+      .replace('#include <begin_vertex>','#include <begin_vertex>\nvOP = position;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
+      .replace('#include <color_fragment>', `#include <color_fragment>
+{ float pl = sin(atan(vOP.z, vOP.x)*${pleats.toFixed(1)});
+  float wv = sin(vOP.x*70.0 + vOP.z*70.0)*sin(vOP.y*70.0 - vOP.x*35.0);
+  diffuseColor.rgb *= 0.9 + 0.09*pl + 0.035*wv; }`);
+  };
+  m.customProgramCacheKey = () => 'fabric' + pleats + (map ? 'm' : '');
+  return m;
+}
+// 陶土：粗糙、带细小颗粒
+function clay(color){
+  const m = new THREE.MeshPhysicalMaterial({color, roughness:0.74, metalness:0, sheen:0.25, sheenRoughness:0.7, sheenColor:new THREE.Color(0xffffff), envMapIntensity:0.4});
+  m.onBeforeCompile = sh => {
+    sh.vertexShader = sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;')
+      .replace('#include <begin_vertex>','#include <begin_vertex>\nvOP = position;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vOP;\nfloat ch(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,45.164)))*43758.5453); }')
+      .replace('#include <color_fragment>', `#include <color_fragment>
+diffuseColor.rgb *= 0.93 + 0.1*ch(floor(vOP*90.0));`);
+  };
+  m.customProgramCacheKey = () => 'clay';
+  return m;
+}
+const gold = (c=0xd6b46a) => new THREE.MeshPhysicalMaterial({color:c, metalness:0.78, roughness:0.32, envMapIntensity:1.1});
+// 希腊回纹贴图（用于衣摆、陶罐腰带）
+function meanderTex(bg, fg, reps=8){
+  const cv = document.createElement('canvas'); cv.width = 256; cv.height = 32; const c = cv.getContext('2d');
+  c.fillStyle = bg; c.fillRect(0,0,256,32);
+  c.strokeStyle = fg; c.lineWidth = 2.6; c.lineCap = 'square';
+  c.beginPath(); c.moveTo(0,3); c.lineTo(256,3); c.moveTo(0,29); c.lineTo(256,29); c.stroke();
+  for(let i=0;i<8;i++){ const x = i*32; c.beginPath(); c.moveTo(x+2,25); c.lineTo(x+2,7); c.lineTo(x+24,7); c.lineTo(x+24,21); c.lineTo(x+10,21); c.lineTo(x+10,13); c.lineTo(x+18,13); c.moveTo(x+24,25); c.lineTo(x+32,25); c.stroke(); }
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping; t.repeat.set(reps,1); t.anisotropy = 4;
+  return t;
+}
+const roundBlob = (r, det=3, lump=0.18, seed=1) => {
+  const g = new THREE.IcosahedronGeometry(r, det), p = g.attributes.position, v = new THREE.Vector3();
+  for(let i=0;i<p.count;i++){ v.fromBufferAttribute(p,i); const n = 1 + lump*(Math.sin(v.x*3.1/r+seed)*Math.sin(v.y*2.7/r+seed*1.7)*Math.sin(v.z*2.9/r+seed*0.6)); v.multiplyScalar(n); p.setXYZ(i,v.x,v.y,v.z); }
+  g.computeVertexNormals(); return g;
+};
+
+/* ---------------- 果冻抖动（挤压后回弹） ---------------- */
+function addJiggle(obj, {k=1, amp=1}={}, list=I.jigglers){
+  const j = {obj, base:obj.scale.clone(), s:0, v:0, tx:0, tz:0, vtx:0, vtz:0, k, amp, br:Math.random()*6, idle:0};
+  obj.userData.jig = j; list.push(j); return j;
+}
+function poke(obj, strength=1, dir=null){
+  let o = obj; while(o && !o.userData.jig) o = o.parent;
+  if(!o) return false;
+  const j = o.userData.jig, s = strength*j.amp*(0.5+settings.soft*0.5);
+  j.v -= 3.2*s;
+  if(dir){ j.vtx += dir.z*2.2*s; j.vtz -= dir.x*2.2*s; }
+  return true;
+}
+function updateJiggles(dt){
+  const soft = Math.max(0.05, settings.soft);
+  const K = 150/(0.45+soft) , C = 7.5/(0.55+soft*0.9);
+  for(const j of I.jigglers){
+    j.v += (-K*j.k*j.s - C*j.v)*dt; j.s += j.v*dt;
+    j.vtx += (-K*0.5*j.tx - C*j.vtx)*dt; j.tx += j.vtx*dt;
+    j.vtz += (-K*0.5*j.tz - C*j.vtz)*dt; j.tz += j.vtz*dt;
+    const s = clamp(j.s, -0.6, 0.6) + Math.sin(gameTime*1.6 + j.br)*0.012*j.idle*soft;
+    j.obj.scale.set(j.base.x*(1-s*0.5), j.base.y*(1+s), j.base.z*(1-s*0.5));
+    j.obj.rotation.x = (j.obj.userData.rx||0) + j.tx*0.6; j.obj.rotation.z = (j.obj.userData.rz||0) + j.tz*0.6;
+  }
+}
 /* ---------------- 特效：果冻水珠、波纹圈 ---------------- */
 const ringGeo = new THREE.RingGeometry(0.92,1,48);
 ringGeo.rotateX(-Math.PI/2);
 const rings = [];
-function ringFx(x,z,{y=WL+0.06, color=0xffffff, r0=0.3, r1=2.2, life=0.9, opacity=0.85}={}){
+function ringFx(x,z,{y=I.WL+0.06, color=0xffffff, r0=0.3, r1=2.2, life=0.9, opacity=0.85}={}){
   let r = rings.find(o=>!o.alive);
   if(!r){ r = {mesh:new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({transparent:true, depthWrite:false, toneMapped:false}))}; r.mesh.renderOrder=4; scene.add(r.mesh); rings.push(r); }
   Object.assign(r,{alive:true,t:0,life,r0,r1,opacity});
@@ -60701,54 +61855,51 @@ function burst(x,y,z,{n=10, color=0xffffff, speed=4, up=4, size=1, life=0.8, gra
     p.mesh.position.set(x,y,z); p.mesh.scale.setScalar(size*(0.6+rand()*0.8)); p.mesh.visible=true;
   }
 }
-function splash(x,z,big=false){
-  burst(x,WL+0.1,z,{n:big?22:9,color:pick([0xffffff,0xdff3f2,0xbfe8e6]),speed:big?4.5:2.4,up:big?7:4.5,size:big?1.3:0.9,life:big?1.1:0.7});
-  ringFx(x,z,{r1:big?4:1.8, life:big?1.3:0.8, opacity:0.6});
-  addRipple(x,z,big?0.35:0.16);
-  audio.splash(big);
-}
-
-/* ---------------- 每帧：潮汐、水、生物、渲染 ---------------- */
-let wetTop = WL;
-const world = {
-  update(dt, t){
-    SH.uTime.value = t;
-    WL = WL0 + TIDE_AMP*Math.sin(t*Math.PI*2/TIDE_PERIOD);
-    seaLevelU.value = WL;
-    wetTop = Math.max(WL + 0.12*settings.wave, wetTop - 0.012*dt);
-    terrainU.uLevel.value = WL; terrainU.uWetTop.value = wetTop; terrainU.uClarity.value = settings.clarity;
-    waterU.uWave.value = settings.wave; waterU.uClarity.value = settings.clarity;
-    for(const p of POOLS){ const lv = WL + waveH(p.x,p.z,t)*0.6; if(lv >= p.rim) p.level = lv; else p.level = Math.max(lv, p.floor + 0.02, p.level - 0.016*dt); p.u.value = p.level; }
-    updateCreatures(dt, t);
-    updateJiggles(dt);
-    for(const c of clouds){ c.a += dt*c.sp; c.g.position.set(Math.cos(c.a)*c.r, c.y + Math.sin(t*0.3+c.ph)*0.5, Math.sin(c.a)*c.r*0.75); }
-  },
-  render(){
-    simStep();
-    waterU.uSim.value = simA.texture;
-    const v = new THREE.Vector3(); camera.getWorldDirection(v); waterU.uViewDir.value.copy(v).negate();
-    waterU.uNear.value = camera.near; waterU.uFar.value = camera.far;
-    renderer.shadowMap.needsUpdate = true;
-    waterObjs.forEach(o => o.visible = false); underOnly.forEach(o => o.visible = true);
-    renderer.setRenderTarget(rtScene); renderer.render(scene, camera);
-    waterObjs.forEach(o => o.visible = true); underOnly.forEach(o => o.visible = false);
-    renderer.setRenderTarget(null); renderer.render(scene, camera);
-  },
-  resize(){
-    const s = new THREE.Vector2(); renderer.getDrawingBufferSize(s);
-    rtScene.setSize(s.x, s.y); waterU.uRes.value.copy(s);
-  },
-};
-{ const z = new THREE.Color(0,0,0); const pc = renderer.getClearColor(new THREE.Color()), pa = renderer.getClearAlpha();
-  [simA, simB].forEach(r => { renderer.setRenderTarget(r); renderer.setClearColor(z, 0); renderer.clear(); });
-  renderer.setRenderTarget(null); renderer.setClearColor(pc, pa); }
-
 
 /* ---------------- 补充：碰撞与水面高度 ---------------- */
-function blocked(x,z,rad=0){ for(const o of obstacles){ if((x-o.x)**2+(z-o.z)**2 < (o.r+rad)**2) return true; } return false; }
-const surfY = (x,z) => Math.max(groundY(x,z), WL);
+function blocked(x,z,rad=0){ for(const o of I.obstacles){ if((x-o.x)**2+(z-o.z)**2 < (o.r+rad)**2) return true; } return false; }
+const surfY = (x,z) => Math.max(groundY(x,z), I.WL);
 const ALTAR = {top:null};
 view.zoomMul = 1;
+const ISLANDS = { tide:createTide, snow:createSnow };
+/* 换岛：移除旧岛的全部物体、释放显存，建新岛 */
+function loadIsland(id){
+  if(I){
+    I.dispose?.();
+    scene.remove(I.root);
+    I.root.traverse(o => {
+      o.geometry?.dispose();
+      for(const m of [].concat(o.material || [])){ for(const k in m){ if(m[k] && m[k].isTexture) m[k].dispose(); } m.dispose(); }
+    });
+  }
+  const root = new THREE.Group(); root.name = 'island:' + id; scene.add(root);
+  const lists = {obstacles:[], jigglers:[], smallJelly:[]};
+  const game = { get G(){ return G; }, get state(){ return state; } };
+  const ctx = { THREE, renderer, scene, root, camera, sun, settings, SH, SUN_DIR, jelly, fabric, clay, gold, roundBlob,
+    addJiggle:(obj, o) => addJiggle(obj, o, lists.jigglers), poke, burst, ringFx,
+    clamp, lerp, sstep, rand, pick, hash, game, get audio(){ return audio; }, ...lists };
+  I = Object.assign(ISLANDS[id](ctx), {root}, lists);
+  // 每座岛自己的光：缺省就是天空之岸的暖光
+  const Lt = {sky:0xfff8ee, ground:0xcbb89c, hemi:0.85, sun:0xfff0dc, sunI:2.3, exposure:0.98, sunPos:[-14, 26, 12], ...I.lighting};
+  hemi.color.set(Lt.sky); hemi.groundColor.set(Lt.ground); hemi.intensity = Lt.hemi;
+  sun.color.set(Lt.sun); sun.intensity = Lt.sunI; sun.position.set(...Lt.sunPos); renderer.toneMappingExposure = Lt.exposure;
+  scene.background = I.background || BG0; scene.environment = I.environment || ENV0;
+  document.body.dataset.island = id;
+  applyIslandText();
+  world_resize();
+  return I;
+}
+function world_resize(){ I.resize?.(); }
+function applyIslandText(){
+  const T = I.text;
+  document.title = T.title;
+  canvas.setAttribute('aria-label', T.canvas);
+  $('zoneName').innerHTML = `${T.name}<span class="mir" aria-hidden="true">${T.name}</span>`;
+  $('startSub').textContent = `${T.ordinal}：${T.name}`;
+  $('startHint').textContent = T.startHint;
+  $('rotateText').textContent = T.rotate;
+}
+
 /* ---------------- 音效（WebAudio 即时合成） ---------------- */
 const audio = (() => {
   let ctx = null, master = null, muted = false, noiseBuf = null;
@@ -60819,7 +61970,7 @@ const audio = (() => {
   function startMusic(){
     musicBus = ctx.createGain(); musicBus.gain.value = 0.0001;
     verb = makeVerb(4.5); const wet = ctx.createGain(); wet.gain.value = 0.55;
-    const dl = ctx.createDelay(1); dl.delayTime.value = BAR/6*0.75; const fb = ctx.createGain(); fb.gain.value = 0.32; const dlg = ctx.createGain(); dlg.gain.value = 0.22;
+    const dl = ctx.createDelay(2); dl.delayTime.value = BAR/6*0.75; const fb = ctx.createGain(); fb.gain.value = 0.32; const dlg = ctx.createGain(); dlg.gain.value = 0.22;
     musicBus.connect(master); musicBus.connect(verb); verb.connect(wet); wet.connect(master);
     musicBus.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(dlg); dlg.connect(verb);
     // 第二层水声：浅滩拍岸，缓慢起伏
@@ -60871,6 +62022,47 @@ const audio = (() => {
     jump(){ noise({gain:0.05,dur:0.14,type:'bandpass',freq:800,q:0.7,sweep:1900}); },
     land(wet){ if(wet) noise({gain:0.14,dur:0.28,type:'bandpass',freq:800,q:0.6,sweep:300}); else { noise({gain:0.1,dur:0.08,type:'lowpass',freq:500}); tone(110,{gain:0.08,dur:0.08,type:'sine'}); } },
     step(heavy){ noise({gain:heavy?0.05:0.025,dur:0.06,type:'lowpass',freq:heavy?380:700}); },
+    /* 踩雪：8–15 个极短的带通噪声颗粒，约 120 毫秒，前密后疏；每一步频率、颗粒数都不同，听不出循环 */
+    crunch(heavy, {gain=1, land=false}={}){
+      if(!ctx || muted) return;
+      const n = land ? 16 + Math.floor(Math.random()*6) : 8 + Math.floor(Math.random()*8);
+      const dur = land ? 0.17 : 0.12, base = (heavy || land ? 900 : 1500) * (0.85 + Math.random()*0.3), t0 = ctx.currentTime;
+      for(let i=0;i<n;i++){
+        const at = t0 + Math.pow(Math.random(), 1.6)*dur, len = 0.004 + Math.random()*0.012;
+        const src = ctx.createBufferSource(); src.buffer = noiseBuf;
+        const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = base*(0.6 + Math.random()*1.8); f.Q.value = 1.2 + Math.random()*3;
+        const g = ctx.createGain(), a = (heavy ? 0.16 : 0.11)*gain*(0.5 + Math.random()*0.7);
+        g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(a, at + 0.0015); g.gain.exponentialRampToValueAtTime(0.0001, at + len);
+        src.connect(f); f.connect(g); g.connect(master); src.start(at, Math.random()*1.8); src.stop(at + len + 0.01);
+      }
+      // 雪被压实的闷声
+      noise({gain:(land ? 0.12 : heavy ? 0.06 : 0.035)*gain, dur:land ? 0.14 : 0.07, type:'lowpass', freq:land ? 260 : 420});
+      if(land) tone(85, {gain:0.07*gain, dur:0.1, type:'sine', glide:0.7});
+    },
+    // 衣摆扫过雪面的轻沙声（法师浮空）
+    // 冰面低沉的嘎吱声（冻的时候闷，裂的时候尖一点）
+    creak(cracking){ if(!ctx || muted) return; const f0 = cracking ? 160 + Math.random()*90 : 90 + Math.random()*50;
+      tone(f0, {gain:0.06, dur:0.7 + Math.random()*0.5, type:'sawtooth', glide:cracking ? 1.6 : 0.7, partial:1.01});
+      noise({gain:0.05, dur:0.5, type:'bandpass', freq:cracking ? 900 : 380, q:3, sweep:cracking ? 2400 : 200});
+      if(cracking) for(let i=0;i<4;i++) noise({gain:0.07, dur:0.03, freq:3500 + Math.random()*2500, at:0.1 + i*0.06 + Math.random()*0.05}); },
+    /* 冰壳碎开：一声脆响的炸裂 + 低沉的一下 + 一串由高到低散开的冰晶声 + 碎冰落地的零星叮当 */
+    iceBreak(){
+      if(!ctx || muted) return;
+      noise({gain:0.42, dur:0.09, type:'highpass', freq:3200});                       // 裂开的第一下
+      noise({gain:0.3, dur:0.5, type:'bandpass', freq:2200, q:0.7, sweep:500});       // 冰块崩开的哗啦
+      tone(70, {gain:0.3, dur:0.45, type:'sine', glide:0.55});                         // 压下来的闷响
+      noise({gain:0.18, dur:0.3, type:'lowpass', freq:300});
+      for(let i=0;i<14;i++){ const f = 3800 - i*170 + Math.random()*900;
+        tone(f, {gain:0.07 + Math.random()*0.05, dur:0.25 + Math.random()*0.35, at:0.02 + i*0.022 + Math.random()*0.02, type:'sine', partial:2.76}); }
+      for(let i=0;i<10;i++){ const at = 0.35 + Math.random()*1.1;                     // 碎冰落在雪上、互相碰
+        tone(2400 + Math.random()*2600, {gain:0.035 + Math.random()*0.04, dur:0.12 + Math.random()*0.15, at, type:'sine', partial:2.4});
+        noise({gain:0.04, dur:0.03, freq:5000, at}); }
+    },
+    iceTink(){ tone(2100 + Math.random()*500, {gain:0.12, dur:0.35, type:'sine', partial:2.4}); noise({gain:0.08, dur:0.04, freq:6000}); },
+    iceCrack(){ noise({gain:0.22, dur:0.2, type:'highpass', freq:2500}); tone(420, {gain:0.1, dur:0.3, type:'sine', glide:0.5}); for(let i=0;i<5;i++) tone(1500 + Math.random()*2000, {gain:0.05, dur:0.15, at:0.03*i, type:'sine'}); },
+    gust(){ noise({gain:0.05, dur:2.4, type:'bandpass', freq:700, q:0.5, sweep:1600}); },
+    flutter(){ for(let i=0;i<7;i++) noise({gain:0.04, dur:0.025, type:'bandpass', freq:1400, q:1, at:i*0.035}); },
+    swish(){ noise({gain:0.018 + Math.random()*0.01, dur:0.22, type:'bandpass', freq:2600 + Math.random()*900, q:0.6, sweep:1400}); },
     dash(){ noise({gain:0.12,dur:0.22,type:'bandpass',freq:2400,q:0.9,sweep:600}); },
     cast(el){ const f=EL[el]?.freq||440; tone(f,{gain:0.1,dur:0.25,type:'sine',glide:2}); noise({gain:0.06,dur:0.15,type:'bandpass',freq:3000,q:1.5,sweep:1200}); },
     boom(el){ const f=EL[el]?.freq||440; noise({gain:0.28,dur:0.5,type:'lowpass',freq:1200,sweep:150}); tone(f/2,{gain:0.2,dur:0.5,type:'sine',glide:0.5}); tone(f*2,{gain:0.1,dur:0.4,at:0.04}); },
@@ -61056,7 +62248,9 @@ function animateHero(dt, t){
   if(cls==='thief'){ P.aLz -= 0.18*w; P.aRz += 0.12*w; P.eL -= 0.3*w; }
   if(cls==='medic'){ P.aLz -= 0.12; P.aRz += 0.08; P.tZ = s*0.06*w; }
   P.hY = -P.tY*0.7; P.hX = -P.lean*0.5 + 0.05*w*Math.cos(2*ph); P.hZ = -P.roll*0.6;
-  if(grounded && G.dash<=0 && sp > 1 && Math.floor(prevPh/Math.PI) !== Math.floor(ph/Math.PI) && cls!=='mage'){
+  const stepNow = grounded && G.dash<=0 && sp > 1 && Math.floor(prevPh/Math.PI) !== Math.floor(ph/Math.PI);
+  if(stepNow && I.onStep) I.onStep(G.px, G.pz, {cls, heavy:cls==='medic', foot:Math.floor(ph/Math.PI) & 1, yaw:G.yaw, speed:sp});
+  else if(stepNow && cls!=='mage'){
     const heavy = cls==='medic'; audio.step(heavy);
     const y = groundY(G.px,G.pz);
     if(!inWater(G.px,G.pz)) burst(G.px, y+0.04, G.pz, {n:heavy?4:2, color:0xe9dcc6, speed:heavy?1.4:0.8, up:heavy?1.1:0.8, grav:5, size:heavy?0.8:0.5, life:0.35});
@@ -61238,6 +62432,7 @@ const GPAL = {
   earth:{shell:0xc98f5e, pale:0xe6c39a, hand:0xa9734a},
   metal:{shell:0xbfc9d8, pale:0xeef1f6, hand:0xa3adbf},
   finale:{shell:0xf4f0f8, pale:0xffffff, hand:0xdcd4ec},
+  snow:  {shell:0xcfe0ec, pale:0xf3f7fa, hand:0xb9cddd},
 };
 const FONT_T = '"ZCOOL XiaoWei", "Noto Serif SC", serif';
 function buildGuardian(key){
@@ -61286,10 +62481,8 @@ function drawGuardFace(B, el){
 /* ---------------- 状态 ---------------- */
 let opts = {cls:'mage', weapon:'staff'};
 const ELEM_CD = 0.85;
-const SPAWN = {x:-4.5, z:10.4};
-const MINION_SPOTS = [[-14,-5],[-10,5],[-1.5,-4.5],[-6,-1.5],[4.5,7.2]];
 function findOpen(x,z,rad=0.7){
-  for(let r=0;r<7;r+=0.4) for(let a=0;a<6.28;a+=0.55){ const px = x+Math.cos(a)*r, pz = z+Math.sin(a)*r; if(inIsland(px,pz,0.93) && !blocked(px,pz,rad) && groundY(px,pz) > WL0-0.45) return {x:px, z:pz}; }
+  for(let r=0;r<7;r+=0.4) for(let a=0;a<6.28;a+=0.55){ const px = x+Math.cos(a)*r, pz = z+Math.sin(a)*r; if(inIsland(px,pz,0.93) && !blocked(px,pz,rad) && groundY(px,pz) > I.dryMin) return {x:px, z:pz}; }
   return {x, z};
 }
 function derange(){
@@ -61321,7 +62514,9 @@ function nameBar(name, color, w, showName=true){
 function makeMinion(zone, x, z, el){
   const s = buildSpirit(el);
   const nb = nameBar(EL[el].name+'灵', EL[el].css, 2.1, false); nb.position.y = 1.85; s.g.add(nb); s.bar.visible = false;
-  return {...s, nb, nbP:1, el, zone, x, z, hx:x, hz:z, hp:30, maxHp:30, alive:true, st:'idle', t:rand()*3, cd:0, wind:0, flash:0, ph:rand()*6, kx:0, kz:0, sq:1, sqv:0, hop:0, stun:0, respawn:0};
+  const m = {...s, nb, nbP:1, el, zone, x, z, hx:x, hz:z, hp:30, maxHp:30, alive:true, st:'idle', t:rand()*3, cd:0, wind:0, flash:0, ph:rand()*6, kx:0, kz:0, sq:1, sqv:0, hop:0, stun:0, respawn:0};
+  I.decorateMinion?.(m);
+  return m;
 }
 function newGame(){
   if(G) cleanup();
@@ -61330,26 +62525,30 @@ function newGame(){
   scene.add(hero.root);
   G = {
     hero, cls:opts.cls, CL, speed:CL.speed,
-    px:SPAWN.x, pz:SPAWN.z, vx:0, vz:0, face:{x:0,z:-1}, yaw:Math.PI,
+    px:I.spawn.x, pz:I.spawn.z, vx:0, vz:0, face:{x:0,z:-1}, yaw:Math.PI,
     hp:CL.hp, maxHp:CL.hp, el:null, inv:0, hurtT:0, regen:0,
     jy:0, jv:0, dash:0, dashCd:0, dashDir:{x:0,z:0}, dashV:15.5, ghostT:0, stealT:null,
     atk:null, combo:0, comboGap:0, queued:false, elCd:0,
     skillCd:0, weaponUsed:false, wadeT:0, kills:0,
     minions:[], drops:[], bolts:[], waves:[], drops2:[], tele:[],
     guards:{}, finale:null, cur:null, focusKey:'', defeated:0, zone:'center', wheel:false,
-    hintsShown:new Set(), mapT:0, zoneSeen:new Set(['center']),
+    hintsShown:new Set(), held:new Set(), mapT:0, zoneSeen:new Set(['center']),
     tut:{i:0, t:0, shown:false, wait:0.8, next:false},
     flags:{moved:0, atkHit:false, jumped:false, dashed:false, picked:false, elemHit:false, skill:false, weapon:false, nearGuard:false},
     anim:{cur:null, phase:0, yawVel:0, land:0, hurt:0, s:{x:0,vx:0,z:0,vz:0}},
   };
   G.anim.cur = restPose();
-  const els = [...ORDER.filter(e => e!=='water').sort(() => rand()-0.5), 'water'];
-  MINION_SPOTS.forEach(([x,z],i) => G.minions.push(makeMinion('water', x, z, els[i])));
-  G.guards.water = {key:'water', zone:'water', name:'守潮者', x:LAKE.x, z:LAKE.z, gy:WL0, isWater:true, rad:1.9,
-    truth:pick(ORDER), st:'hidden', hp:280, max:280, verified:false, revealedBy:null, probed:[], firstProbe:null, shell:null,
-    cycle:0, next:2, flash:0, t:0, result:null, B:buildGuardian('water')};
-  drawGuardFace(G.guards.water.B, null);
-  { const g = G.guards.water; g.nb = nameBar('守潮者', '#5a6b7a', 4.2); g.nb.position.y = 5.1; g.B.g.add(g.nb); }
+  const els = I.minionEls();
+  I.minionSpots.forEach(([x,z],i) => G.minions.push(makeMinion(I.id, x, z, els[i])));
+  const bc = I.boss;
+  G.boss = {key:bc.key, zone:bc.key, name:bc.name, x:bc.x, z:bc.z, gy:bc.gy, isWater:!!bc.isWater, rad:bc.rad,
+    truth:pick(ORDER), st:'hidden', hp:bc.hp, max:bc.hp, verified:false, revealedBy:null, probed:[], firstProbe:null, shell:null,
+    cycle:0, next:2, flash:0, t:0, result:null, B:buildGuardian(bc.key)};
+  G.guards[bc.key] = G.boss;
+  G.tutList = I.tut ? I.tut() : TUT;
+  if(bc.iceShell){ G.boss.ice = bc.iceShell; G.boss.iceMax = bc.iceShell; makeIceShell(G.boss); }
+  drawGuardFace(G.boss.B, null);
+  { const g = G.boss; g.nb = nameBar(bc.name, '#5a6b7a', 4.2); g.nb.position.y = 5.1; g.B.g.add(g.nb); }
   G.finale = null;
   updateHud(); setBossHud(true);
 }
@@ -61380,8 +62579,9 @@ addEventListener('keydown', e => {
   if(e.repeat) return;
   const k = e.key.toLowerCase();
   keys.add(k);
+  if(state==='cut') return;
   if(state!=='play') return;
-  if((k==='e' || k==='enter') && G.tut.shown && TUT[G.tut.i]?.info) G.tut.next = true;
+  if((k==='e' || k==='enter') && G.tut.shown && G.tutList[G.tut.i]?.info) G.tut.next = true;
   if(G.picking){ const n = parseInt(k); if(n>=1 && n<=5) inject(ORDER[n-1]); if(k==='escape'){ G.picking=false; $('inj')?.remove(); showMsg(''); } return; }
   if(G.wheel){ const n = parseInt(k); if(n>=1 && n<=5){ wheelPick(ORDER[n-1]); return; } }
   if(k==='j') act.attack = true;
@@ -61497,7 +62697,7 @@ function updateCycle(){
 
 /* ---------------- HUD ---------------- */
 function setAccent(el){ document.documentElement.style.setProperty('--accent', el ? EL[el].css : '#3f6f93'); }
-function focusGuard(){ const g = G.guards.water; return g && g.st!=='dead' ? g : null; }
+function focusGuard(){ const g = G.boss; return g && g.st!=='dead' ? g : null; }
 function updateHud(){
   if(!G) return;
   const el = G.el, fg = focusGuard();
@@ -61505,6 +62705,7 @@ function updateHud(){
   const rl = $('elRel'); rl.style.color = '';
   if(!el) rl.textContent = '击杀小怪，拾取元素';
   else if(!fg) rl.textContent = '';
+  else if(fg.ice > 0) rl.textContent = fg.hinted ? `对${fg.name}：冰壳挡着。隐约看出要用${EL[COUNTER[fg.truth]].name}克它` : `对${fg.name}：被冰壳挡着，先用火融冰`;
   else if(!fg.verified) rl.textContent = `对${fg.name}：未知，用元素打中它就知道`;
   else { const r = rel(el, fg.truth); rl.textContent = `对${fg.name}：${REL_TXT[r]}` + (r==='beat' ? '，可以击败它' : '，无法击败它'); rl.style.color = r==='beat' ? EL[el].css : r==='beaten' ? '#9b4a33' : ''; }
   setHpBar();
@@ -61552,19 +62753,19 @@ function updateSlots(){
   }
 }
 function setBossHud(force){
-  const fg = focusGuard(), key = fg ? fg.key + fg.st + fg.verified + fg.truth : 'none' + G.defeated;
+  const fg = focusGuard(), key = fg ? fg.key + fg.st + fg.verified + fg.truth + (fg.ice ?? '') + (fg.hinted || '') : 'none' + G.defeated;
   if(!force && key === G.focusKey){ if(fg) updateBossBar(fg); return; }
   G.focusKey = key;
   const roster = $('roster');
-  if(!fg){ $('bossKey').textContent = '守潮者已归于平静'; $('bossName').innerHTML = ''; $('bossMir').textContent = ''; $('bossBar').hidden = true; $('bossNote').innerHTML = ''; roster.hidden = true; return; }
+  if(!fg){ $('bossKey').textContent = I.text.calm; $('bossName').innerHTML = ''; $('bossMir').textContent = ''; $('bossBar').hidden = true; $('bossNote').innerHTML = ''; roster.hidden = true; return; }
   roster.hidden = true;
   const shown = fg.verified ? fg.truth : null;
   const name = shown ? `${fg.name} ${EL[shown].name}` : fg.name;
-  $('bossKey').textContent = fg.key==='finale' ? '此刻的本原（会变化）' : shown ? (fg.revealedBy==='staff' ? '法杖照见的本原' : fg.revealedBy==='steal' ? '窃元看穿的本原' : '试探出的本原') : '本原未知';
+  $('bossKey').textContent = fg.key==='finale' ? '此刻的本原（会变化）' : shown ? (fg.revealedBy==='staff' ? '法杖照见的本原' : fg.revealedBy==='steal' ? '窃元看穿的本原' : fg.revealedBy==='melt' ? '冰碎后看清的本原' : '试探出的本原') : fg.ice > 0 ? '冰壳挡住了本原' : '本原未知';
   $('bossName').innerHTML = (shown ? `<svg viewBox="0 0 40 40" aria-hidden="true">${glyphSVG(shown)}</svg>` : '') + name + (shown ? '' : '<span class="q"> ？</span>');
   $('bossMir').textContent = name;
   $('bossName').style.color = shown ? EL[shown].css : '';
-  $('bossNote').innerHTML = fg.key==='finale' ? `换上${gTag(COUNTER[fg.truth])}${EL[COUNTER[fg.truth]].name}才能伤到它` : fg.probed.length ? '试探过 ' + fg.probed.map(e => gTag(e)).join('') : '';
+  $('bossNote').innerHTML = fg.ice > 0 ? `冰壳 ${'◆'.repeat(fg.ice)}${'◇'.repeat(fg.iceMax - fg.ice)}` + (fg.hinted ? `　隐约：${gTag(COUNTER[fg.truth])}克它` : '') : fg.key==='finale' ? `换上${gTag(COUNTER[fg.truth])}${EL[COUNTER[fg.truth]].name}才能伤到它` : fg.probed.length ? '试探过 ' + fg.probed.map(e => gTag(e)).join('') : '';
   updateBossBar(fg);
   const B = fg.B, cc = shown ? EL[shown].color : 0xdfe8ec;
   B.core.material.color.set(cc); B.core.material.emissive.set(cc); B.core.material.emissiveIntensity = shown ? 0.9 : 0.25;
@@ -61589,8 +62790,8 @@ let hintTimer = 0, hintQ = [];
 function hint(id, t){ if(!G || G.hintsShown.has(id)) return; G.hintsShown.add(id); hintQ.push(t); }
 let toastT = 0;
 function zoneToast(){
-  $('ztName').innerHTML = '潮汐之岸<span class="mir" aria-hidden="true">潮汐之岸</span>';
-  $('ztSub').textContent = '第一座岛　守护者　守潮者';
+  $('ztName').innerHTML = `${I.text.name}<span class="mir" aria-hidden="true">${I.text.name}</span>`;
+  $('ztSub').textContent = `${I.text.ordinal}　守护者　${I.boss.name}`;
   $('zoneToast').classList.add('on'); toastT = 2.8;
 }
 function toScreen(x,y,z){ const v=new THREE.Vector3(x,y,z).project(camera); return {x:(v.x+1)/2*innerWidth, y:(1-v.y)/2*innerHeight, vis:v.z<1}; }
@@ -61623,7 +62824,7 @@ const KEYS = isTouch
   ? {move:'拖动屏幕左侧', atk:kc('击'), atkHold:`按住${kc('击')}`, jump:kc('跳'), dash:kc('闪'), pick:kc('拾'), elem:kc('元'), skill:kc('技'), weapon:kc('器')}
   : {move:`${kc('W')}${kc('A')}${kc('S')}${kc('D')}`, atk:kc('左键'), atkHold:`按住${kc('左键')}`, jump:kc('空格'), dash:kc('Shift'), pick:kc('E'), elem:kc('右键'), skill:kc('K'), weapon:kc('Q')};
 const TUT = [
-  {id:'goal',  info:true, html:()=>'湖心深处沉睡着守潮者。找到克制它的元素，击败它'},
+  {id:'goal',  info:true, html:()=>I.text.goal},
   {id:'move',  html:()=>`${KEYS.move} 移动`, done:f=>f.moved>3},
   {id:'atk',   html:()=>`${KEYS.atk} 普通攻击；${KEYS.atkHold} 可以一路三连击`, done:f=>f.atkHit},
   {id:'jd',    html:()=>`${KEYS.jump} 跳跃　${KEYS.dash} 闪避`, done:(f,T)=>(f.jumped && f.dashed) || T.t>14},
@@ -61632,15 +62833,16 @@ const TUT = [
   {id:'cycle', info:true, html:()=>'右上角五边形：箭头从克制者指向被克者，你手里的元素会高亮'},
   {id:'elem',  html:()=>`${KEYS.elem} 元素攻击，克制时伤害更高`, done:f=>f.elemHit},
   {id:'skill', html:()=>`${KEYS.skill} ${G.CL.skill}：${G.CL.short}`, ready:()=>G.cls!=='mage' || !!G.el, done:(f,T)=>f.skill || T.t>10},
-  {id:'deceive', info:true, html:()=>'守潮者的本原不一定是水。用元素打中它，就能揭晓', skip:()=>Object.values(G.guards).some(g=>g.verified)},
+  {id:'deceive', info:true, html:()=>I.text.deceive, skip:()=>Object.values(G.guards).some(g=>g.verified)},
   {id:'weapon', html:()=>`${KEYS.weapon} ${WEAPONS[opts.weapon].name}「${WEAPONS[opts.weapon].verb}」：${WEAPONS[opts.weapon].short}`, done:(f,T)=>f.weapon || T.t>10},
 ];
 const INFO_T = 4.6;
 function updateTut(dt){
   const T = G.tut, box = $('tut');
-  while(T.i < TUT.length && !T.shown && TUT[T.i].skip?.()) T.i++;
-  if(T.i >= TUT.length) return;
-  const s = TUT[T.i];
+  const TL = G.tutList;
+  while(T.i < TL.length && !T.shown && TL[T.i].skip?.()) T.i++;
+  if(T.i >= TL.length) return;
+  const s = TL[T.i];
   if(!T.shown){
     T.wait -= dt;
     if(T.wait<=0 && (!s.ready || s.ready())){
@@ -61660,13 +62862,11 @@ $('tut').addEventListener('click', () => { if(G) G.tut.next = true; });
 
 /* ---------------- 行动 ---------------- */
 function walkable(x,z,fx,fz){
-  if(!inIsland(x,z,0.95)) return false;
-  const dep = WL - groundY(x,z);
-  if(dep > 0.85 && !(fx!==undefined && dep < WL - groundY(fx,fz))) return false;
-  return !blocked(x,z,0.3);
+  return I.walkable(x,z,fx,fz) && !blocked(x,z,0.3);
 }
 function bump(x,z){
-  let o = null; for(const ob of obstacles){ if((x-ob.x)**2+(z-ob.z)**2 < (ob.r+0.3)**2){ o = ob; break; } }
+  let o = null; for(const ob of I.obstacles){ if((x-ob.x)**2+(z-ob.z)**2 < (ob.r+0.3)**2){ o = ob; break; } }
+  if(o && !o.obj && o.onBump){ if(o.pokeT && gameTime - o.pokeT < 0.6) return; o.pokeT = gameTime; o.onBump(G.face, false); return; }
   if(!o || !o.obj) return;
   if(o.pokeT && gameTime - o.pokeT < 0.5) return;
   o.pokeT = gameTime; poke(o.obj, clamp(Math.hypot(G.vx,G.vz)/4, 0.4, 1.3), G.face); audio.squish();
@@ -61724,8 +62924,9 @@ function strike(a){
     const dx=g.x-G.px, dz=g.z-G.pz, d=Math.hypot(dx,dz)||1;
     if(d < g.rad + reach + 0.2 && (dx*a.dir.x+dz*a.dir.z)/d > -0.2){ hitGuardian(g, base, null); hitAny = true; }
   }
-  for(const o of [...obstacles, ...smallJelly.map(m=>({x:m.position.x, z:m.position.z, r:0.2, obj:m}))]){
-    if(!o.obj) continue; const dx=o.x-G.px, dz=o.z-G.pz, d=Math.hypot(dx,dz)||1;
+  for(const o of [...I.obstacles, ...I.smallJelly.map(m=>({x:m.position.x, z:m.position.z, r:0.2, obj:m}))]){
+    if(!o.obj && !o.onBump) continue; const dx=o.x-G.px, dz=o.z-G.pz, d=Math.hypot(dx,dz)||1;
+    if(!o.obj){ if(d < reach+o.r && (dx*a.dir.x+dz*a.dir.z)/d > cosMin) o.onBump(a.dir, true); continue; }
     if(d < reach+o.r && (dx*a.dir.x+dz*a.dir.z)/d > cosMin){ poke(o.obj, heavy?1.5:1, a.dir); hitAny = hitAny || 'jelly'; }
   }
   if(hitAny==='jelly') audio.squish();
@@ -61764,7 +62965,7 @@ function updateBolts(dt){
     if(hit){ hitMinion(hit, 13*G.CL.elemMul, b.el, {x:b.vx/15, z:b.vz/15}); }
     else if(fightable(g) && Math.hypot(g.x-b.x, g.z-b.z) < g.rad + 0.2){ hit = true; hitGuardian(g, 13*G.CL.elemMul, b.el); }
     let dead = !!hit || b.life<=0 || !inIsland(b.x,b.z,0.98);
-    if(!dead) for(const o of obstacles){ if((b.x-o.x)**2+(b.z-o.z)**2 < o.r*o.r){ dead = true; burst(b.x,b.y,b.z,{n:8,color:EL[b.el].color,speed:3,up:3}); if(o.obj){ poke(o.obj, 1.4, {x:b.vx/15, z:b.vz/15}); audio.squish(); } break; } }
+    if(!dead) for(const o of I.obstacles){ if((b.x-o.x)**2+(b.z-o.z)**2 < o.r*o.r){ dead = true; burst(b.x,b.y,b.z,{n:8,color:EL[b.el].color,speed:3,up:3}); if(o.obj){ poke(o.obj, 1.4, {x:b.vx/15, z:b.vz/15}); audio.squish(); } else o.onBump?.({x:b.vx/15, z:b.vz/15}, true); break; } }
     if(dead){
       if(!hit && b.life<=0) burst(b.x,b.y,b.z,{n:6,color:EL[b.el].light,speed:2,up:2,size:0.7});
       scene.remove(b.mesh); G.bolts.splice(i,1);
@@ -61810,7 +63011,7 @@ function spawnDrop(el,x,z){
   G.drops.push({g, m, halo, el, x, z, t:0, life:60});
 }
 function setElement(el, verb='拾取'){
-  const prev = G.el; G.el = el; G.flags.picked = true;
+  const prev = G.el; G.el = el; G.flags.picked = true; G.held.add(el);
   audio.pickup(el);
   const y = groundY(G.px,G.pz);
   burst(G.px, y+1, G.pz, {n:14,color:EL[el].color,speed:2.5,up:5,size:0.9,life:0.9});
@@ -61863,6 +63064,7 @@ function doSkill(){
       audio.dash();
     } else if(fightable(G.cur) && Math.hypot(G.cur.x-G.px, G.cur.z-G.pz) < 8 && G.cur.key!=='finale'){
       const g = G.cur; if(g.verified){ showMsg(`${g.name}的本原已经清楚了`, 2); return; }
+      if(g.ice > 0){ if(g.hinted){ showMsg('冰壳还在，看不清更多', 2); return; } audio.steal(); playSkillAnim('steal'); burst(g.x, surfY(g.x,g.z)+2.5, g.z, {n:16, color:0xffffff, speed:3, up:3}); hintIce(g, 'steal'); G.skillCd = G.CL.cd; G.flags.skill = true; updateHud(); return; }
       if(!g.firstProbe) g.firstProbe = 'steal';
       audio.steal(); burst(g.x, surfY(g.x,g.z)+2.5, g.z, {n:16, color:0xffffff, speed:3, up:3});
       playSkillAnim('steal');
@@ -61885,10 +63087,10 @@ function elementBurst(){
   ringFx(G.px,G.pz,{y:y+0.1,color:EL[el].color,r0:0.5,r1:R+0.4,life:0.55,opacity:0.95});
   ringFx(G.px,G.pz,{y:y+0.15,color:0xffffff,r0:0.3,r1:R*0.8,life:0.4,opacity:0.7});
   for(let i=0;i<14;i++){ const a = i/14*Math.PI*2; burst(G.px+Math.cos(a)*1.2, y+0.6, G.pz+Math.sin(a)*1.2, {n:2, color:pick([EL[el].color, EL[el].light]), speed:5, up:3.5, size:1.1, life:0.7}); }
-  if(inWater(G.px,G.pz)) splash(G.px,G.pz,true);
+  if(inWater(G.px,G.pz)) splash(G.px,G.pz,true); else I.onImpact?.(G.px, G.pz, 2.4, 0.06);
   for(const m of G.minions){ if(!m.alive) continue; const d = Math.hypot(m.x-G.px, m.z-G.pz); if(d < R+0.4) hitMinion(m, 15*G.CL.elemMul, el, {x:(m.x-G.px)/(d||1), z:(m.z-G.pz)/(d||1)}); }
   const g = G.cur; if(fightable(g) && Math.hypot(g.x-G.px, g.z-G.pz) < R + g.rad) hitGuardian(g, 15*G.CL.elemMul, el);
-  for(const o of obstacles){ if(o.obj && Math.hypot(o.x-G.px,o.z-G.pz) < R+o.r) poke(o.obj, 1.3, {x:(o.x-G.px), z:(o.z-G.pz)}); }
+  for(const o of I.obstacles){ if(Math.hypot(o.x-G.px,o.z-G.pz) < R+o.r){ if(o.obj) poke(o.obj, 1.3, {x:(o.x-G.px), z:(o.z-G.pz)}); else o.onBump?.({x:(o.x-G.px), z:(o.z-G.pz)}, true); } }
 }
 function doSteal(m){
   G.stealT = null;
@@ -61903,19 +63105,15 @@ function doSteal(m){
 }
 
 /* ---------------- 随身之物 ---------------- */
-function nearestGuard(){
-  let best = null, bd = 1e9;
-  for(const k of ZONE_ORDER){ const g = G.guards[k]; if(g.st==='dead' || g.verified) continue; const d = Math.hypot(g.x-G.px, g.z-G.pz); if(d < bd){ bd = d; best = g; } }
-  return best;
-}
 function doWeapon(){
   if(G.weaponUsed){ audio.deny(); showMsg('随身之物每局只能用一次，已经用过了', 2.2); return; }
   if(opts.weapon==='staff'){
-    const g = G.guards.water;
-    if(g.verified || g.st==='dead'){ showMsg('守潮者的本原已经清楚了', 2); return; }
+    const g = G.boss;
+    if(g.verified || g.st==='dead'){ showMsg(`${g.name}的本原已经清楚了`, 2); return; }
+    if(g.ice > 0 && g.hinted){ showMsg('冰壳还在，再照也看不清更多', 2.2); return; }
     G.weaponUsed = true; if(!g.firstProbe) g.firstProbe = 'staff';
     const y = groundY(G.px,G.pz); ringFx(G.px,G.pz,{y:y+0.1,color:0xffffff,r1:4,life:0.9}); burst(G.px,y+2,G.pz,{n:14,color:0xfff6d8,speed:2,up:3});
-    revealTruth(g, 'staff');
+    if(g.ice > 0) hintIce(g, 'staff'); else revealTruth(g, 'staff');
   } else if(opts.weapon==='scissors'){
     const t = G.minions.filter(m=>m.alive).map(m=>({m,d:Math.hypot(m.x-G.px,m.z-G.pz)})).sort((a,b)=>a.d-b.d)[0];
     if(!t || t.d>3.6){ showMsg('剪刀够不着。走到小怪身边再用', 2); return; }
@@ -61960,8 +63158,51 @@ function hurtPlayer(dmg, srcEl, fx, fz){
 function dodged(text){ dmgText(G.px, groundY(G.px,G.pz)+G.jy+2.4, G.pz, text, {color:'#3f6f93'}); }
 
 /* ---------------- 守护者受击 ---------------- */
-function gBase(g){ return g.isWater ? WL-0.7 : g.gy - (g.key==='finale' ? 0 : 0.15); }
+function gBase(g){ return g.isWater ? I.WL-0.7 : g.gy - (g.key==='finale' ? 0 : 0.15); }
+/* 冰壳：没碎时普通攻击和别的元素都打不进去；火元素命中 iceMax 次融化，碎开时揭晓本原 */
+function makeIceShell(g){
+  const geo = new THREE.IcosahedronGeometry(2.55, 1), p = geo.attributes.position;
+  for(let i=0;i<p.count;i++){ const k = 0.92 + hash(p.getX(i)*2.1, p.getZ(i)*1.7 + p.getY(i))*0.16; p.setXYZ(i, p.getX(i)*k, p.getY(i)*k, p.getZ(i)*k); }
+  geo.computeVertexNormals();
+  const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({color:0xcfe6f2, roughness:0.12, metalness:0, clearcoat:1, flatShading:true, transparent:true, opacity:0.72,
+    emissive:0x7fb4d0, emissiveIntensity:0.16, envMapIntensity:1.1, depthWrite:false}));
+  m.position.set(0, 1.95, 0); m.scale.set(1, 1.32, 1); m.renderOrder = 3; g.B.g.add(m); g.iceMesh = m;
+}
+function hitIce(g, el){
+  const hy = gBase(g) + 1.6, ang = Math.atan2(G.pz-g.z, G.px-g.x);
+  const hx = g.x+Math.cos(ang)*(g.rad*1.2), hz = g.z+Math.sin(ang)*(g.rad*1.2);
+  if(el) G.flags.elemHit = true; else G.flags.atkHit = true;
+  if(el !== 'fire'){
+    g.flash = 0.05; hitstop = 0.04; audio.iceTink?.();
+    burst(hx, hy, hz, {n:6, color:0xe6f3f9, speed:3, up:2.5, size:0.6, life:0.45});
+    dmgText(hx, hy+1.4, hz, '冰壳', {color:'#5f8fa8', sub: el ? `${EL[el].name}打不进去` : ''});
+    hint('iceShell', I.text.shell || '冰壳挡住了攻击'); hint('iceFire', I.text.fireHint || '用火元素融化冰壳');
+    return;
+  }
+  g.ice--; g.flash = 0.12; hitstop = 0.08; shake(true); audio.hit('fire', true, true); audio.iceCrack?.();
+  const k = g.ice/g.iceMax, M = g.iceMesh;
+  if(M){ M.material.opacity = 0.32 + 0.4*k; M.scale.set(1 - (1-k)*0.06, 1.32 - (1-k)*0.1, 1 - (1-k)*0.06); M.material.emissive.set(0xd7894f); M.material.emissiveIntensity = 0.5;
+    later(() => { if(g.iceMesh === M){ M.material.emissive.set(0x7fb4d0); M.material.emissiveIntensity = 0.16; } }, 220); }
+  burst(hx, hy, hz, {n:12, color:pick([0xffffff, 0xcfe6f2, EL.fire.light]), speed:3.5, up:3, size:0.9, life:0.6});
+  for(let i=0;i<6;i++) later(() => burst(g.x+(rand()-0.5)*2.4, gBase(g)+0.8+rand()*2.6, g.z+(rand()-0.5)*2.4, {n:2, color:0xbfe0ef, speed:0.3, up:0.2, grav:9, size:0.5, life:0.8}), i*120);   // 化下来的水滴
+  if(g.ice > 0){ dmgText(hx, hy+1.4, hz, '融冰', {color:EL.fire.css, sub:`还剩 ${g.ice} 层`}); setBossHud(true); updateHud(); return; }
+  // 冰壳碎了
+  if(M){ g.B.g.remove(M); M.geometry.dispose(); M.material.dispose(); g.iceMesh = null; }
+  for(let i=0;i<4;i++) burst(g.x+(rand()-0.5)*2.6, gBase(g)+1+rand()*2.6, g.z+(rand()-0.5)*2.6, {n:16, color:pick([0xffffff, 0xdcedf5, 0xa9d2e4]), speed:6, up:6, size:1.4, life:1.1});
+  audio.iceBreak?.(); shake(true); hitstop = 0.14;
+  g.prepared = !!g.hinted || G.held.size >= 3;     // 融冰前做没做准备：隐约看出过，或者拿过三种以上的元素
+  dmgText(hx, hy+1.4, hz, '冰壳碎了', {color:EL.fire.css, big:true});
+  revealTruth(g, 'melt');
+}
+// 冰壳没碎时：照见、窃元只能隐约看出克它的是哪一种
+function hintIce(g, by){
+  g.hinted = by; audio.reveal();
+  const c = COUNTER[g.truth];
+  showMsg(`冰太厚，看不清${g.name}的本原。只隐约看出：克它的是 ${gTag(c)}${EL[c].name}`, 5);
+  setBossHud(true); updateHud();
+}
 function hitGuardian(g, base, el){
+  if(g.ice > 0){ hitIce(g, el); return; }
   let r = 'neutral';
   if(el){ r = rel(el, g.truth); G.flags.elemHit = true;
     if(g.key!=='finale'){ if(!g.firstProbe) g.firstProbe = el; if(!g.probed.includes(el)) g.probed.push(el); if(!g.verified) later(() => revealTruth(g,'probe'), 120); else setBossHud(true); } }
@@ -62063,7 +63304,7 @@ function updateGuardian(g, dt, t){
     B.g.visible = false;
     if(state==='play' && !G.cur && dist < (g.key==='finale' ? 7.5 : 6.2)){
       g.st = 'rising'; g.t = 0; G.cur = g; B.g.visible = true; audio.rumble(); shake(true);
-      showMsg(g.key==='finale' ? '祭坛上方，无定者睁开了眼睛' : '湖心的水开始翻涌', 2.5);
+      showMsg(g.key==='finale' ? '祭坛上方，无定者睁开了眼睛' : I.text.wake, 2.5);
       if(g.key==='finale'){ G.wheel = true; G.el = G.el || ORDER[0]; g.truth = pick(ORDER); g.phaseT = 8.5; if(ALTAR.top) ALTAR.top.visible = false;
         hint('finale', `无定者会不停改变本原。${isTouch?'点下方的元素':'按 1–5'} 随时换上克制它的元素`); }
       setBossHud(true); updateHud();
@@ -62076,7 +63317,7 @@ function updateGuardian(g, dt, t){
     B.g.position.set(g.x, lerp(gBase(g)-5, gBase(g), 1-Math.pow(1-k,3)), g.z);
     if(Math.random()<0.5){ const x = g.x+(rand()-0.5)*3.6, z = g.z+(rand()-0.5)*3.6; if(inWater(x,z)) splash(x,z,rand()<0.3); else burst(x, groundY(x,z)+0.1, z, {n:3, color:GPAL[g.key].pale, speed:2, up:3}); }
     if(k>=1){ g.st = 'fight'; g.next = 1.4; if(g.isWater) splash(g.x,g.z,true); shake(true);
-      if(g.key!=='finale' && !g.verified) hint('probe', '它的本原未知。用元素攻击打中它，就能看到伤害是克制、被克，还是平'); setBossHud(true); }
+      if(g.key!=='finale' && !g.verified && !(g.ice > 0)) hint('probe', '它的本原未知。用元素攻击打中它，就能看到伤害是克制、被克，还是平'); setBossHud(true); }
     return;
   }
   // 玩家跑远：守护者沉回去，伤势恢复，已知的本原保留
@@ -62133,7 +63374,7 @@ function updateHazards(dt){
     if(k>=1 && !T.done){
       T.done = true;
       if(Math.hypot(G.px-T.x, G.pz-T.z) < T.r){ if(G.jy>0.6) dodged('越过'); else if(G.inv>0 && G.dash>0) dodged('闪过'); else hurtPlayer(14, T.src, T.x, T.z); }
-      if(inWater(T.x,T.z)) splash(T.x,T.z,true); else { const y = groundY(T.x,T.z); burst(T.x,y+0.2,T.z,{n:14,color:0xb9c3c6,speed:4,up:5,size:1.2}); ringFx(T.x,T.z,{y:y+0.07,color:0x2e2a3a,r1:3,life:0.6,opacity:0.5}); }
+      if(inWater(T.x,T.z)) splash(T.x,T.z,true); else { const y = groundY(T.x,T.z); I.onImpact?.(T.x, T.z, 1.5, 0.14); burst(T.x,y+0.2,T.z,{n:14,color:I.dustColor ?? 0xb9c3c6,speed:4,up:5,size:1.2}); ringFx(T.x,T.z,{y:y+0.07,color:0x2e2a3a,r1:3,life:0.6,opacity:0.5}); }
       shake(true); audio.hit(null,false,true);
     }
     if(k>1.15){ scene.remove(T.mesh); G.tele.splice(i,1); }
@@ -62159,7 +63400,7 @@ function updateHazards(dt){
     D.mesh.rotation.x += dt*8; D.tm.material.opacity = 0.1+0.2*k;
     if(k>=1){
       if(Math.hypot(G.px-D.tx,G.pz-D.tz) < 1.05 && G.jy < 0.6) hurtPlayer(8, D.src, D.tx, D.tz);
-      if(inWater(D.tx,D.tz)) splash(D.tx,D.tz,false); else burst(D.tx,y1+0.1,D.tz,{n:7,color:0xdfe9ef,speed:2,up:3});
+      if(inWater(D.tx,D.tz)) splash(D.tx,D.tz,false); else { I.onImpact?.(D.tx, D.tz, 0.55, 0.08); burst(D.tx,y1+0.1,D.tz,{n:7,color:0xdfe9ef,speed:2,up:3}); }
       scene.remove(D.mesh); scene.remove(D.tm); G.drops2.splice(i,1);
     }
   }
@@ -62167,7 +63408,7 @@ function updateHazards(dt){
 function winGuardian(g){
   g.st = 'dying'; clearHazards();
   hitstop = 0.35; shake(true); audio.shatter();
-  if(g.key!=='finale') g.result = (g.firstProbe && g.firstProbe !== COUNTER[g.truth]) ? 'prove' : 'guess';
+  if(g.key!=='finale') g.result = g.iceMax ? (g.prepared ? 'prove' : 'improv') : (g.firstProbe && g.firstProbe !== COUNTER[g.truth]) ? 'prove' : 'guess';
   const B = g.B, by = gBase(g);
   later(() => {
     for(let i=0;i<5;i++) later(() => { burst(g.x+(rand()-0.5)*2, by+1+rand()*3, g.z+(rand()-0.5)*2, {n:20, color:pick([GPAL[g.key].shell, GPAL[g.key].pale, 0xe9eff3, EL[g.truth].color]), speed:6, up:7, size:1.8, life:1.4}); audio.shatter(); shake(i===4); }, i*160);
@@ -62184,19 +63425,23 @@ function winGuardian(g){
 }
 function endGame(){
   state = 'end';
-  const g = G.guards.water, counter = COUNTER[g.truth];
+  const g = G.boss, counter = COUNTER[g.truth];
   const kind = g.result || 'guess';
   const how = g.firstProbe==='staff' ? '法杖照见' : g.firstProbe==='steal' ? '窃元看穿' : '别的元素试探';
-  const T = {
-    prove:['证实', `你先用${how}，看清了守潮者的本原，再换上克制它的${EL[counter].name}击败了它。经过验证的所见，才成了你的知识。`],
+  const E = I.ending?.(g, G);
+  const T = E ? [E.title, E.text] : {
+    prove:['证实', `你先用${how}，看清了${g.name}的本原，再换上克制它的${EL[counter].name}击败了它。经过验证的所见，才成了你的知识。`],
     guess:['猜中', `你第一次出手，手里就是克制它的${EL[counter].name}。这一次，猜测与真相恰好重合，但下一次未必。`],
   }[kind];
   $('endTitle').innerHTML = T[0] + `<span class="mir" aria-hidden="true">${T[0]}</span>`;
   $('endText').textContent = T[1];
-  $('endFacts').innerHTML = `<span>守潮者的本原</span><span>${gTag(g.truth)} ${EL[g.truth].name}</span><span></span>`
-    + `<span>你试探过的元素</span><span>${g.probed.length ? g.probed.map(e => gTag(e)+EL[e].name).join('　') : '无'}</span><span></span>`
+  $('endFacts').innerHTML = `<span>${g.name}的本原</span><span>${gTag(g.truth)} ${EL[g.truth].name}</span><span></span>`
+    + (I.ending ? `<span>你拿过的元素</span><span>${[...G.held].map(e => gTag(e)+EL[e].name).join('　') || '无'}</span><span></span>`
+              : `<span>你试探过的元素</span><span>${g.probed.length ? g.probed.map(e => gTag(e)+EL[e].name).join('　') : '无'}</span><span></span>`)
     + `<span>击败小怪</span><span>${G.kills}</span><span></span>`;
   $('end').hidden = false; $('hud').hidden = true; $('touch').classList.remove('on');
+  unlockNext(I.id);
+  $('nextBtn').hidden = !I.next; if(I.next) $('nextTxt').textContent = `前往${I.nextName}`;
 }
 function fall(){
   state = 'fall';
@@ -62208,7 +63453,7 @@ function fall(){
 }
 function respawn(){
   $('fall').hidden = true;
-  G.hp = G.maxHp; G.px = SPAWN.x; G.pz = SPAWN.z; G.vx = G.vz = 0; G.inv = 1; G.jy = 0; G.jv = 0; G.dash = 0; G.atk = null; G.stealT = null;
+  G.hp = G.maxHp; G.px = I.spawn.x; G.pz = I.spawn.z; G.vx = G.vz = 0; G.inv = 1; G.jy = 0; G.jv = 0; G.dash = 0; G.atk = null; G.stealT = null;
   const g = G.cur;
   if(g){ g.st = 'hidden'; g.hp = g.max; g.B.g.visible = false; if(g.shell){ g.B.g.remove(g.shell); g.shell = null; } if(g.key==='finale'){ G.wheel = false; if(ALTAR.top) ALTAR.top.visible = true; } G.cur = null; }
   clearHazards();
@@ -62234,7 +63479,7 @@ let lastToast = 'center';
 function updatePlayer(dt, t){
   const inp = moveInput(), L = Math.hypot(inp.x, inp.z);
   const grounded = G.jy <= 0.001;
-  const wet = grounded && groundY(G.px,G.pz) < WL-0.12;
+  const wet = grounded && groundY(G.px,G.pz) < I.WL-0.12;
   for(const k in ACT_BTN) if(act[k]) flashAct(k);
   if(act.attack || (holdAtk() && !G.atk && G.dash<=0)) startAttack();
   if(act.elem) startCast();
@@ -62247,10 +63492,10 @@ function updatePlayer(dt, t){
     G.dash -= dt;
     G.vx = G.dashDir.x*G.dashV; G.vz = G.dashDir.z*G.dashV;
     G.ghostT -= dt; if(G.ghostT<=0){ spawnGhost(); G.ghostT = 0.045; }
-    if(inWater(G.px,G.pz) && rand()<0.6) burst(G.px,WL+0.05,G.pz,{n:2,color:0xffffff,speed:1.5,up:2.5,size:0.7,life:0.4});
+    if(inWater(G.px,G.pz) && rand()<0.6) burst(G.px,I.WL+0.05,G.pz,{n:2,color:0xffffff,speed:1.5,up:2.5,size:0.7,life:0.4});
     if(G.dash<=0){ G.vx *= 0.3; G.vz *= 0.3; if(G.stealT) doSteal(G.stealT); }
   } else {
-    let speed = G.speed * (wet ? 0.72 : 1);
+    let speed = G.speed * (wet ? 0.72 : 1) * (I.speedMul ? I.speedMul(G.px, G.pz) : 1);
     if(G.atk) speed *= 0.4;
     const resp = 1 - Math.exp(-dt*(grounded ? 13 : 5));
     G.vx = lerp(G.vx, inp.x*speed, resp); G.vz = lerp(G.vz, inp.z*speed, resp);
@@ -62265,16 +63510,17 @@ function updatePlayer(dt, t){
     G.jv -= 19*dt; G.jy += G.jv*dt;
     if(G.jy <= 0){
       G.jy = 0; G.jv = 0; G.anim.land = 0.16;
-      const w2 = gy < WL-0.05;
-      audio.land(w2);
-      if(w2) splash(G.px,G.pz,false); else { ringFx(G.px,G.pz,{y:gy+0.05,color:0xdfe6e0,r0:0.2,r1:1.2,life:0.4,opacity:0.7}); burst(G.px,gy+0.05,G.pz,{n:6,color:0xdfe6e0,speed:1.8,up:1,grav:5,size:0.7,life:0.4}); }
+      const w2 = gy < I.WL-0.05;
+      if(I.onLand && !w2) I.onLand(G.px, G.pz, {cls:G.cls});
+      else { audio.land(w2);
+      if(w2) splash(G.px,G.pz,false); else { ringFx(G.px,G.pz,{y:gy+0.05,color:0xdfe6e0,r0:0.2,r1:1.2,life:0.4,opacity:0.7}); burst(G.px,gy+0.05,G.pz,{n:6,color:0xdfe6e0,speed:1.8,up:1,grav:5,size:0.7,life:0.4}); } }
     }
   }
   const targetYaw = Math.atan2(G.face.x, G.face.z);
   let dy = targetYaw - G.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
   const turn = dy * Math.min(1, dt*(G.atk || G.dash>0 ? 30 : 13));
   G.yaw += turn; G.anim.yawVel = lerp(G.anim.yawVel, turn/Math.max(dt,1e-4), Math.min(1,dt*8));
-  G.hero.root.position.set(G.px, gy + G.jy, G.pz);
+  G.hero.root.position.set(G.px, gy + G.jy - (G.jy <= 0.001 && I.sinkAt ? I.sinkAt(G.px, G.pz) : 0), G.pz);
   G.hero.root.rotation.y = G.yaw;
   updateAttack(dt);
   animateHero(dt, t);
@@ -62289,7 +63535,7 @@ function updatePlayer(dt, t){
   if(G.regen>0){ G.regen -= dt; G.hp = Math.min(G.maxHp, G.hp + 5*dt); if(Math.random()<dt*6) burst(G.px+(rand()-0.5), gy+0.4, G.pz+(rand()-0.5), {n:1, color:0xcfe4c2, speed:0.3, up:2, grav:0.5, size:0.6, life:0.9}); }
   updateSlots();
   if(G.regen>0 || G.hurtT>-0.2){ setHpBar(); }
-  if(Math.hypot(G.px-LAKE.x,G.pz-LAKE.z) < 9 && G.guards.water.st==='hidden') hint('lake','深水处就是守潮者的居所。准备好再走近');
+  if(Math.hypot(G.px-G.boss.x,G.pz-G.boss.z) < I.boss.nearR && G.boss.st==='hidden') hint('lake', I.text.near);
   const near = G.drops.find(d => Math.hypot(d.x-G.px, d.z-G.pz) < 1.6);
   const pr = $('prompt');
   if(near){
@@ -62336,11 +63582,11 @@ function updateMinions(dt, t){
     if(walkable(nx,m.z)) m.x = nx;
     if(walkable(m.x,nz)) m.z = nz;
     const wet = inWater(m.x,m.z);
-    const base = wet ? WL + waveH(m.x,m.z,t)*0.8 - 0.12 : groundY(m.x,m.z);
+    const base = wet ? I.WL + waveH(m.x,m.z,t)*0.8 - 0.12 : groundY(m.x,m.z);
     const moving = Math.hypot(mx,mz) > 0.2 && m.st!=='wind';
     if(moving){
       const prev = m.hop % 1; m.hop += dt*(m.st==='chase' ? 2.2 : 1.5);
-      if(m.hop % 1 < prev){ m.sqv -= 2.6; if(wet){ addRipple(m.x,m.z,0.1); ringFx(m.x,m.z,{r1:1.2,life:0.5,opacity:0.45}); } else burst(m.x, base+0.05, m.z, {n:3,color:0xeadcc4,speed:1.2,up:1,grav:5,size:0.6,life:0.35}); }
+      if(m.hop % 1 < prev){ m.sqv -= 2.6; if(wet){ addRipple(m.x,m.z,0.1); ringFx(m.x,m.z,{r1:1.2,life:0.5,opacity:0.45}); } else if(I.onHop) I.onHop(m.x, m.z, m); else burst(m.x, base+0.05, m.z, {n:3,color:0xeadcc4,speed:1.2,up:1,grav:5,size:0.6,life:0.35}); }
     } else if(m.hop % 1 > 0.02){ m.hop = Math.min(Math.ceil(m.hop), m.hop + dt*2.5); }
     const p = m.hop % 1, hopY = Math.sin(p*Math.PI)*0.42;
     const wind = m.st==='wind' ? (0.55-m.wind)/0.55 : 0;
@@ -62366,8 +63612,8 @@ function updateFx(dt, t){
   for(let i=slashes.length-1;i>=0;i--){ const s=slashes[i]; s.t+=dt; const k=s.t/0.2; if(k>=1){ scene.remove(s.mesh); s.mesh.material.dispose(); slashes.splice(i,1); continue; } s.mesh.material.opacity = 0.7*(1-k*k); if(!s.vert) s.mesh.rotation.y += s.sign*dt*4; s.mesh.scale.setScalar(1+k*0.15); }
   for(let i=ghosts.length-1;i>=0;i--){ const g=ghosts[i]; g.t+=dt; g.mat.opacity = 0.42*(1-g.t/0.3); if(g.t>=0.3){ scene.remove(g.g); g.mat.dispose(); g.g.userData.dispose?.(); ghosts.splice(i,1); } }
   if(G && state==='play'){
-    for(const o of smallJelly){ const dx=o.position.x-G.px, dz=o.position.z-G.pz; if(dx*dx+dz*dz < 0.32 && G.jy<0.25 && (!o.userData.pt || gameTime-o.userData.pt>0.9)){ o.userData.pt = gameTime; poke(o, 1.1); audio.squish(true); } }
-    for(const d of G.drops){ d.t+=dt; d.g.position.y = Math.max(groundY(d.x,d.z), WL + waveH(d.x,d.z,t)*0.7); d.m.position.y = 0.75 + Math.sin(d.t*2.5)*0.12; d.m.rotation.y += dt*1.5; d.halo.scale.setScalar(0.55+Math.sin(d.t*3)*0.06); }
+    for(const o of I.smallJelly){ const dx=o.position.x-G.px, dz=o.position.z-G.pz; if(dx*dx+dz*dz < 0.32 && G.jy<0.25 && (!o.userData.pt || gameTime-o.userData.pt>0.9)){ o.userData.pt = gameTime; poke(o, 1.1); audio.squish(true); } }
+    for(const d of G.drops){ d.t+=dt; d.g.position.y = Math.max(groundY(d.x,d.z), I.WL + waveH(d.x,d.z,t)*0.7); d.m.position.y = 0.75 + Math.sin(d.t*2.5)*0.12; d.m.rotation.y += dt*1.5; d.halo.scale.setScalar(0.55+Math.sin(d.t*3)*0.06); }
   }
 }
 const camDebug = {on:false, size:2.6, look:null};
@@ -62378,9 +63624,9 @@ function updateCamera(dt, t){
   if(keys.has('x')){ view.yaw -= dt*1.4; orbitIdle = 0; }
   orbitIdle += dt;
   const F = fitSizes();
-  if(state==='title' || !G){
-    if(orbitIdle > 5) view.yaw += dt*0.05;
-    view.size = lerp(view.size, F.title, 1-Math.exp(-dt*4));
+  if(state==='title' || state==='cut' || !G){
+    if(orbitIdle > 5 || state==='cut') view.yaw += dt*(state==='cut' ? 0.12 : 0.05);
+    view.size = lerp(view.size, F.title*(state==='cut' ? cutZoom() : 1), 1-Math.exp(-dt*(state==='cut' ? 1.6 : 4)));
     view.target.lerp(new THREE.Vector3(1.5, 6 + F.title*0.32, 0.5), 1-Math.exp(-dt*3));
     applyCamera(); return;
   }
@@ -62406,18 +63652,81 @@ function syncOrientation(){
   $('stick').querySelector('i').style.transform = '';
   for(const k in act) act[k] = false;
 }
-function resize(){ syncOrientation(); renderer.setSize(innerWidth, innerHeight, false); world.resize(); applyCamera(); }
+function resize(){ syncOrientation(); renderer.setSize(innerWidth, innerHeight, false); world_resize(); applyCamera(); }
+/* ---------------- 关卡顺序、玩家进度、开发者入口 ----------------
+ * 玩家：只能从第一座岛开始；通关一座岛就解锁下一座（记在这台电脑的浏览器里），启动页出现「继续」和「从头开始」。
+ * 开发者：启动页右下角的「开发者」，输入密码后显示全部关卡，直到关掉页面。
+ * 注意：这只是给玩家挡一道门，不是真正的加密——会看源码的人总能绕过去。 */
+const ISLAND_ORDER = ['tide', 'snow'];
+const ISLAND_INFO = { tide:{ordinal:'第一座岛', name:'天空之岸'}, snow:{ordinal:'第二座岛', name:'凝冰之原'} };
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch(e){} },
+  sget(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } },
+  sset(k, v){ try { if(v === null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch(e){} },
+};
+let devMode = store.sget('apeiron.dev') === '1';
+const unlockedCount = () => clamp(parseInt(store.get('apeiron.unlocked', '1'), 10) || 1, 1, ISLAND_ORDER.length);
+function unlockNext(id){
+  const i = ISLAND_ORDER.indexOf(id);
+  if(i >= 0 && i + 1 < ISLAND_ORDER.length && unlockedCount() < i + 2) store.set('apeiron.unlocked', String(i + 2));
+}
+const pwHash = s => { let h = 0x811c9dc5; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h; };
+{ // 开局加载哪座岛：开发者可以用 ?island= 指定，或回到上次选的；玩家进到解锁的最远一座
+  let want = null;
+  if(devMode){ want = new URLSearchParams(location.search).get('island') || location.hash.replace('#','') || store.get('apeiron.devIsland', null); }
+  if(!ISLANDS[want]) want = ISLAND_ORDER[unlockedCount() - 1];
+  loadIsland(want);
+}
+/* 启动页的选岛按钮：玩家只看到「从头开始」和「继续」，开发者看到全部 */
+function renderIslPick(){
+  const box = $('islPick'), n = unlockedCount();
+  let items;
+  if(devMode) items = ISLAND_ORDER.map(id => [id, `${ISLAND_INFO[id].ordinal}　${ISLAND_INFO[id].name}`]);
+  else if(n > 1){ const last = ISLAND_ORDER[n - 1]; items = [[ISLAND_ORDER[0], `从头开始　${ISLAND_INFO[ISLAND_ORDER[0]].name}`], [last, `继续　${ISLAND_INFO[last].name}`]]; }
+  else items = [];
+  box.innerHTML = items.map(([id, label]) => `<button type="button" data-isl="${id}">${label}</button>`).join('');
+  box.hidden = !items.length;
+  $('devBtn').textContent = devMode ? '开发者模式 · 退出' : '开发者';
+  syncIslPick();
+}
+function syncIslPick(){ document.querySelectorAll('#islPick button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.isl === I.id))); }
+$('islPick').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b || state !== 'title') return;
+  if(b.dataset.isl !== I.id){ loadIsland(b.dataset.isl); resize(); syncIslPick(); }
+  if(devMode){ store.set('apeiron.devIsland', I.id); return; }          // 开发者：只切换，看一看再点开始
+  // 玩家：「继续」「从头开始」点了就直接去选职业
+  if(!modelsReady){ prepareCharacters(); return; }
+  audio.init(); setTimeout(() => showScreen('pickClass'), 160);
+});
+function openDev(){
+  if(devMode){ devMode = false; store.sset('apeiron.dev', null);
+    const far = ISLAND_ORDER[unlockedCount() - 1]; if(ISLAND_ORDER.indexOf(I.id) >= unlockedCount()){ loadIsland(far); resize(); }
+    renderIslPick(); return; }
+  $('devBox').hidden = false; $('devErr').textContent = ''; $('devPw').value = ''; setTimeout(() => $('devPw').focus(), 30);
+}
+function tryDev(){
+  if(pwHash($('devPw').value.trim()) === 0x198e482d){ devMode = true; store.sset('apeiron.dev', '1'); $('devBox').hidden = true; renderIslPick(); }
+  else { $('devErr').textContent = '密码不对'; $('devPw').select(); $('devBox').animate([{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}], {duration:220}); }
+}
+$('devBtn').addEventListener('click', openDev);
+$('devOk').addEventListener('click', tryDev);
+$('devCancel').addEventListener('click', () => { $('devBox').hidden = true; });
+$('devPw').addEventListener('keydown', e => { e.stopPropagation(); if(e.key === 'Enter') tryDev(); if(e.key === 'Escape') $('devBox').hidden = true; });
+renderIslPick();
 addEventListener('resize', resize); resize();
 function tick(raw){
   gameTime += raw;
   const t = gameTime;
   let dt = raw;
   if(hitstop>0){ hitstop -= raw; dt = raw*0.04; }
-  world.update(raw, t);
+  SH.uTime.value = t;
+  I.update(raw, t);
+  updateJiggles(raw);
   runLater();
   if(state==='play' && G){
     updatePlayer(dt, t); updateBolts(dt); updateMinions(dt, t);
-    updateGuardian(G.guards.water, dt, t);
+    updateGuardian(G.boss, dt, t);
     updateHazards(dt); updateTut(raw);
     setBossHud(false);
     if(msgTimer>0){ msgTimer -= raw; if(msgTimer<=0) showMsg(''); }
@@ -62426,15 +63735,40 @@ function tick(raw){
     else if(hintQ.length){ $('hint').innerHTML = '<span class="dia o"></span>' + hintQ.shift() + '<span class="dia o"></span>'; $('hint').classList.add('on'); hintTimer = 4.6; }
   } else if(G && (state==='fall' || state==='end')){
     updateMinions(dt*0.3, t); if(G.cur) updateGuardian(G.cur, dt, t);
-  }
+  } else if(state==='cut') updateCut(raw);
   for(const k in act) act[k] = false;
   updateFx(dt, t);
   updateCamera(raw, t);
 }
+/* 保险：任何一帧里人物或镜头的数值变成 NaN/无穷大，就退回上一帧的好状态，并在控制台记下当时的情况 */
+const safe = {px:0, pz:0, tx:1.5, ty:6, tz:0.5, size:22, reported:new Set(), renderErr:0};
+function report(kind, info){ if(safe.reported.has(kind)) return; safe.reported.add(kind); console.error('[阿派朗] ' + kind, info); }
+function guardState(){
+  const fin = Number.isFinite;
+  if(G){
+    if(![G.px, G.pz, G.vx, G.vz, G.jy, G.jv].every(fin)){
+      report('人物数值异常，已退回上一帧', {island:I.id, px:G.px, pz:G.pz, vx:G.vx, vz:G.vz, jy:G.jy, jv:G.jv, dash:G.dash, dashV:G.dashV, atk:G.atk && G.atk.type, el:G.el, ground:groundY(safe.px, safe.pz), speedMul:I.speedMul?.(safe.px, safe.pz), sink:I.sinkAt?.(safe.px, safe.pz)});
+      G.px = safe.px; G.pz = safe.pz; G.vx = G.vz = 0; G.jy = 0; G.jv = 0; G.dash = 0;
+    } else { safe.px = G.px; safe.pz = G.pz; }
+    const hp = G.hero.root.position;
+    if(![hp.x, hp.y, hp.z].every(fin)){ report('人物模型位置异常', {x:hp.x, y:hp.y, z:hp.z, ground:groundY(G.px, G.pz), sink:I.sinkAt?.(G.px, G.pz)}); hp.set(G.px, groundY(G.px, G.pz) || 0, G.pz); }
+  }
+  const v = view.target;
+  if(![v.x, v.y, v.z, view.size, view.yaw, view.pitch].every(fin) || view.size <= 0){
+    report('镜头数值异常，已退回上一帧', {target:v.toArray(), size:view.size, yaw:view.yaw, pitch:view.pitch, zoomMul:view.zoomMul, w:innerWidth, h:innerHeight});
+    v.set(safe.tx, safe.ty, safe.tz); view.size = safe.size; if(!Number.isFinite(view.yaw)) view.yaw = 0.55; if(!Number.isFinite(view.pitch)) view.pitch = 0.68; if(!Number.isFinite(view.zoomMul)) view.zoomMul = 1;
+    applyCamera();
+  } else { safe.tx = v.x; safe.ty = v.y; safe.tz = v.z; safe.size = view.size; }
+}
+canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); console.error('[阿派朗] 显卡上下文丢失（WebGL context lost）'); showMsg('显卡暂时断开了，正在恢复……', 4); });
+canvas.addEventListener('webglcontextrestored', () => { console.warn('[阿派朗] 显卡上下文已恢复'); });
 function frame(){
   const d = Math.min(clock.getDelta(), 1/20);
-  if(!window.__freeze && !portraitPaused) tick(d);
-  world.render();
+  if(!window.__freeze && !portraitPaused){
+    try { tick(d); } catch(e){ report('游戏逻辑出错：' + e.message, e); }
+  }
+  guardState();
+  try { I.render(); } catch(e){ if(safe.renderErr++ < 3) console.error('[阿派朗] 渲染出错', e); }
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
@@ -62442,13 +63776,13 @@ requestAnimationFrame(frame);
 /* ---------------- 指针 ---------------- */
 function waterHit(cx, cy){
   ndc.set(cx/innerWidth*2-1, -(cy/innerHeight)*2+1); ray.setFromCamera(ndc, camera);
-  aimPlane.constant = -WL; const h = new THREE.Vector3();
-  if(ray.ray.intersectPlane(aimPlane, h) && inIsland(h.x,h.z,0.995) && groundY(h.x,h.z) < WL-0.02) return h;
+  aimPlane.constant = -I.WL; const h = new THREE.Vector3();
+  if(ray.ray.intersectPlane(aimPlane, h) && inIsland(h.x,h.z,0.995) && groundY(h.x,h.z) < I.WL-0.02) return h;
   return null;
 }
 function jellyHit(cx, cy){
   ndc.set(cx/innerWidth*2-1, -(cy/innerHeight)*2+1); ray.setFromCamera(ndc, camera);
-  const objs = jigglers.map(j=>j.obj);
+  const objs = I.jigglers.map(j=>j.obj);
   return ray.intersectObjects(objs, true)[0] || null;
 }
 canvas.addEventListener('pointerdown', e => {
@@ -62462,7 +63796,7 @@ canvas.addEventListener('pointerdown', e => {
   const orbitBtn = e.button===1 || (e.button===0 && e.altKey) || (state!=='play' && e.button===0);
   if(state==='title'){
     let j = jellyHit(e.clientX, e.clientY);
-    if(j){ let o = j.object; while(o && !jigglers.some(q=>q.obj===o)) o = o.parent; if(o){ poke(o, 1.6); audio.squish(); } }
+    if(j){ let o = j.object; while(o && !I.jigglers.some(q=>q.obj===o)) o = o.parent; if(o){ poke(o, 1.6); audio.squish(); } }
     const w = waterHit(e.clientX, e.clientY);
     if(w){ addRipple(w.x, w.z, 0.22); ptr.mode = 'ripple'; ptr.last = w; return; }
   }
@@ -62520,6 +63854,8 @@ $('classCards').addEventListener('dblclick', () => showScreen('pickWeapon'));
 syncCards();
 function showScreen(id){
   for(const s of ['start','pickClass','pickWeapon','fall','end']) $(s).hidden = s!==id;
+  // 回到启动页：收起上一局，回到标题状态（选岛、拖动小岛这些只在标题状态下响应）
+  if(id === 'start' && state !== 'title'){ if(G){ cleanup(); G = null; } state = 'title'; $('hud').hidden = true; $('touch').classList.remove('on'); showMsg(''); renderIslPick(); }
   if(id==='pickClass' && !portraits){
     portraits = makePortraits();
     document.querySelectorAll('img[data-p]').forEach(i => { const u = portraits[i.dataset.p]; if(u) i.src = u; else i.remove(); });
@@ -62551,7 +63887,51 @@ $('startBtn').addEventListener('click', () => {
 });
 prepareCharacters();
 $('toWeapon').addEventListener('click', () => setTimeout(() => showScreen('pickWeapon'), 120));
+$('backStart').addEventListener('click', () => setTimeout(() => showScreen('start'), 120));
 $('backClass').addEventListener('click', () => setTimeout(() => showScreen('pickClass'), 120));
+/* ---------------- 过场：胜利后前往下一座岛（约 8 秒，可跳过） ----------------
+ * 镜头拉远，这座岛沉进云里，开始下雪；下一座岛从下方升起，镜头推近到登岛处。 */
+let cut = null;
+const ease = k => k*k*(3 - 2*k);
+function cutZoom(){ if(!cut) return 1; const t = cut.t; return t < 2.6 ? 1 + ease(Math.min(1, t/2.6))*0.45 : 1.45 - ease(clamp((t - 4.5)/3.2, 0, 1))*0.45; }
+function startCut(to){
+  if(state === 'cut') return;
+  $('end').hidden = true; $('hud').hidden = true; $('touch').classList.remove('on');
+  if(G){ cleanup(); G = null; }
+  hintQ = []; showMsg(''); $('hint').classList.remove('on'); $('tut').classList.remove('on');
+  state = 'cut'; cut = {t:0, to, loaded:false, flakes:makeCutSnow()};
+  audio.rumble?.();
+}
+function makeCutSnow(){
+  const N = 700, pos = new Float32Array(N*3);
+  for(let i=0;i<N;i++){ pos[i*3] = (rand()-0.5)*60; pos[i*3+1] = 20 + rand()*30; pos[i*3+2] = (rand()-0.5)*44; }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pts = new THREE.Points(g, new THREE.PointsMaterial({color:0xffffff, size:4, sizeAttenuation:false, transparent:true, opacity:0, depthWrite:false}));
+  pts.frustumCulled = false; scene.add(pts); return pts;
+}
+function updateCut(dt){
+  const c = cut; if(!c) return;
+  c.t += dt;
+  const t = c.t, F = c.flakes, p = F.geometry.attributes.position;
+  for(let i=0;i<p.count;i++){ p.array[i*3+1] -= (2.2 + (i%7)*0.25)*dt; p.array[i*3] += Math.sin(t + i)*0.4*dt; if(p.array[i*3+1] < -12) p.array[i*3+1] += 40; }
+  p.needsUpdate = true;
+  F.material.opacity = clamp(t/1.5, 0, 1)*(1 - clamp((t - 6)/1.5, 0, 1))*0.9;
+  if(!c.loaded){
+    I.root.position.y = -ease(Math.min(1, t/2.6))*30;              // 这座岛沉进云里
+    if(t >= 2.6){ loadIsland(c.to); resize(); renderIslPick(); I.root.position.y = -30; c.loaded = true; }
+  } else {
+    I.root.position.y = -30*(1 - ease(clamp((t - 2.6)/3.4, 0, 1)));   // 下一座岛升上来
+  }
+  if(t >= 8) finishCut();
+}
+function finishCut(){
+  if(!cut) return;
+  if(!cut.loaded){ loadIsland(cut.to); resize(); renderIslPick(); }
+  I.root.position.y = 0;
+  scene.remove(cut.flakes); cut.flakes.geometry.dispose(); cut.flakes.material.dispose();
+  cut = null;
+  state = 'title'; begin();
+}
 function begin(){
   if(!modelsReady) return;
   audio.init();
@@ -62569,7 +63949,8 @@ function begin(){
 $('goBtn').addEventListener('click', () => setTimeout(begin, 140));
 $('retryBtn').addEventListener('click', respawn);
 $('againBtn').addEventListener('click', () => setTimeout(() => showScreen('pickClass'), 120));
-window.__apeiron = { get G(){return G;}, get state(){return state;}, begin, opts, showScreen, groundY, LAKE, act, keys, mouse, ptr, camDebug, view, tick, winGuardian, hitGuardian, revealTruth,
+$('nextBtn').addEventListener('click', () => { if(I.next) setTimeout(() => startCut(I.next), 160); });
+window.__apeiron = { get G(){return G;}, get state(){return state;}, startCut, get cut(){ return cut; }, begin, opts, showScreen, groundY, get island(){ return I; }, loadIsland, act, keys, mouse, ptr, camDebug, view, tick, winGuardian, hitGuardian, revealTruth,
   sim(sec, each){ for(let i=0;i<sec*30;i++){ if(each) each(i); tick(1/30); } } };
 </script>
 </body>

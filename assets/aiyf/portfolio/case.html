@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6eedd">
+<meta name="description" content="拾光 · AI 银发回忆录：让不擅长电子设备的老人，说一说就能留下自己认可的家庭故事。UX 产品设计案例。">
+<title>拾光 · AI 银发回忆录 | CHRIS IN WONDERLAND</title>
+<style>
+:root{
+--ink:#3a2a1d;--ink-2:#5e4836;--ink-3:#7d6650;
+--paper:#f6eedd;--paper-2:#fbf7ec;--paper-3:#efe3cb;--card:#fffcf4;
+--kraft:#cdb791;--line:#d9c7a4;--rule:rgba(160,120,80,.16);
+--brown:#6e4a30;--brown-deep:#553722;
+--seal:#b2412e;--seal-deep:#8f3020;--seal-tint:rgba(178,65,46,.09);
+--moss:#5f7a52;--moss-tint:rgba(95,122,82,.12);
+--tape:rgba(214,190,140,.74);--tape-2:rgba(196,142,120,.5);
+--sh-1:0 1px 2px rgba(80,50,20,.12),0 3px 8px rgba(80,50,20,.08);
+--sh-2:0 2px 4px rgba(80,50,20,.14),0 14px 32px rgba(80,50,20,.18);
+--serif:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",Georgia,serif;
+--kai:"Kaiti SC","STKaiti","KaiTi","BiauKai",var(--serif);
+--sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .18 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;overflow-x:clip;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.8;background:var(--grain),var(--paper)}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+.kai{font-family:var(--kai)}
+
+/* 顶栏 */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(246,238,221,.94);border-bottom:2px dashed var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:60px;gap:16px}
+.back{font-size:15px;text-decoration:none;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;padding:8px 0}
+.back:hover{color:var(--seal)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:600;letter-spacing:5px;font-size:20px}
+.seal{width:26px;height:26px;border-radius:5px;background:var(--seal);color:#fff4ea;display:inline-grid;place-items:center;font-size:15px;letter-spacing:0;transform:rotate(-6deg);box-shadow:inset 0 0 0 2px rgba(255,240,225,.5)}
+.toc{display:flex;gap:18px;font-size:14px}
+.toc a{text-decoration:none;color:var(--ink-3)}
+.toc a:hover{color:var(--seal)}
+
+/* 封面 */
+.hero{padding:72px 0 88px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.kicker{font-family:var(--kai);font-size:19px;color:var(--seal-deep);letter-spacing:2px}
+.title{font-family:var(--serif);font-size:96px;line-height:1.1;letter-spacing:18px;margin:18px 0 8px;font-weight:600}
+.subtitle{font-family:var(--serif);font-size:30px;letter-spacing:4px;color:var(--ink-2);margin:0 0 28px}
+.lead{font-size:19px;color:var(--ink-2);max-width:31em;margin:0 0 32px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 32px}
+.facts div{padding:14px 16px 14px 0}
+.facts div+div{padding-left:16px;border-left:1px dashed var(--line)}
+.facts dt{font-family:var(--kai);font-size:15px;color:var(--ink-3)}
+.facts dd{margin:2px 0 0;font-size:15px;font-weight:600;line-height:1.6}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 28px;border-radius:12px;font-size:18px;font-weight:600;text-decoration:none;letter-spacing:1px;transition:transform .12s ease}
+.btn:active{transform:translateY(2px)}
+.btn.primary{background:var(--seal);color:#fff6ec;box-shadow:inset 0 -4px 0 var(--seal-deep),var(--sh-1)}
+.btn.ghost{background:var(--card);border:2px solid var(--line);box-shadow:inset 0 -3px 0 var(--paper-3)}
+.btn:hover{filter:brightness(1.04)}
+
+/* 相册拼贴 */
+.collage{position:relative;height:620px}
+.collage .polaroid img{aspect-ratio:390/560;object-fit:cover;object-position:top}
+.polaroid{position:absolute;background:#fff;padding:10px 10px 44px;border-radius:2px;box-shadow:var(--sh-2)}
+.polaroid img{width:100%;border:1px solid var(--paper-3)}
+.polaroid figcaption,.polaroid .cap{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-family:var(--kai);font-size:17px;color:var(--ink-2)}
+.polaroid:before{content:'';position:absolute;top:-12px;left:50%;width:84px;height:24px;margin-left:-42px;background:var(--tape);transform:rotate(-4deg);clip-path:polygon(2% 0,98% 8%,100% 100%,0 90%);z-index:2}
+.collage .p1{width:228px;left:0;top:86px;transform:rotate(-6deg)}
+.collage .p2{width:252px;left:30%;top:14px;transform:rotate(2.5deg);z-index:3}
+.collage .p3{width:220px;right:0;top:190px;transform:rotate(7deg);z-index:2}
+.note{position:absolute;font-family:var(--kai);font-size:19px;color:var(--seal-deep);line-height:1.5;z-index:3}
+.note:after{content:'';display:block;width:56px;height:2px;background:currentColor;margin-top:6px;opacity:.5}
+.collage .n1{left:6px;top:0}
+.collage .n2{left:10px;bottom:0}
+.stamp{position:absolute;right:4px;top:6px;width:92px;height:92px;border:3px solid var(--seal);border-radius:50%;color:var(--seal);display:grid;place-items:center;text-align:center;font-family:var(--serif);font-size:16px;line-height:1.35;transform:rotate(-12deg);opacity:.85;z-index:3}
+
+/* 章节 */
+section.chapter{padding:96px 0;border-top:2px dashed var(--line);position:relative}
+section.chapter:nth-of-type(even){background:var(--grain),var(--paper-2)}
+.index{display:inline-block;font-family:var(--sans);font-size:13px;letter-spacing:3px;font-weight:600;color:var(--seal-deep);background:var(--seal-tint);border:1px solid rgba(178,65,46,.25);padding:2px 12px;border-radius:3px;transform:rotate(-1.5deg)}
+h2{font-family:var(--serif);font-size:42px;line-height:1.35;margin:18px 0 16px;font-weight:600;letter-spacing:1px;max-width:20em}
+h3{font-family:var(--serif);font-size:23px;margin:0 0 8px;font-weight:600}
+.intro{font-size:18px;color:var(--ink-2);max-width:40em;margin:0 0 48px}
+.small{font-size:14px;color:var(--ink-3)}
+
+/* 01 人 */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.slip{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:28px 26px 24px;box-shadow:var(--sh-1);position:relative}
+.people .slip:nth-child(1){transform:rotate(-1deg)}
+.people .slip:nth-child(2){transform:rotate(.6deg) translateY(14px)}
+.people .slip:nth-child(3){transform:rotate(-.4deg)}
+.role{font-family:var(--kai);font-size:16px;color:var(--seal-deep)}
+.slip p{margin:8px 0 0;color:var(--ink-2);font-size:16px}
+.slip .avatar{width:54px;height:54px;border-radius:50%;background:var(--paper-3);display:grid;place-items:center;margin-bottom:14px;color:var(--brown)}
+.slip .avatar svg{width:28px;height:28px}
+.slip.key{border:2px solid var(--seal)}
+.slip.key:after{content:'内容主导';position:absolute;top:18px;right:18px;font-family:var(--kai);font-size:15px;color:var(--seal);border:1.5px solid var(--seal);padding:0 8px;border-radius:3px;transform:rotate(6deg)}
+.question{margin:72px auto 0;max-width:780px;text-align:center;font-family:var(--serif);font-size:30px;line-height:1.6;position:relative;padding:36px 32px;background:var(--card) repeating-linear-gradient(transparent 0 47px,var(--rule) 47px 48px);box-shadow:var(--sh-1)}
+.question:before{content:'';position:absolute;top:-12px;left:50%;width:110px;height:26px;margin-left:-55px;background:var(--tape);transform:rotate(2deg);clip-path:polygon(2% 0,98% 8%,100% 100%,0 90%)}
+.question b{color:var(--seal)}
+
+/* 02 原则 */
+.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 40px}
+.principle{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:24px 0;border-bottom:1px dashed var(--line)}
+.principle .no{font-family:var(--serif);font-size:44px;line-height:1;color:var(--seal);opacity:.85}
+.principle p{margin:6px 0 0;color:var(--ink-2);font-size:16px}
+
+/* 03 漏斗 */
+.funnelGrid{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start}
+.funnel{list-style:none;margin:0;padding:0;counter-reset:f}
+.funnel li{position:relative;margin:0 auto 8px;padding:12px 20px;background:var(--card);border:1px solid var(--line);border-radius:3px;display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:16px;box-shadow:var(--sh-1)}
+.funnel li span:first-child{font-weight:600}
+.funnel li em{font-style:normal;font-size:14px;color:var(--ink-3);text-align:right}
+.funnel li:nth-child(1){width:100%}.funnel li:nth-child(2){width:95%}.funnel li:nth-child(3){width:90%}.funnel li:nth-child(4){width:85%}
+.funnel li:nth-child(5){width:80%}.funnel li:nth-child(6){width:75%}.funnel li:nth-child(7){width:70%}.funnel li:nth-child(8){width:65%}
+.funnel li.risk{border:2px solid var(--seal);background:#fff7f0}
+.funnel li.risk:after{content:attr(data-risk);position:absolute;right:-14px;top:-12px;font-family:var(--kai);font-size:14px;line-height:1;color:#fff6ec;background:var(--seal);padding:5px 9px;border-radius:3px;transform:rotate(5deg);box-shadow:var(--sh-1)}
+.funnelNote{background:var(--card);border-left:4px solid var(--seal);padding:24px 26px;box-shadow:var(--sh-1);border-radius:2px}
+.funnelNote h3{font-size:21px}
+.funnelNote ol{margin:12px 0 0;padding-left:22px;color:var(--ink-2);font-size:16px}
+.funnelNote li{margin:8px 0}
+.funnelNote li b{color:var(--ink)}
+.caveat{margin-top:18px;font-size:14px;color:var(--ink-3);border-top:1px dashed var(--line);padding-top:12px}
+.metric{display:flex;gap:18px;margin-top:24px}
+.metric div{flex:1;background:var(--paper-3);border-radius:3px;padding:14px 16px}
+.metric strong{display:block;font-family:var(--serif);font-size:34px;line-height:1.2;color:var(--seal)}
+.metric span{font-size:14px;color:var(--ink-2)}
+
+/* 04 Agent */
+.flow{display:grid;grid-template-columns:200px 1fr 220px;gap:28px;align-items:center}
+.box{background:var(--card);border:1.5px solid var(--line);border-radius:6px;padding:16px 18px;box-shadow:var(--sh-1);font-size:15px;line-height:1.65}
+.box b{display:block;font-family:var(--serif);font-size:18px;margin-bottom:2px}
+.box .small{display:block;margin-top:2px}
+.stack{display:grid;gap:12px}
+.core{border:2px solid var(--brown);background:var(--paper-2);padding:22px;border-radius:8px;position:relative}
+.core>b{font-size:21px}
+.core .tag{position:absolute;top:-14px;left:20px;background:var(--brown);color:#fdf6e8;font-size:13px;letter-spacing:2px;padding:3px 12px;border-radius:3px}
+.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.modules .box{background:var(--card);font-size:14px}
+.modules .box b{font-size:16px}
+.arrow{position:relative}
+.flow .arrow-r:after{content:'→';position:absolute;right:-24px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--kraft)}
+.rule{border:2px solid var(--seal);background:#fff7f0}
+.rule b{color:var(--seal-deep)}
+.live{display:inline-block;font-size:12px;font-weight:600;color:#fff;background:var(--moss);padding:0 8px;border-radius:3px;margin-left:6px;vertical-align:2px;letter-spacing:1px}
+.plan{display:inline-block;font-size:12px;color:var(--ink-3);border:1px solid var(--line);padding:0 7px;border-radius:3px;margin-left:6px;vertical-align:2px}
+.guardrails{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.guard{padding:22px 0 0;border-top:3px solid var(--brown)}
+.guard p{margin:6px 0 0;font-size:15px;color:var(--ink-2)}
+
+/* 05 界面 */
+.album{display:grid;grid-template-columns:repeat(4,1fr);gap:56px 32px;margin-top:8px}
+.shot{position:relative;margin:0}
+.shot .polaroid{position:relative;transform:rotate(var(--r,-1.5deg))}
+.shot:nth-child(2n) .polaroid{--r:1.8deg}
+.shot:nth-child(3n) .polaroid{--r:-2.6deg}
+.shot .polaroid figcaption,.polaroid .cap{font-size:18px}
+.shot .num{position:absolute;top:-16px;left:-10px;z-index:4;width:38px;height:38px;border-radius:50%;background:var(--seal);color:#fff6ec;display:grid;place-items:center;font-family:var(--serif);font-weight:600;box-shadow:var(--sh-1)}
+.shot p{margin:18px 4px 0;font-size:15px;color:var(--ink-2);line-height:1.7}
+.shot p b{color:var(--ink)}
+.shot.feature{grid-column:span 2;display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:center;background:var(--card);padding:28px;border:2px solid var(--seal);border-radius:6px;box-shadow:var(--sh-2)}
+.shot.feature .polaroid{box-shadow:var(--sh-1)}
+.shot.feature h3{font-size:26px}
+.steps{list-style:none;margin:14px 0 0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 38px;font-size:15px;color:var(--ink-2)}
+.steps li:before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--seal);color:var(--seal);display:grid;place-items:center;font-size:13px;font-weight:600}
+.steps li b{color:var(--ink)}
+
+/* 适老化规格 */
+.specs{margin-top:88px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.spec{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:18px 16px;text-align:center;box-shadow:var(--sh-1)}
+.spec strong{display:block;font-family:var(--serif);font-size:32px;line-height:1.2;color:var(--brown)}
+.spec span{font-size:14px;color:var(--ink-2)}
+.palette{display:flex;gap:28px;margin-top:40px;flex-wrap:wrap;align-items:center}
+.chip{display:flex;align-items:center;gap:12px;font-size:15px}
+.chip i{width:44px;height:44px;border-radius:50%;box-shadow:var(--sh-1);border:2px solid #fff}
+.chip small{display:block;color:var(--ink-3);font-size:13px}
+
+/* 结尾 */
+.ending{padding:96px 0 120px;border-top:2px dashed var(--line);text-align:center}
+.ending h2{margin:18px auto 16px}
+.ending .intro{margin:0 auto 36px}
+.ending .cta{justify-content:center}
+.next{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:left;margin:0 0 56px}
+.next .slip p{font-size:15px}
+footer{padding:28px 0 40px;text-align:center;font-size:14px;color:var(--ink-3)}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+:focus-visible{outline:3px solid var(--seal);outline-offset:3px;border-radius:6px}
+
+@media (max-width:980px){
+.hero .wrap,.funnelGrid{grid-template-columns:1fr}
+.collage{height:560px;max-width:560px;margin:0 auto;width:100%}
+.flow{grid-template-columns:1fr}.flow .arrow-r:after{content:'↓';right:50%;top:auto;bottom:-26px;transform:none}
+.album{grid-template-columns:repeat(2,1fr)}
+.specs{grid-template-columns:repeat(3,1fr)}
+.toc{display:none}
+}
+@media (max-width:640px){
+body{font-size:16px}
+.wrap{padding:0 18px}
+.hero{padding:40px 0 56px}
+.title{font-size:64px;letter-spacing:10px}
+.subtitle{font-size:22px}
+.facts{grid-template-columns:1fr}.facts div+div{border-left:0;padding-left:0;border-top:1px dashed var(--line)}
+.collage{height:480px}
+.collage .p1{width:160px;top:70px}.collage .p2{width:176px;left:27%}.collage .p3{width:156px;top:150px}
+.stamp{width:70px;height:70px;font-size:13px;right:0;top:0}
+.collage .n1{font-size:16px}.collage .n2{font-size:16px}
+section.chapter{padding:64px 0}
+h2{font-size:30px}
+.question{font-size:22px;padding:28px 20px}
+.people,.principles,.guardrails,.next{grid-template-columns:1fr}
+.people .slip:nth-child(2){transform:rotate(.6deg)}
+.modules{grid-template-columns:1fr}
+.album{grid-template-columns:1fr 1fr;gap:44px 18px}
+.shot.feature{grid-column:1/-1;grid-template-columns:1fr;padding:20px}
+.shot p{font-size:14px}
+.specs{grid-template-columns:repeat(2,1fr)}
+.funnel li{flex-direction:column;gap:0}.funnel li em{text-align:left}
+.funnel li.risk:after{right:-6px}
+.metric{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="back" href="/">← 回到作品集</a>
+    <div class="brand"><span class="seal" aria-hidden="true">光</span>拾光</div>
+    <nav class="toc" aria-label="章节">
+      <a href="#people">人</a><a href="#principles">原则</a><a href="#funnel">漏斗</a><a href="#agent">Agent</a><a href="#ux">界面</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="kicker">UX 产品设计 · AI 银发回忆录 · 2026</div>
+      <h1 class="title">拾光</h1>
+      <p class="subtitle">把日子，留成故事。</p>
+      <p class="lead">很多老人不会打字，也不习惯对着屏幕操作。拾光让他们<b>说一说、拍一拍</b>，AI 一次只问一个问题，把讲述整理成第一人称故事，念给本人听、由本人确认，再留给家人。</p>
+      <dl class="facts">
+        <div><dt>我的角色</dt><dd>产品策划 · 交互设计<br>AI 流程 · 原型开发</dd></div>
+        <div><dt>产出</dt><dd>PRD · Agent 流程<br>漏斗 · 可试玩原型</dd></div>
+        <div><dt>原型能力</dt><dd>真实语音转文字<br>本人确认 · 多篇</dd></div>
+      </dl>
+      <div class="cta">
+        <a class="btn primary" href="../demo.html" target="_blank" rel="noopener">试玩原型 →</a>
+        <a class="btn ghost" href="#ux">看界面设计</a>
+      </div>
+    </div>
+    <div class="collage" aria-label="原型界面拼贴">
+      <span class="note n1">“说给我”，<br>话就变成字</span>
+      <figure class="polaroid p1"><img src="shots/home.webp" alt="拾光首页：开始聊、帮长辈开始与我的回忆录" width="390" height="844"><figcaption>今天，聊一聊</figcaption></figure>
+      <figure class="polaroid p2"><img src="shots/voice.webp" alt="语音听写页：说的话实时出现在横格纸上" width="390" height="844"><figcaption>您慢慢说</figcaption></figure>
+      <figure class="polaroid p3"><img src="shots/final.webp" alt="成稿页：故事留下来了" width="390" height="844"><figcaption>故事留下来了</figcaption></figure>
+      <span class="stamp" aria-hidden="true">本人<br>确认</span>
+      <span class="note n2">先留下一段，<br>不用讲完一生</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="people">
+  <div class="wrap reveal">
+    <span class="index">01 / PEOPLE</span>
+    <h2>讲故事的人，和读故事的人，不是同一个。</h2>
+    <p class="intro">这是一个面向家庭内部的代际产品。子女往往是发起者和首要读者，但叙事权、纠错权和分享决定权，始终属于讲述者本人。</p>
+    <div class="people">
+      <div class="slip key">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/></svg></div>
+        <span class="role">讲述者 · 最终确认者</span>
+        <h3>老人本人</h3>
+        <p>想被倾听、回顾人生、保留自己的说法。不擅长打字和复杂操作，容易累，记不清具体年份。</p>
+      </div>
+      <div class="slip">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5C8 2 4 3 2 4v16c4-2 7-1 10 1 3-2 6-3 10-1V4c-4-2-7-1-10 1v16"/></svg></div>
+        <span class="role">首要读者 · 常见发起者</span>
+        <h3>子女</h3>
+        <p>想了解父母的经历、留下家庭记忆。可以准备主题和老照片、邀请长辈，但不能替长辈同意或确认。</p>
+      </div>
+      <div class="slip">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+        <span class="role">重要读者</span>
+        <h3>孙辈与后代</h3>
+        <p>认识长辈、了解家从哪里来。短篇故事、照片和声音能降低他们的阅读门槛。</p>
+      </div>
+    </div>
+    <p class="question">一位不会打字的老人，<br>能不能<b>只靠说话</b>，留下一段<b>自己认可</b>的故事？</p>
+  </div>
+</section>
+
+<section class="chapter" id="principles">
+  <div class="wrap reveal">
+    <span class="index">02 / INSIGHT → DESIGN</span>
+    <h2>先把一段故事做真，再慢慢攒成一本。</h2>
+    <p class="intro">从老人的处境出发，我把需求收敛成四条贯穿全流程的设计原则，每一条都落到了具体的界面规则上。</p>
+    <div class="principles">
+      <div class="principle"><span class="no">壹</span><div><h3>一段就算完成</h3><p>不要求讲完一生。第一次使用就能得到一篇可留存的故事，多篇再汇成合集。首页“我的回忆录”分“正在聊 / 已完成”，随时接着来。</p></div></div>
+      <div class="principle"><span class="no">贰</span><div><h3>少看字，多开口</h3><p>主界面只有大图形和短提示：“开始聊”“说给我”“拍给我”。打字、编辑、导出都收进可展开区域，不在第一眼出现。</p></div></div>
+      <div class="principle"><span class="no">叁</span><div><h3>不替老人说话</h3><p>只整理老人讲过的内容，不补写情节、不猜照片里是谁。记不清就保留“我记得大概是……”。家人补充的线索，不会自动变成老人的经历。</p></div></div>
+      <div class="principle"><span class="no">肆</span><div><h3>随时可以停</h3><p>每一页顶部都固定“返回”和“暂停”。暂停会停止朗读、保存已说的话和改过的草稿，下次从停下的地方继续。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="funnel">
+  <div class="wrap reveal">
+    <span class="index">03 / USER FUNNEL</span>
+    <h2>老人最可能卡住的，是留下第一段话。</h2>
+    <p class="intro">我把“从进入到被家人读到”拆成八层漏斗，两种发起入口分别统计，在“首次有效讲述”之后汇合。按按钮成功不算数，老人真正表达出来才算。</p>
+    <div class="funnelGrid">
+      <ol class="funnel" aria-label="用户行为漏斗 F0 到 F7">
+        <li><span>F0 到达与发起</span><em>自主点击 / 后代邀请到达</em></li>
+        <li><span>F1 自愿参与</span><em>本人理解用途并同意</em></li>
+        <li class="risk" data-risk="风险一"><span>F2 首次有效讲述</span><em>留下一段本人讲述并保存</em></li>
+        <li><span>F3 可成篇素材</span><em>人物、经过、结果讲清楚</em></li>
+        <li class="risk" data-risk="风险二"><span>F4 可审核草稿</span><em>生成成功，来源检查通过</em></li>
+        <li class="risk" data-risk="风险二"><span>F5 本人认可定稿</span><em>“像我会说的话”</em></li>
+        <li><span>F6 完整成品留存</span><em>图文与音频同版保存</em></li>
+        <li><span>F7 阅读与再次回忆</span><em>家人读到，老人愿意再讲</em></li>
+      </ol>
+      <div>
+        <div class="funnelNote">
+          <h3>两个高风险层，对应两次设计取舍</h3>
+          <ol>
+            <li><b>F2 讲不出来。</b>不会打字的老人，语音是唯一靠谱的入口。所以原型接入了真实的浏览器语音转文字：边说边出字，说完能改，不支持的浏览器老实提示改用打字，不伪造识别结果。</li>
+            <li><b>F4–F5 不像我。</b>草稿必须念给本人听，由本人勾选后点“记下来”；改过一个字，旧的确认就失效，需要重新确认。“存这句话”和“记下来”严格分开。</li>
+          </ol>
+          <p class="caveat">漏斗排序是根据目标用户和实现方式做出的风险判断，不是实测流失数据。</p>
+        </div>
+        <div class="metric">
+          <div><strong>60%</strong><span>首次有效讲述后，7 天内确认至少一篇（试点目标）</span></div>
+          <div><strong>80%</strong><span>老人认可“像我会说的话”（试点目标）</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="agent">
+  <div class="wrap reveal">
+    <span class="index">04 / AI AGENT</span>
+    <h2>AI 只提建议，确认的权力留给人。</h2>
+    <p class="intro">目标产品用一个主控 Agent 调度几个职责清楚的能力模块，每轮只做一件事：问一个问题、整理一次、或者请老人核对。同意、确认、分享、删除这些关键动作，由确定的业务规则执行，模型不能自己决定。</p>
+    <div class="flow">
+      <div class="stack">
+        <div class="box arrow-r"><b>说给我<span class="live">已实现</span></b>浏览器语音转文字，实时出字、可修改</div>
+        <div class="box"><b>拍给我<span class="plan">规划</span></b>老照片作为提问线索，不自动认人</div>
+        <div class="box"><b>改用打字</b>输入框旁的语音 / 拍照小工具</div>
+      </div>
+      <div class="core arrow-r">
+        <span class="tag">主控 AGENT</span>
+        <b>每轮只选一个动作</b>
+        <span class="small">读取故事断点 → 校验同意与故事 ID → 识别意图 → 提问 / 整理 / 核对 / 暂停</span>
+        <div class="modules">
+          <div class="box"><b>素材理解</b>语音转写、照片可见线索、置信度与来源位置</div>
+          <div class="box"><b>访谈规划</b>结合主题和“跟谁有关”，找缺口，提一个不诱导的问题</div>
+          <div class="box"><b>写作与检查</b>第一人称、保留口头禅；每句可溯源，不添无来源事实</div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="box"><b>念给我听</b>按段朗读，老人说“这句不像我”就改</div>
+        <div class="box rule"><b>本人确认 · 规则执行</b>勾选并点“记下来”，确认只绑定当前这一版</div>
+        <div class="box"><b>图文 · 音频成品</b>同一确认版本，授权后才分享</div>
+      </div>
+    </div>
+    <div class="guardrails">
+      <div class="guard"><h3>来源可追溯</h3><p>每个关键事实都能对回老人的讲述或已确认的素材。照片识别只当提问线索，不认定人物身份。</p></div>
+      <div class="guard"><h3>版本与确认绑定</h3><p>修改生成新版本，旧的确认和分享随之失效；已完成的故事不会被悄悄覆盖。</p></div>
+      <div class="guard"><h3>情绪优先于完成率</h3><p>遇到不愿回忆的话题就停止追问，允许换题或结束，不用催促去提高转化。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ux">
+  <div class="wrap reveal">
+    <span class="index">05 / UX &amp; PROTOTYPE</span>
+    <h2>每一页只做一件事，下一步永远看得见。</h2>
+    <p class="intro">视觉选择了老相册和手账纸：米黄纸、拍立得相框、和纸胶带、横格信纸。它让“留下回忆”这件事有熟悉的触感，也天然适合大字号和高对比。印章红只留给最关键的一步。</p>
+    <div class="album">
+      <figure class="shot"><span class="num">1</span><div class="polaroid"><img src="shots/home.webp" alt="首页" loading="lazy" width="390" height="844"><span class="cap">首页</span></div><p><b>两个入口，一本回忆录。</b>“开始聊”给老人，“帮长辈开始”给子女；下方按“正在聊 / 已完成”找回每一篇。</p></figure>
+      <figure class="shot"><span class="num">2</span><div class="polaroid"><img src="shots/consent.webp" alt="同意页" loading="lazy" width="390" height="844"><span class="cap">先问一声</span></div><p><b>本人同意才开始。</b>整行都能点的大勾选框；子女准备的线索，不能替老人同意。</p></figure>
+      <figure class="shot"><span class="num">3</span><div class="polaroid"><img src="shots/topic.webp" alt="选题页" loading="lazy" width="390" height="844"><span class="cap">想聊点什么</span></div><p><b>从一件小事讲起。</b>“跟谁有关”可选可取消，只用来调整提问，不会写进故事事实。</p></figure>
+      <figure class="shot"><span class="num">4</span><div class="polaroid"><img src="shots/chat.webp" alt="讲述页" loading="lazy" width="390" height="844"><span class="cap">一次一个问题</span></div><p><b>说给我 · 拍给我。</b>一屏只有一个问题和两个大入口；“听问题”会把问题念出来。</p></figure>
+      <figure class="shot feature"><span class="num">5</span><div class="polaroid"><img src="shots/voice.webp" alt="语音听写页" loading="lazy" width="390" height="844"><span class="cap">您慢慢说</span></div><div><span class="live" style="margin:0 0 8px">真实可用</span><h3>说的话，一句句落在信纸上</h3><p style="margin:8px 0 0">原型接入浏览器自带的中文语音识别，不需要后端，也不用申请密钥。</p><ol class="steps"><li><b>边说边出字</b>，未定稿的字也实时显示</li><li>停顿被浏览器打断时<b>自动续听</b></li><li>点“说好了”，<b>自动补句末标点</b>，错字直接改</li><li>“记下这段”才保存；“重说一遍”“不记这句”都不会留下内容</li><li>没有麦克风权限、断网、浏览器不支持时，<b>用大白话提示改用打字</b></li></ol></div></figure>
+      <figure class="shot"><span class="num">6</span><div class="polaroid"><img src="shots/review.webp" alt="确认页" loading="lazy" width="390" height="844"><span class="cap">像您说的吗</span></div><p><b>念给我听，再记下来。</b>“记下来”是全流程唯一的印章红大按钮，必须本人勾选；改过就要重新确认。</p></figure>
+      <figure class="shot"><span class="num">7</span><div class="polaroid"><img src="shots/final.webp" alt="成稿页" loading="lazy" width="390" height="844"><span class="cap">故事留下来了</span></div><p><b>可读、可听、可导出。</b>横格信纸排版的成稿，支持朗读、导出文字、打印 PDF；给谁看另外授权，可撤销。</p></figure>
+    </div>
+
+    <div class="specs" aria-label="适老化规格">
+      <div class="spec"><strong>20px</strong><span>正文字号<br>行高 1.75</span></div>
+      <div class="spec"><strong>72px</strong><span>主按钮高度<br>字号 24px</span></div>
+      <div class="spec"><strong>156px</strong><span>说给我 / 拍给我<br>大入口卡片</span></div>
+      <div class="spec"><strong>86px</strong><span>“记下来”<br>最终确认</span></div>
+      <div class="spec"><strong>60px</strong><span>吸顶返回 / 暂停<br>每页都有</span></div>
+      <div class="spec"><strong>3px</strong><span>键盘焦点描边<br>尊重减弱动效</span></div>
+    </div>
+    <div class="palette" aria-label="配色">
+      <span class="chip"><i style="background:#f6eedd"></i><span>相册米黄<small>纸张底色</small></span></span>
+      <span class="chip"><i style="background:#3a2a1d"></i><span>墨棕<small>正文</small></span></span>
+      <span class="chip"><i style="background:#6e4a30"></i><span>深棕<small>常规主按钮</small></span></span>
+      <span class="chip"><i style="background:#b2412e"></i><span>印章红<small>主入口与最终确认</small></span></span>
+      <span class="chip"><i style="background:#d6be8c"></i><span>和纸胶带<small>装饰与分组</small></span></span>
+    </div>
+  </div>
+</section>
+
+<section class="ending">
+  <div class="wrap reveal">
+    <span class="index">06 / NEXT</span>
+    <h2>下一步：请老人和家人，真的来用一用。</h2>
+    <p class="intro">原型已经能走通“同意 → 说话 → 成稿 → 本人确认”的完整闭环。接下来计划邀请 8–12 组老人和家人做小规模观察，验证的，是老人能否独立开口、AI 写的是否像本人，以及家人是否真的会读。</p>
+    <div class="next">
+      <div class="slip"><span class="role">验证一</span><h3>独立讲出第一段</h3><p>在老人自己的手机上，测试安静、嘈杂、停顿和方言下的听写与改字，记录需要别人帮忙的次数。</p></div>
+      <div class="slip"><span class="role">验证二</span><h3>“像我会说的话”</h3><p>接入真正的 AI 访谈与第一人称整理，逐句对照讲述，确保没有新增的无来源事实。</p></div>
+      <div class="slip"><span class="role">验证三</span><h3>家人真的会读</h3><p>完成可靠保存、音频成品和可撤销的分享，再看授权后的阅读率和老人是否愿意再讲。</p></div>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="../demo.html" target="_blank" rel="noopener">试玩拾光原型 →</a>
+      <a class="btn ghost" href="/">回到作品集</a>
+    </div>
+    <p class="small" style="margin-top:20px">原型为演示用途：语音转文字为真实浏览器能力；AI 访谈、写作与照片识别为设计方案。示例故事均为虚构。</p>
+  </div>
+</section>
+</main>
+<footer>CHRIS IN WONDERLAND · 拾光 · AI 银发回忆录</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}})},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>

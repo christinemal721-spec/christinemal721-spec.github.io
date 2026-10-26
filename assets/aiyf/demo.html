@@ -2,183 +2,205 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f7f3eb"><title>拾光 · 把故事慢慢说</title>
+<meta name="theme-color" content="#f6eedd"><title>拾光 · 把故事慢慢说</title>
 <style>
-/* 拾光 · 适老化界面（2026-10 第三版：按设计系统规范重做的青绿玻璃拟态）
-   规范要点：8px 间距体系 · 双字重 400/600 · 单青色系 + 单暖橙强调 ·
-   嵌套圆角外大内小 · 双层阴影 token · 玻璃卡片高不透明度保证可读性 */
+/* 拾光 · 适老化界面（2026-10 第四版：老相册 / 手账纸感）
+   规范要点：米黄纸张 + 纸纹 · 衬线标题 + 楷体手写标注 · 深棕墨色正文 ·
+   印章红只用于主入口与最终确认 · 照片相框与相角 · 和纸胶带 · 8px 间距体系 */
 :root{
-/* 色彩：青绿为主，暖橙仅用于最终确认与关键提示 */
---ink:#15322b;--ink-2:#3f5a51;--ink-3:#64807a;
---teal:#2fa38e;--teal-deep:#1e8472;--teal-dark:#14655a;
---teal-tint:rgba(47,163,142,.14);
---accent:#e0642f;--accent-deep:#b94e20;--accent-tint:rgba(224,100,47,.14);
-/* 玻璃质感：88% 不透明度保证文字对比度 */
---glass:rgba(255,255,255,.88);
---glass-2:rgba(255,255,255,.68);
---glass-line:rgba(255,255,255,.85);
---blur:saturate(140%) blur(16px);
-/* 阴影：两级 */
---sh-1:0 2px 8px rgba(18,80,68,.08);
---sh-2:0 12px 32px rgba(18,80,68,.16);
-/* 圆角：外大内小 */
---r-card:20px;--r-btn:16px;--r-inner:14px;
+--ink:#3a2a1d;--ink-2:#5e4836;--ink-3:#7d6650;
+--paper:#f6eedd;--paper-2:#fbf7ec;--paper-3:#efe3cb;--card:#fffcf4;
+--kraft:#cdb791;--line:#d9c7a4;--rule:rgba(160,120,80,.16);
+--brown:#6e4a30;--brown-deep:#553722;
+--seal:#b2412e;--seal-deep:#8f3020;--seal-tint:rgba(178,65,46,.1);
+--moss:#5f7a52;--tape:rgba(214,190,140,.72);--tape-2:rgba(196,142,120,.55);
+--sh-1:0 1px 2px rgba(80,50,20,.12),0 3px 8px rgba(80,50,20,.08);
+--sh-2:0 2px 4px rgba(80,50,20,.14),0 12px 28px rgba(80,50,20,.16);
+--r-card:6px;--r-btn:12px;--r-inner:8px;
+--serif:"Songti SC","STSong","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","SimSun",Georgia,serif;
+--kai:"Kaiti SC","STKaiti","KaiTi","BiauKai",var(--serif);
+--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .18 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:#cfe4db;color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:20px;line-height:1.75}
+body{margin:0;background:#cbb894 var(--grain);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;font-size:20px;line-height:1.75}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,.check:focus-within{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,.check:focus-within,label.actionTile:focus-within{outline:3px solid var(--seal);outline-offset:3px;border-radius:8px}
 button:disabled{opacity:.45;cursor:not-allowed}
 .hidden{display:none!important}
 
-/* 手机壳：上浓下淡的单色相渐变，内容区自然过渡到浅色 */
-.phone{max-width:480px;min-height:100dvh;margin:auto;position:relative;
-background:linear-gradient(172deg,#4fb19c 0%,#7cc5b4 24%,#bfe0d4 52%,#eef7f2 78%,#f2faf6 100%);
-box-shadow:0 0 64px rgba(18,80,68,.24)}
+/* 相册内页：米黄纸 + 纸纹 + 左侧装订线 */
+.phone{max-width:480px;min-height:100dvh;margin:auto;position:relative;background:var(--grain),radial-gradient(120% 70% at 50% 0%,#fbf5e6 0%,var(--paper) 60%,#efe3c8 100%);box-shadow:0 0 0 1px rgba(110,74,48,.15),0 0 60px rgba(70,45,20,.35)}
+.phone:before{content:'';position:absolute;left:10px;top:0;bottom:0;width:0;border-left:2px dotted rgba(140,100,60,.28);pointer-events:none}
 
-/* 页头：无底板，保持通透 */
-header{padding:20px 24px 12px;display:flex;align-items:center;justify-content:space-between}
-.brand{font-family:Georgia,"Songti SC","SimSun",serif;font-size:28px;letter-spacing:4px;font-weight:600;display:flex;gap:10px;align-items:center;color:#fff;text-shadow:0 1px 8px rgba(18,80,68,.35)}
-.mark{width:30px;height:30px;border:2px solid rgba(255,255,255,.9);border-radius:50% 50% 4px 50%;transform:rotate(-15deg);display:inline-block;background:rgba(255,255,255,.25)}
-.badge{font-size:14px;letter-spacing:1px;color:#fff;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);padding:4px 12px;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* 页头：书名 + 印章 */
+header{padding:22px 24px 10px 28px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-family:var(--serif);font-size:30px;letter-spacing:6px;font-weight:600;display:flex;gap:12px;align-items:center;color:var(--ink)}
+.mark{width:30px;height:30px;border-radius:5px;background:var(--seal);display:inline-grid;place-items:center;transform:rotate(-6deg);box-shadow:inset 0 0 0 2px rgba(255,240,225,.55);position:relative}
+.mark:after{content:'光';font-size:17px;letter-spacing:0;color:#fff4ea;font-family:var(--serif);font-weight:600}
+.badge{font-family:var(--kai);font-size:16px;letter-spacing:2px;color:var(--ink-2);background:var(--tape);padding:3px 14px;transform:rotate(3deg);clip-path:polygon(3% 0,97% 4%,100% 100%,0 96%)}
 
-main{padding:12px 24px 40px}
-h1{font-family:Georgia,"Songti SC","SimSun",serif;font-size:34px;font-weight:600;line-height:1.5;margin:16px 0}
-h2{font-size:24px;font-weight:600;margin:20px 0 12px}
+main{padding:8px 24px 40px 28px}
+h1{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1.45;margin:16px 0;letter-spacing:1px}
+h2{font-family:var(--serif);font-size:25px;font-weight:600;margin:20px 0 12px}
 h3{font-size:19px;font-weight:600;margin:16px 0 8px}
 p{margin:12px 0}
-.eyebrow{font-size:15px;letter-spacing:3px;color:var(--accent-deep);font-weight:600}
+.eyebrow{font-family:var(--kai);font-size:18px;letter-spacing:2px;color:var(--seal-deep)}
 .muted{color:var(--ink-3);font-size:17px}
 .small{font-size:15px}
-.greeting{font-size:20px;color:var(--ink-2);margin:8px 0 0}
+.greeting{font-family:var(--kai);font-size:22px;color:var(--ink-2);margin:4px 0 0}
 
-/* 首页 */
-.hero{padding:8px 0 24px;color:#fff}
-.hero .eyebrow{color:rgba(255,255,255,.85)}
-.hero h1{font-size:40px;margin:12px 0;text-shadow:0 2px 12px rgba(18,80,68,.3)}
-.hero .muted{color:rgba(255,255,255,.9)}
+/* 首页旧版插画（备用路由） */
+.hero{padding:8px 0 24px}
+.hero h1{font-size:40px;margin:12px 0}
 .illustration{height:148px;position:relative;margin:24px 0 8px}
-.circle{width:120px;height:120px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.45);border-radius:50%;position:absolute;right:36px;top:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.book{position:absolute;left:32px;top:28px;width:184px;height:112px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:6px var(--r-inner) var(--r-inner) 6px;transform:rotate(-7deg);box-shadow:var(--sh-2)}
-.book:before{content:'那些年，\A 我记得';white-space:pre;position:absolute;left:24px;top:16px;font-family:Georgia,"Songti SC","SimSun",serif;font-size:21px;line-height:1.65;color:var(--ink-2)}
-.sprig{position:absolute;right:148px;bottom:0;font-size:40px;color:rgba(255,255,255,.75);transform:rotate(12deg)}
-.notice{background:var(--glass-2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-inner);padding:12px 16px;font-size:15px;color:var(--ink-2);margin:20px 0}
+.circle{width:110px;height:110px;border:2px dashed var(--kraft);border-radius:50%;position:absolute;right:36px;top:8px}
+.book{position:absolute;left:32px;top:28px;width:184px;height:112px;background:var(--card);border-radius:4px;transform:rotate(-5deg);box-shadow:var(--sh-2)}
+.book:before{content:'那些年，\A 我记得';white-space:pre;position:absolute;left:24px;top:16px;font-family:var(--kai);font-size:22px;line-height:1.65;color:var(--ink-2)}
+.sprig{position:absolute;right:148px;bottom:0;font-size:40px;color:var(--moss);transform:rotate(12deg)}
+.notice{background:var(--paper-3);border-left:4px solid var(--kraft);border-radius:2px;padding:12px 16px;font-size:15px;color:var(--ink-2);margin:20px 0}
 
-/* 按钮：全宽大按钮，主按钮青绿渐变 */
-.primary,.secondary{display:block;width:100%;min-height:72px;font-size:24px;font-weight:600;border-radius:var(--r-btn);padding:16px 24px;margin:12px 0;border:1px solid transparent;transition:transform .12s ease,box-shadow .2s ease}
-.primary{background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;box-shadow:0 8px 20px rgba(30,132,114,.32)}
-.secondary{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-color:var(--glass-line);color:var(--ink);box-shadow:var(--sh-1)}
-.primary:active,.secondary:active,.actionTile:active,.choice:active,.person:active,.nav button:active{transform:scale(.98)}
-.primary:active{box-shadow:0 4px 12px rgba(30,132,114,.3)}
-.link{display:block;width:100%;min-height:56px;background:none;border:0;color:var(--teal-deep);font-size:19px;font-weight:600;text-decoration:underline;text-underline-offset:4px;margin:8px 0;padding:8px}
+/* 按钮：深棕墨色主按钮，带压印底边 */
+.primary,.secondary{display:block;width:100%;min-height:72px;font-size:24px;font-weight:600;border-radius:var(--r-btn);padding:16px 24px;margin:12px 0;border:2px solid transparent;transition:transform .12s ease,box-shadow .15s ease;letter-spacing:1px}
+.primary{background:var(--brown);color:#fdf6e8;box-shadow:inset 0 -4px 0 var(--brown-deep),var(--sh-1)}
+.secondary{background:var(--card);border-color:var(--line);color:var(--ink);box-shadow:inset 0 -3px 0 var(--paper-3),var(--sh-1)}
+.primary:active,.secondary:active,.actionTile:active,.choice:active,.person:active,.nav button:active{transform:translateY(2px) scale(.99)}
+.primary:active{box-shadow:inset 0 -1px 0 var(--brown-deep)}
+.link{display:block;width:100%;min-height:56px;background:none;border:0;color:var(--brown);font-size:19px;font-weight:600;text-decoration:underline;text-decoration-style:wavy;text-decoration-color:var(--kraft);text-underline-offset:6px;margin:8px 0;padding:8px}
 .back{display:inline-block;width:auto;min-height:56px;background:none;border:0;color:var(--ink-2);font-size:19px;padding:8px 4px}
-.row{display:flex;gap:12px;align-items:stretch}
-.row>*{flex:1}
+.row{display:flex;gap:16px;align-items:stretch}
+.row>*{flex:1;min-width:0}
 
-/* 大图标聚焦区 */
-.focus{text-align:center;padding:12px 0 8px}
-.focus h1{font-size:32px;font-weight:600;margin:12px 0 4px}
-.bigIcon{display:flex;align-items:center;justify-content:center;width:136px;height:136px;border-radius:50%;margin:16px auto;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);color:var(--teal-deep);box-shadow:var(--sh-2)}
+/* 聚焦区：拍立得相框 */
+.focus{text-align:center;padding:8px 0}
+.focus h1{font-size:32px;margin:16px 0 4px}
+.bigIcon{display:flex;align-items:center;justify-content:center;width:150px;height:166px;margin:18px auto 8px;padding-bottom:22px;background:var(--card);color:var(--brown);border-radius:3px;box-shadow:var(--sh-2);transform:rotate(-3deg);position:relative}
+.bigIcon:before{content:'';position:absolute;top:-10px;left:50%;width:76px;height:22px;margin-left:-38px;background:var(--tape);transform:rotate(4deg);clip-path:polygon(2% 0,98% 6%,100% 100%,0 92%)}
+.bigIcon:after{content:'';position:absolute;inset:12px 12px 34px;border:1px solid var(--paper-3);background:linear-gradient(160deg,rgba(239,227,203,.6),rgba(255,252,244,0));z-index:0}
+.bigIcon .svgIcon{position:relative;z-index:1}
 .svgIcon{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.bigIcon .svgIcon{width:68px;height:68px}
-.actionTile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:156px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);color:var(--ink);font-size:26px;font-weight:600;width:100%;padding:20px;margin:12px 0;box-shadow:var(--sh-1);transition:transform .12s ease,box-shadow .2s ease}
-.actionTile.mainAction{background:linear-gradient(150deg,#3bb29b,#1e8472);color:#fff;border-color:rgba(255,255,255,.3);box-shadow:0 10px 24px rgba(30,132,114,.35)}
-.actionTile .svgIcon{width:54px;height:54px}
+.bigIcon .svgIcon{width:64px;height:64px}
+.bigIcon.listening{color:var(--seal)}
+.bigIcon.listening .svgIcon{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
-/* 顶部返回 / 暂停：毛玻璃吸顶条 */
-.nav{position:sticky;top:0;z-index:4;background:rgba(238,247,242,.8);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);display:flex;justify-content:space-between;gap:12px;padding:12px 24px;margin:0 -24px 20px;border-bottom:1px solid rgba(255,255,255,.7);box-shadow:var(--sh-1)}
-.nav button{min-height:60px;padding:12px 24px;border:1px solid var(--glass-line);border-radius:999px;background:var(--glass);font-size:20px;font-weight:600;color:var(--ink);box-shadow:var(--sh-1)}
-.nav .halt{color:var(--accent-deep);background:var(--accent-tint);border-color:rgba(224,100,47,.35)}
+/* 大入口卡：纸片 + 印章红主入口 */
+.actionTile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:156px;background:var(--card);border:2px solid var(--line);border-radius:var(--r-btn);color:var(--ink);font-size:26px;font-weight:600;width:100%;padding:20px;margin:12px 0;box-shadow:inset 0 -4px 0 var(--paper-3),var(--sh-1);transition:transform .12s ease;letter-spacing:2px;cursor:pointer}
+.actionTile.mainAction{background:var(--seal);border-color:var(--seal-deep);color:#fff6ec;box-shadow:inset 0 -5px 0 var(--seal-deep),var(--sh-2)}
+.actionTile .svgIcon{width:52px;height:52px}
+.row .actionTile:first-child{transform:rotate(-1deg)}
+.row .actionTile:last-child{transform:rotate(1deg)}
+.row .actionTile:active{transform:translateY(2px)}
 
-/* 选择卡片：白色玻璃区块 + 图标色块 */
-.choice{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:20px;margin:12px 0;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);box-shadow:var(--sh-1);text-align:left;font-size:21px;color:var(--ink);transition:transform .12s ease,box-shadow .2s ease}
-.choice strong{font-size:23px;font-weight:600;display:block;line-height:1.5}
-.choice small{display:block;font-size:16px;color:var(--ink-3);font-weight:400;margin-top:4px}
+/* 返回 / 暂停：吸顶纸条，下沿撕线 */
+.nav{position:sticky;top:0;z-index:4;background:var(--paper-2);display:flex;justify-content:space-between;gap:12px;padding:12px 24px 14px 28px;margin:0 -24px 20px -28px;border-bottom:2px dashed var(--line);box-shadow:0 4px 10px rgba(80,50,20,.06)}
+.nav button{min-height:60px;padding:10px 24px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:20px;font-weight:600;color:var(--ink)}
+.nav .halt{color:var(--seal-deep);border-color:rgba(178,65,46,.4);background:var(--seal-tint)}
+
+/* 选择卡：便签纸条 */
+.choice{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:18px 20px;margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--sh-1);text-align:left;font-size:21px;color:var(--ink);transition:transform .12s ease}
+.choice:nth-of-type(odd){transform:rotate(-.6deg)}
+.choice:nth-of-type(even){transform:rotate(.5deg)}
+.choice strong{font-size:23px;font-weight:600;display:block;line-height:1.5;flex:1}
+.choice small{display:block;font-size:16px;color:var(--ink-3);font-weight:400;margin-top:2px}
 .choice>span:nth-child(2){flex:1}
-.choice .svgIcon{width:36px;height:36px;color:var(--teal-deep);flex:none;background:var(--teal-tint);border-radius:12px;padding:8px;box-sizing:content-box}
-.choice .arrow,.choice>span[aria-hidden]{font-size:26px;color:var(--accent);flex:none;font-weight:600}
+.choice .svgIcon{width:30px;height:30px;color:var(--brown);flex:none;background:var(--paper-3);border-radius:50%;padding:10px;box-sizing:content-box}
+.choice .arrow,.choice>span[aria-hidden],.choice>span:last-child{font-size:28px;color:var(--seal);flex:none;font-weight:600}
 
-/* 步骤进度 */
+/* 步骤进度：小圆章 */
 .progress{display:flex;gap:8px;margin:12px 0 8px}
-.progress i{flex:1;height:8px;border-radius:999px;background:rgba(255,255,255,.55)}
-.progress i.on{background:var(--teal)}
+.progress i{flex:1;height:8px;border-radius:999px;background:var(--paper-3);border:1px solid var(--line)}
+.progress i.on{background:var(--seal);border-color:var(--seal-deep)}
 
 /* 讲述页 */
-.shortPrompt{font-size:27px;font-weight:600;text-align:center;line-height:1.6;margin:16px 0 24px}
+.shortPrompt{font-family:var(--serif);font-size:28px;font-weight:600;text-align:center;line-height:1.6;margin:12px 0 20px}
 .miniStatus{text-align:center;color:var(--ink-3);font-size:17px;margin:12px 0}
-.recordDot{width:18px;height:18px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:12px;vertical-align:-2px;animation:pulse 1.4s ease-in-out infinite}
+.miniStatus.tag{font-family:var(--kai);font-size:19px;color:var(--ink-2)}
+.recordDot{width:16px;height:16px;border-radius:50%;background:var(--seal);display:inline-block;margin-right:10px;vertical-align:2px;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.stopBlock{background:var(--accent-tint);color:var(--accent-deep);border:1px solid rgba(224,100,47,.4)}
+.stopBlock{color:var(--seal-deep)!important;border-color:rgba(178,65,46,.35)!important}
 .conversation{display:flex;flex-direction:column;gap:12px;margin:16px 0}
-.bubble{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-card) var(--r-card) 6px var(--r-card);padding:16px 20px;font-size:20px;align-self:flex-end;max-width:92%;box-shadow:var(--sh-1)}
-.card{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-card);box-shadow:var(--sh-1);padding:24px;margin:16px 0}
-.card.soft{background:var(--glass-2);box-shadow:none}
-.pill{display:inline-block;background:var(--accent-tint);color:var(--accent-deep);border-radius:999px;padding:6px 16px;font-size:15px;font-weight:600}
-.avatar{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;font-size:19px;flex:none}
+.bubble{background:var(--card) repeating-linear-gradient(transparent 0 33px,var(--rule) 33px 34px);border-left:3px solid var(--kraft);border-radius:2px;padding:4px 18px;font-size:20px;line-height:34px;align-self:stretch;box-shadow:var(--sh-1)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--sh-1);padding:24px;margin:20px 0;position:relative}
+.card.soft{background:var(--paper-3);box-shadow:none;border-style:dashed}
+.pill{display:inline-block;background:var(--seal-tint);color:var(--seal-deep);border:1px solid rgba(178,65,46,.3);border-radius:4px;padding:4px 14px;font-size:15px;font-weight:600;transform:rotate(-1.5deg)}
+.avatar{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:6px;background:var(--seal);color:#fff6ec;font-family:var(--serif);font-size:20px;flex:none}
 .prompt{font-size:24px;font-weight:600;line-height:1.6;margin:12px 0}
+
+/* 听写区：横格信纸 */
+.transcript{width:100%;min-height:208px;font-family:var(--serif);font-size:23px;line-height:40px;padding:6px 18px;border:1px solid var(--line);border-radius:2px;background:var(--card) repeating-linear-gradient(transparent 0 39px,var(--rule) 39px 40px);background-attachment:local;box-shadow:var(--sh-1);color:var(--ink);resize:vertical}
+.transcript[readonly]{cursor:default}
+.transcript::placeholder{color:var(--ink-3);font-family:var(--kai)}
+.listenHint{font-family:var(--kai);text-align:center;font-size:20px;color:var(--seal-deep);min-height:34px;margin:8px 0}
 
 /* 人物选择与输入区 */
 .people{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 24px}
-.person{min-height:56px;padding:12px 24px;border:1px solid var(--glass-line);border-radius:999px;background:var(--glass);font-size:20px;color:var(--ink);box-shadow:var(--sh-1)}
-.person[aria-pressed=true]{background:linear-gradient(135deg,#35ac96,#1e8472);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(30,132,114,.3)}
+.person{min-height:56px;padding:10px 22px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:20px;color:var(--ink)}
+.person[aria-pressed=true]{background:var(--brown);color:#fdf6e8;border-color:var(--brown-deep)}
 .label{display:block;font-size:19px;font-weight:600;margin:20px 0 8px}
-input[type=text],textarea{width:100%;font-size:20px;padding:16px;border:1px solid var(--glass-line);border-radius:var(--r-inner);background:rgba(255,255,255,.92);line-height:1.65;box-shadow:var(--sh-1)}
-input[type=text]:focus,textarea:focus{border-color:var(--teal)}
+input[type=text],textarea{width:100%;font-size:20px;padding:14px 16px;border:2px solid var(--line);border-radius:var(--r-inner);background:var(--card);line-height:1.65}
+input[type=text]:focus,textarea:focus{border-color:var(--brown);outline:none}
 textarea{min-height:132px;resize:vertical}
 input[type=file]{font-size:16px;margin:8px 0}
 .inputWrap{position:relative;margin:8px 0}
 .inputWrap input,.inputWrap textarea{padding-right:76px;min-height:132px}
 .inputTools{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:8px}
-.inputTools button{display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--glass-line);border-radius:var(--r-inner);background:var(--teal-tint);color:var(--teal-dark)}
+.inputTools button{display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--line);border-radius:50%;background:var(--paper-3);color:var(--brown)}
 .inputTools .svgIcon{width:26px;height:26px}
 
-/* 底部确认区 */
-.commitArea{position:sticky;bottom:0;background:linear-gradient(rgba(242,250,246,0),rgba(242,250,246,.95) 32%);padding:20px 0 24px;margin-top:20px;z-index:2}
-.check{display:flex;gap:12px;align-items:flex-start;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:var(--r-btn);padding:16px 20px;margin:12px 0;font-size:20px;line-height:1.65;cursor:pointer;box-shadow:var(--sh-1)}
-.check input{width:28px;height:28px;flex:none;margin-top:4px;accent-color:var(--teal-deep)}
-.finish{background:linear-gradient(135deg,#e8793f,#c2521f);border:1px solid rgba(255,255,255,.3);color:#fff;min-height:84px;font-size:29px;font-weight:600;box-shadow:0 10px 24px rgba(224,100,47,.38);border-radius:var(--r-card)}
-.finish small{display:block;font-size:16px;font-weight:400;opacity:.9;margin-top:2px}
+/* 底部确认区：印章按钮 */
+.commitArea{position:sticky;bottom:0;background:linear-gradient(rgba(246,238,221,0),var(--paper) 30%);padding:20px 0 24px;margin-top:20px;z-index:2}
+.check{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:var(--r-btn);padding:16px 20px;margin:12px 0;font-size:20px;line-height:1.65;cursor:pointer}
+.check input{width:30px;height:30px;flex:none;margin-top:3px;accent-color:var(--seal)}
+.finish{background:var(--seal);border:2px solid var(--seal-deep);color:#fff6ec;min-height:86px;font-size:30px;font-family:var(--serif);letter-spacing:6px;box-shadow:inset 0 -5px 0 var(--seal-deep),var(--sh-2)}
+.finish small{display:block;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;font-weight:400;letter-spacing:0;opacity:.92;margin-top:2px}
 
-/* 成稿与故事 */
-.story{white-space:pre-wrap;font-family:Georgia,"Songti SC","SimSun",serif;font-size:20px;line-height:1.9}
-.storyTitle{font-family:Georgia,"Songti SC","SimSun",serif;font-size:28px;font-weight:600;text-align:center;margin:8px 0 16px}
-.photo{width:100%;display:block;border-radius:var(--r-inner);border:1px solid var(--glass-line);margin:12px 0}
-.compactStory{max-height:260px;overflow:auto}
-.success{display:grid;place-items:center;width:104px;height:104px;margin:16px auto;border-radius:50%;background:var(--glass);border:1px solid var(--glass-line);color:var(--teal-deep);font-size:44px;box-shadow:var(--sh-2)}
+/* 成稿：信纸横格 + 相片 */
+.story{white-space:pre-wrap;font-family:var(--serif);font-size:20px;line-height:38px;background:repeating-linear-gradient(transparent 0 37px,var(--rule) 37px 38px)}
+.storyTitle{font-family:var(--serif);font-size:28px;font-weight:600;text-align:center;margin:8px 0 16px;letter-spacing:2px}
+.photo{display:block;width:calc(100% - 16px);margin:16px auto;padding:10px 10px 32px;background:#fff;border-radius:2px;box-shadow:var(--sh-2);transform:rotate(-1.5deg)}
+.compactStory{max-height:280px;overflow:auto}
+.success{display:grid;place-items:center;width:104px;height:104px;margin:16px auto;border-radius:50%;border:3px solid var(--seal);color:var(--seal);font-size:40px;transform:rotate(-8deg)}
+article.card{padding:28px 24px}
+article.card:before,.shelf:before,.assistBox:before{content:'';position:absolute;top:-11px;left:50%;width:96px;height:24px;margin-left:-48px;background:var(--tape);transform:rotate(-3deg);clip-path:polygon(2% 0,98% 8%,100% 100%,0 90%)}
 
 /* 折叠区与帮助 */
 details{margin:16px 0}
-summary{font-size:19px;font-weight:600;min-height:56px;display:flex;align-items:center;cursor:pointer;color:var(--teal-deep);list-style:none}
+summary{font-size:19px;font-weight:600;min-height:56px;display:flex;align-items:center;cursor:pointer;color:var(--brown);list-style:none}
 summary::-webkit-details-marker{display:none}
-summary:before{content:'▸';margin-right:8px;color:var(--accent);transition:transform .15s ease}
+summary:before{content:'▸';margin-right:10px;color:var(--seal);transition:transform .15s ease}
 details[open]>summary:before{transform:rotate(90deg)}
-.footer{padding:0 24px 32px}
+.footer{padding:0 24px 32px 28px}
 .footer summary{font-size:17px;color:var(--ink-3);font-weight:400;min-height:48px}
-.footer details{text-align:left}
-.helpButton{border:0;background:none;min-height:52px;color:var(--accent-deep);font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:4px;padding:0}
+.footer details{text-align:left;font-size:16px;color:var(--ink-2)}
+.helpButton{border:0;background:none;min-height:52px;color:var(--seal-deep);font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:4px;padding:0}
 
 /* 辅助弹层与全局提示 */
-.assist{position:fixed;inset:0;z-index:10;background:rgba(21,50,43,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
-.assistBox{max-width:440px;width:100%;background:rgba(244,251,247,.94);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-line);border-radius:24px;padding:24px;max-height:88dvh;overflow:auto;box-shadow:0 24px 64px rgba(10,50,42,.35)}
+.assist{position:fixed;inset:0;z-index:10;background:rgba(58,42,29,.55);display:flex;align-items:center;justify-content:center;padding:20px}
+.assistBox{max-width:440px;width:100%;background:var(--grain),var(--paper);border-radius:4px;padding:28px 24px 20px;max-height:88dvh;overflow:auto;box-shadow:0 24px 64px rgba(30,18,8,.45);position:relative}
 .assistBox h2{margin-top:0}
-.assistBox .photo{max-height:168px;width:auto;max-width:100%}
-.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:40;background:rgba(21,50,43,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#f2faf6;font-size:18px;line-height:1.6;padding:16px 24px;border-radius:var(--r-btn);box-shadow:0 12px 32px rgba(10,40,34,.35);max-width:86%;text-align:center}
+.assistBox .photo{max-height:180px;width:auto;max-width:100%}
+.assistBox .transcript{min-height:160px}
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:40;background:#3a2a1d;color:#fbf3e3;font-size:18px;line-height:1.6;padding:16px 24px;border-radius:6px;box-shadow:0 12px 32px rgba(30,18,8,.4);max-width:86%;text-align:center}
+
+/* 我的回忆录：相册夹页 + 相角空位 */
+.shelf{margin-top:32px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-card);padding:24px 20px 16px;box-shadow:var(--sh-1);position:relative}
+.shelf h2{margin:0 0 4px;text-align:center;letter-spacing:4px}
+.shelf h3{font-family:var(--kai);font-size:20px;font-weight:400;color:var(--seal-deep);margin:16px 0 4px}
+.shelf .choice{margin:10px 0}
+.emptySlot{position:relative;background:transparent;border:2px dashed var(--line);border-radius:2px;padding:18px 16px;text-align:center;margin:8px 0;font-family:var(--kai);font-size:18px}
+.emptySlot:before,.emptySlot:after{content:'';position:absolute;width:18px;height:18px;border:solid var(--kraft)}
+.emptySlot:before{top:-2px;left:-2px;border-width:3px 0 0 3px}
+.emptySlot:after{bottom:-2px;right:-2px;border-width:0 3px 3px 0}
 
 /* 动效与降级 */
-main>*{animation:fadeUp .28s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+main>*{animation:fadeUp .3s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-/* 回忆录分区：整块玻璃容器 + 虚线空位槽 */
-.shelf{margin-top:24px;background:rgba(255,255,255,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-line);border-radius:var(--r-card);padding:20px;box-shadow:var(--sh-1)}
-.shelf h2{margin:0 0 12px}
-.shelf h3{font-size:18px;font-weight:600;color:var(--ink-2);margin:16px 0 8px}
-.shelf .choice{margin:8px 0}
-.emptySlot{background:rgba(255,255,255,.55);border:1.5px dashed rgba(100,128,122,.45);border-radius:var(--r-inner);padding:16px;text-align:center;margin:8px 0}
-@media print{.nav,.focus,.miniStatus,.commitArea,.assist,.footer,details,.toast{display:none!important}.compactStory{max-height:none;overflow:visible}.phone{background:#fff}.card,.choice,.check{background:#fff;border:1px solid #ccc;box-shadow:none}}
+@media print{.nav,.focus,.miniStatus,.commitArea,.assist,.footer,details,.toast{display:none!important}.compactStory{max-height:none;overflow:visible}.phone,body{background:#fff}.phone:before{display:none}.card,.choice,.check{background:#fff;border:1px solid #ccc;box-shadow:none}}
 </style></head>
-<body><div class="phone"><header><div class="brand"><span class="mark" aria-hidden="true"></span>拾光</div><span class="badge">演示版</span></header><main id="app"></main><div class="footer"><details><summary>使用帮助</summary>这是本地交互演示。说话和图片理解使用演示流程，未连接真实 AI 服务、不录音、不上传。可选择本机照片、输入文字；浏览器支持时可朗读。分享不会发送给他人。<button class="helpButton" onclick="act('resetAsk')">清除演示数据</button></details></div></div><div id="toast" class="toast hidden" role="status"></div>
+<body><div class="phone"><header><div class="brand"><span class="mark" aria-hidden="true"></span>拾光</div><span class="badge">演示版</span></header><main id="app"></main><div class="footer"><details><summary>使用帮助</summary>这是交互演示。“说给我”使用浏览器自带的语音识别把话转成文字（Chrome、Edge、Safari 可用，需允许麦克风；部分浏览器会把声音发到其服务器转写，本页不保存录音）。不支持时可改用打字。照片只在本机预览，分享不会发送给他人。<button class="helpButton" onclick="act('resetAsk')">清除演示数据</button></details></div></div><div id="toast" class="toast hidden" role="status"></div>
 <script>
 'use strict';
 const KEY='shiguang-demo-v1';
@@ -195,7 +217,7 @@ function isComplete(s){return !!s.confirmed&&s.confirmed===s.version&&!s.dirtyAn
 function shelf(){const cards=(complete)=>{const list=library.filter(s=>isComplete(s)===complete);return list.length?list.map(s=>`<button class="choice" data-story="${esc(s.id)}">${icon(complete?'book':'chat')}<span><strong>${esc(s.topic)}</strong><small>${complete?'已完成 · 听听 / 看看':s.draft&&!s.dirtyAnswers?'待确认 · 接着来':!s.consent?'待参与 · 接着来':'正在聊 · 接着说'}</small></span><span aria-hidden="true">›</span></button>`).join(''):`<p class="muted emptySlot">${complete?'聊好的故事会放在这里':'还没有，开始聊聊吧'}</p>`;};return `<section class="shelf" aria-label="我的回忆录"><h2>我的回忆录</h2><h3>正在聊</h3>${cards(false)}<h3>已完成</h3>${cards(true)}</section>`;}
 function openStory(id){save();const story=library.find(s=>s.id===id);if(!story){toast('这段故事暂时找不到了。');return;}state={...initial(),...JSON.parse(JSON.stringify(story))};act('resume');}
 function toast(t){el('toast').textContent=t;el('toast').classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el('toast').classList.add('hidden'),3500);}
-function go(screen){if(window.speechSynthesis)window.speechSynthesis.cancel();state.screen=screen;save();render();window.scrollTo(0,0);}
+function go(screen){if(window.speechSynthesis)window.speechSynthesis.cancel();if(screen!==state.screen&&rec)stopListening(true);state.screen=screen;save();render();window.scrollTo(0,0);}
 function btn(text,action,type='primary'){return `<button class="${type}" data-action="${action}">${text}</button>`;}
 function progress(n){return `<div class="eyebrow">一段故事 · ${['开始回忆','慢慢讲述','听读确认','留存故事'][n-1]}</div><div class="progress" aria-label="第 ${n} 步，共 4 步">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;}
 function title(t,p=''){return `<h1>${t}</h1>${p?`<p class="muted">${p}</p>`:''}`;}
@@ -207,15 +229,33 @@ function greet(){const h=new Date().getHours();return h<6?'夜深了':h<11?'上�
 function tile(label,action,k,main=false){return `<button class="actionTile ${main?'mainAction':''}" data-action="${action}">${icon(k)}<span>${label}</span></button>`;}
 function inputTools(id,placeholder,multiline=false){return `<div class="inputWrap">${multiline?`<textarea id="${id}" aria-label="${placeholder}" placeholder="${placeholder}"></textarea>`:`<input id="${id}" type="text" maxlength="50" aria-label="${placeholder}" placeholder="${placeholder}">`}<div class="inputTools"><button type="button" data-input="${id}" data-mode="voice" aria-label="语音输入" title="语音输入">${icon('mic')}</button><button type="button" data-input="${id}" data-mode="camera" aria-label="拍照识别" title="拍照识别">${icon('camera')}</button></div></div>`;}
 function currentQuestion(){return state.photo?'照片里有什么故事？':!state.answers.length&&state.relatedPerson?`聊聊和${state.relatedPerson}有关的这件事吧？`:questions[Math.min(state.answers.length,2)];}
-function showInputAssist(target,mode){inputAssist={target,mode,screen:state.screen};let host=el('inputAssist');if(!host){host=document.createElement('div');host.id='inputAssist';host.className='assist';document.body.appendChild(host);}host.className='assist';host.setAttribute?.('role','dialog');host.setAttribute?.('aria-modal','true');host.setAttribute?.('aria-label',mode==='voice'?'语音输入':'拍照识别');host.innerHTML=`<div class="assistBox"><h2>${mode==='voice'?'说给我':'拍给我'}</h2><p class="muted">${mode==='voice'?'语音输入演示 · 填入前可修改':'拍照识别演示 · 请核对文字'}</p>${mode==='camera'?'<input id="assistPhoto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" aria-label="拍照或选图"><div id="assistPreview"></div>':''}<label class="label" for="assistText">${mode==='voice'?'想说的话':'照片里的文字'}</label><textarea id="assistText" placeholder="${mode==='voice'?'可输入文字，或试用演示样例':'当前未接入识别，请手动填写'}"></textarea>${mode==='voice'?btn('试用一句示例','assistExample','secondary'):''}${btn('填入输入框','assistInsert')}${btn('取消','assistCancel','secondary')}</div>`;host.onclick=e=>{const b=e.target.closest('button');if(b?.dataset.action)act(b.dataset.action);};if(mode==='camera'&&el('assistPhoto'))el('assistPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){toast('请选择 2MB 以内的照片');return;}const session=inputAssist,r=new FileReader();r.onload=()=>{if(inputAssist!==session)return;el('assistPreview').innerHTML=`<img class="photo" src="${esc(r.result)}" alt="待核对文字的照片">`;};r.readAsDataURL(f);};el('assistText')?.focus?.();}
-function closeInputAssist(){const target=inputAssist?.target;inputAssist=null;const host=el('inputAssist');if(host)host.className='assist hidden';if(target)el(target)?.focus?.();}
+function showInputAssist(target,mode){inputAssist={target,mode,screen:state.screen};let host=el('inputAssist');if(!host){host=document.createElement('div');host.id='inputAssist';host.className='assist';document.body.appendChild(host);}host.className='assist';host.setAttribute?.('role','dialog');host.setAttribute?.('aria-modal','true');host.setAttribute?.('aria-label',mode==='voice'?'语音输入':'拍照识别');host.innerHTML=`<div class="assistBox"><h2>${mode==='voice'?'说给我':'拍给我'}</h2><p class="muted">${mode==='voice'?'说完会变成文字，填入前可以改':'拍照识别演示 · 请核对文字'}</p>${mode==='voice'?'<div id="assistMic"></div>':''}${mode==='camera'?'<input id="assistPhoto" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" aria-label="拍照或选图"><div id="assistPreview"></div>':''}<label class="label" for="assistText">${mode==='voice'?'想说的话':'照片里的文字'}</label><textarea id="assistText" class="${mode==='voice'?'transcript':''}" placeholder="${mode==='voice'?'说的话会出现在这里，也可以直接打字':'当前未接入识别，请手动填写'}"></textarea>${mode==='voice'&&!canListen()?btn('试用一句示例','assistExample','secondary'):''}${btn('填入输入框','assistInsert')}${btn('取消','assistCancel','secondary')}</div>`;host.onclick=e=>{const b=e.target.closest('button');if(b?.dataset.action)act(b.dataset.action);};if(mode==='camera'&&el('assistPhoto'))el('assistPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){toast('请选择 2MB 以内的照片');return;}const session=inputAssist,r=new FileReader();r.onload=()=>{if(inputAssist!==session)return;el('assistPreview').innerHTML=`<img class="photo" src="${esc(r.result)}" alt="待核对文字的照片">`;};r.readAsDataURL(f);};if(mode==='voice')renderAssistMic();el('assistText')?.focus?.();}
+function closeInputAssist(){if(rec)stopListening(true);const target=inputAssist?.target;inputAssist=null;const host=el('inputAssist');if(host)host.className='assist hidden';if(target)el(target)?.focus?.();}
 function insertAssistedText(text){if(!inputAssist||inputAssist.screen!==state.screen)return false;text=text.trim();if(!text){toast('先填写需要放入的文字');return false;}const target=el(inputAssist.target);if(!target)return false;const combined=target.value.trim()+(target.value.trim()?(inputAssist.target==='answer'?'\n':' '):'')+text;if(inputAssist.target==='customTopic'&&combined.length>50){toast('主题请控制在 50 个字以内');return false;}target.value=combined;closeInputAssist();return true;}
+// ---- 语音转文字：浏览器自带识别（Web Speech API），不支持时退回打字 ----
+let rec=null,listening=false,heard='',interim='',listenBase='';
+const Recognizer=()=>window.SpeechRecognition||window.webkitSpeechRecognition||null;
+function canListen(){return !!Recognizer();}
+function heardText(){return listenBase+heard+interim;}
+function joinSegment(t){t=t.trim();if(!t)return;if(heard&&!/[，。！？、,.!?；;]$/.test(heard))heard+='，';heard+=t;}
+function finishPunct(t){t=t.trim();if(!t)return t;return /[，、,]$/.test(t)?t.slice(0,-1)+'。':/[。！？.!?]$/.test(t)?t:t+'。';}
+function startListening(base=''){const R=Recognizer();if(!R){listening=false;return false;}stopListening(true);heard='';interim='';listenBase=base;const r=new R();r.lang='zh-CN';r.continuous=true;r.interimResults=true;r.maxAlternatives=1;
+r.onresult=e=>{if(rec!==r)return;let inter='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)joinSegment(x[0].transcript);else inter+=x[0].transcript;}interim=inter;listenUpdate(false);};
+r.onerror=e=>{if(rec!==r)return;const msg={'not-allowed':'没有麦克风权限。请在浏览器地址栏旁允许使用麦克风，或改用打字。','service-not-allowed':'这个浏览器暂时不能听写，请改用打字。','audio-capture':'没有找到麦克风，请检查设备，或改用打字。','network':'网络不通，暂时听不了，可以改用打字。','language-not-supported':'这个浏览器听不了中文，请改用打字。'}[e.error];if(msg){listening=false;rec=null;toast(msg);listenUpdate(true);}};
+r.onend=()=>{if(rec!==r)return;if(listening){try{r.start();return;}catch(err){}}listening=false;rec=null;listenUpdate(true);};
+rec=r;listening=true;try{r.start();}catch(err){listening=false;rec=null;toast('暂时听不了，请稍后再试或改用打字。');return false;}return true;}
+function stopListening(discard=false){const r=rec;listening=false;rec=null;if(!discard){joinSegment(interim);heard=finishPunct(heard);}interim='';if(r){try{discard?r.abort():r.stop();}catch(err){}}}
+function listenUpdate(stateChanged){if(inputAssist&&inputAssist.mode==='voice'){const t=el('assistText');if(t)t.value=heardText();if(stateChanged)renderAssistMic();return;}if(state.screen!=='voice')return;if(stateChanged){render();return;}const t=el('voiceText');if(t)t.value=heardText();}
+function renderAssistMic(){const host=el('assistMic');if(!host)return;host.innerHTML=canListen()?`<button class="${listening?'secondary stopBlock':'primary'}" data-action="${listening?'assistStop':'assistListen'}">${listening?'<span class="recordDot"></span>说好了':'按一下，开始说'}</button><p class="listenHint" aria-live="polite">${listening?'在听呢，您慢慢说…':''}</p>`:`<p class="notice">这个浏览器听不了语音，可以直接打字，或换用 Chrome、Edge、Safari。</p>`;const t=el('assistText');if(t)t.readOnly=listening;}
 function simpleView(s,h){
 if(s==='home')h=`<div class="focus"><div class="bigIcon">${icon('book')}</div><h1>今天，聊一聊</h1><p class="greeting">${greet()}，很高兴见到您</p></div>${tile('开始聊','elder','chat',true)}${btn('帮长辈开始','family','secondary')}${shelf()}`;
 if(s==='consent')h=`<div class="focus"><div class="bigIcon">${icon('mic')}</div><h1>说的话，帮您记下</h1></div><label class="check"><input id="consentCheck" type="checkbox"><span>我同意录音、整理成故事</span></label>${btn('开始聊','agree')}${btn('先不聊','decline','secondary')}`;
 if(s==='topic')h=`<div class="focus"><h1>想聊点什么？</h1></div><h2>跟谁有关？<span class="muted">（可选）</span></h2><div class="people">${['自己','父母','爱人','孩子','朋友'].map(p=>`<button class="person" data-person="${p}" aria-pressed="${state.relatedPerson===p}">${p}</button>`).join('')}</div>${['第一次上夜班','一顿家常饭','一个想念的人'].map(t=>`<button class="choice" data-topic="${t}">${icon('book')}<strong>${t}</strong><span>›</span></button>`).join('')}<details><summary>聊别的</summary>${inputTools('customTopic','想聊的事')}${btn('聊这件事','customTopic')}</details>`;
-if(s==='chat')h=`<p class="miniStatus">${esc(state.topic)}${state.relatedPerson?' · '+esc(state.relatedPerson):''}</p><p class="shortPrompt">${esc(currentQuestion())}</p><div class="row">${tile('说给我','voice','mic',true)}${tile('拍给我','camera','camera')}</div>${state.answers.length?`<p class="miniStatus">记下了 ${state.answers.length} 段话</p>${btn('帮我写','prepare')}`:''}${btn('听问题','readQuestion','secondary')}<details><summary>看看 / 改用打字</summary><div class="conversation">${state.answers.map(a=>`<div class="bubble">${esc(a)}</div>`).join('')}</div>${inputTools('answer','写下想说的话',true)}${btn('存这句话','answer','secondary')}</details>`;
-if(s==='voice')h=`<div class="focus"><div class="bigIcon">${icon('mic')}</div><h1><span class="recordDot"></span>您慢慢说</h1><p class="miniStatus">语音交互演示 · 说完请点下方绿色大按钮</p></div>${btn('说好了','voiceFinish')}${btn('停止，不记这句','voiceCancel','secondary stopBlock')}`;
+if(s==='chat')h=`<p class="miniStatus tag">${esc(state.topic)}${state.relatedPerson?' · '+esc(state.relatedPerson):''}</p><p class="shortPrompt">${esc(currentQuestion())}</p><div class="row">${tile('说给我','voice','mic',true)}${tile('拍给我','camera','camera')}</div>${state.answers.length?`<p class="miniStatus">记下了 ${state.answers.length} 段话</p>${btn('帮我写','prepare')}`:''}${btn('听问题','readQuestion','secondary')}<details><summary>看看 / 改用打字</summary><div class="conversation">${state.answers.map(a=>`<div class="bubble">${esc(a)}</div>`).join('')}</div>${inputTools('answer','写下想说的话',true)}${btn('存这句话','answer','secondary')}</details>`;
+if(s==='voice'){const sup=canListen(),txt=heardText();h=`<p class="miniStatus tag">${esc(state.topic)}</p><div class="focus"><div class="bigIcon ${listening?'listening':''}">${icon('mic')}</div><h1>${listening?'<span class="recordDot"></span>您慢慢说':txt?'是这样说的吗？':sup?'准备好就说吧':'这里听不了'}</h1><p class="miniStatus">${esc(currentQuestion())}</p></div>`;
+if(sup){h+=`<label class="label" for="voiceText">我听到的</label><textarea id="voiceText" class="transcript" aria-live="polite" ${listening?'readonly':''} placeholder="说的话会一句句出现在这里">${esc(txt)}</textarea><p class="listenHint">${listening?'说完了，就点下面的“说好了”':txt?'字不对的地方，可以直接点进去改':''}</p>`;
+h+=listening?`${btn('说好了','voiceStop')}${btn('不记这句','voiceCancel','secondary stopBlock')}`:txt?`${btn('记下这段','voiceFinish','primary')}${btn('重说一遍','voiceRetry','secondary')}${btn('不记这句','voiceCancel','link')}`:`${btn('开始说','voiceRetry')}${btn('改用打字','voiceType','secondary')}`;}
+else h+=`<div class="card soft"><p>这个浏览器还不能把说话变成文字。</p><p class="muted">请换用 Chrome、Edge 或 Safari 打开，或者先打字。</p></div>${btn('改用打字','voiceType')}${state.topic==='第一次上夜班'&&!state.photo&&state.answers.length<3?btn('试听一句演示讲述','voiceSample','secondary'):''}${btn('回去','voiceCancel','link')}`;}
 if(s==='camera')h=`<div class="focus"><div class="bigIcon">${icon('camera')}</div><h1>拍给我看看</h1></div><label class="actionTile mainAction" for="cameraInput">${icon('camera')}<span>拍照 / 选照片</span></label><input class="hidden" id="cameraInput" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">${state.photo?`${photo()}<p class="shortPrompt">这张照片，您想讲什么？</p>${btn('说说这张照片','photoTalk')}${btn('不用这张','removePhoto','secondary')}`:''}<p class="miniStatus">图片理解演示 · 内容由您确认</p>`;
 if(s==='pause')h=`<div class="focus"><div class="bigIcon">${icon('pause')}</div><h1>暂停了，歇一歇</h1><p class="miniStatus">已记下的内容还在</p></div>${btn('接着来','resume')}${btn('回首页','home','secondary')}`;
 if(s==='summary')h=`<div class="focus"><div class="bigIcon">${icon('book')}</div><h1>帮您写成故事？</h1></div>${btn('帮我写','draft')}${btn('我再说说','chat','secondary')}<details><summary>看看记下的话</summary><div class="story">${esc(state.answers.join('\n\n'))}</div></details>`;
@@ -228,7 +268,7 @@ function render(){let h='';const s=state.screen;
 if(s==='home')h=`<div class="hero"><div class="eyebrow">把日子，留成故事</div><h1>那些年的事，<br>我们慢慢说。</h1><p class="muted">不用写字，从一件记得的事开始。</p><div class="illustration" aria-hidden="true"><div class="circle"></div><div class="book"></div><div class="sprig">⌁</div></div></div><button class="choice" data-action="elder"><span><strong>我想讲自己的故事</strong><small>说一说，我们帮您整理</small></span><span class="arrow">↗</span></button><button class="choice" data-action="family"><span><strong>我想帮长辈留下故事</strong><small>准备线索，邀请长辈来讲</small></span><span class="arrow">↗</span></button>${state.answers.length||state.draft?btn('继续上次的故事','resume','secondary'):''}<div class="notice">演示内容为虚构样例。也可输入自己的文字、选择本机照片，数据仅尝试保存在当前浏览器。</div>${btn('清除本机演示数据','resetAsk','link')}`;
 if(s==='family')h=`${btn('‹ 返回','home','back')}<div class="eyebrow">为家人准备一段回忆</div>${title('先准备一点线索','可以先选主题和照片，也可以直接请长辈来讲。')}<label class="label" for="topic">想听长辈讲什么？</label><input id="topic" type="text" maxlength="50" value="${esc(state.topic)}"><label class="label" for="photoInput">老照片（可选，仅本地预览）</label><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">${photo()}<div class="card soft">长辈决定是否参与。您准备的线索不会自动变成他的经历。</div>${btn('把手机交给长辈','handoff')}${btn('查看邀请演示','invite','secondary')}`;
 if(s==='invite')h=`${btn('‹ 返回准备','familyBack','back')}${title('邀请已经准备好','这是演示邀请，不会发送给任何人。')}<div class="card"><p>想听您讲讲「${esc(state.topic)}」。</p><p class="muted">有空时慢慢说，不想讲也没关系。</p></div>${btn('模拟长辈打开邀请','consent')}`;
-if(s==='consent')h=`${progress(1)}${title('接下来，由您来讲','我们会把您讲的话整理成故事，再念给您听。')}<div class="card"><p>① 您可以随时停下来。</p><p>② 故事写好，由您改、由您定。</p><p>③ 给谁看，之后再由您决定。</p></div><label class="check"><input id="consentCheck" type="checkbox"><span>我愿意参与并允许录音和整理。<br><span class="muted">本原型仅模拟，不会开启麦克风。</span></span></label>${btn('我愿意，开始讲','agree')}${btn('今天先不讲','decline','secondary')}`;
+if(s==='consent')h=`${progress(1)}${title('接下来，由您来讲','我们会把您讲的话整理成故事，再念给您听。')}<div class="card"><p>① 您可以随时停下来。</p><p>② 故事写好，由您改、由您定。</p><p>③ 给谁看，之后再由您决定。</p></div><label class="check"><input id="consentCheck" type="checkbox"><span>我愿意参与并允许录音和整理。<br><span class="muted">只在您点“说给我”时用麦克风，录音不会保存。</span></span></label>${btn('我愿意，开始讲','agree')}${btn('今天先不讲','decline','secondary')}`;
 if(s==='topic')h=`${progress(1)}${title('今天，想从哪里讲起？','先讲一件事就好，不用从头讲完一生。')}${['第一次上夜班','一顿难忘的家常饭','一位想念的人'].map(t=>`<button class="choice" data-topic="${t}"><strong>${t}</strong><span class="arrow">→</span></button>`).join('')}<label class="label" for="customTopic">也可以自己定一个主题</label><input id="customTopic" type="text" maxlength="50" placeholder="例如：第一次离开家">${btn('就讲这件事','customTopic','secondary')}`;
 if(s==='chat')h=`${progress(2)}<div class="row"><span class="pill">讲述中</span><button class="link" data-action="pause">先休息</button></div><h2>${esc(state.topic)}</h2><div class="card"><div class="row"><span class="avatar">拾</span><span class="muted">我在听，您慢慢说</span></div><p class="prompt">${esc(questions[Math.min(state.answers.length,2)])}</p><button class="link" data-action="readQuestion">听一遍问题</button></div><div class="conversation">${state.answers.map(a=>`<div class="bubble">${esc(a)}</div>`).join('')}</div>${state.topic==='第一次上夜班'&&state.answers.length<3?btn('<span aria-hidden="true">◉</span> 模拟讲一句','sample','primary mic'):''}<label class="label" for="answer">${state.topic==='第一次上夜班'?'也可输入回答':'输入您的回答'}</label><textarea id="answer" placeholder="这里没有真实语音识别，可以输入文字体验。"></textarea>${btn('记下这段话','answer','secondary')}${btn('先整理给我听','prepare','primary')}${btn('这个问题先跳过','skip','link')}<p class="muted small">模拟内容来自预设样例；自填内容只按原文整理，不调用 AI。</p>`;
 if(s==='pause')h=`<div class="success">Ⅱ</div>${title('歇一会儿，没关系','当前页面保留了讲述，您可以稍后继续。')}<div class="card"><span class="eyebrow">这次讲到了</span><h2>${esc(state.topic)}</h2><p class="muted">已记录 ${state.answers.length} 段讲述</p></div>${btn('继续讲','chat')}${btn('回到首页','home','secondary')}`;
@@ -249,10 +289,16 @@ function addAnswer(text){if(!state.consent)return false;text=text.trim();if(!tex
 function makeDraft(){if(!state.consent||!state.answers.length)return false;state.draft=state.answers.join('\n\n');state.dirtyAnswers=false;state.version++;state.confirmed=0;state.shared=false;return true;}
 function confirmDraft(approved){if(!approved||!state.consent||!state.draft.trim()||!state.topic.trim())return false;state.confirmed=state.version;return true;}
 function capturePending(){if(state.screen==='review')syncDraft();if(state.screen==='chat'&&el('answer')&&el('answer').value.trim()){addAnswer(el('answer').value);el('answer').value='';}if(state.screen==='family'&&el('topic'))state.topic=el('topic').value.trim()||state.topic;}
-function act(a){if(a==='assistCancel'){closeInputAssist();return;}if(a==='assistInsert'){insertAssistedText(el('assistText').value);return;}if(a==='assistExample'){el('assistText').value=inputAssist?.target==='customTopic'?'第一次离开家':'那天的事，我到现在还记得。';return;}if(a==='back'||a==='halt'){closeInputAssist();capturePending();if(a==='halt'){state.paused=true;go(state.consent?'pause':'home');}else{const targets={chat:'topic',topic:'home',consent:state.role==='family'?'family':'home',family:'home',invite:'family',summary:'chat',review:'summary',camera:'chat',voice:'chat',done:'home',share:'done',pause:'home',reset:'home'};go(targets[state.screen]||'home');}return;}
-if(a==='voice'){if(state.consent)go('voice');return;}
-if(a==='voiceCancel'){go('chat');return;}
-if(a==='voiceFinish'){if(state.topic==='第一次上夜班'&&!state.photo){addAnswer(sample[Math.min(state.answers.length,2)]);go('chat');toast('已记下演示语句');}else{go('chat');toast('此主题请展开“改用打字”输入，真实语音接口待接入。');}return;}
+function act(a){if(a==='assistCancel'){closeInputAssist();return;}if(a==='assistInsert'){if(listening){stopListening();el('assistText').value=heardText();}insertAssistedText(el('assistText').value);return;}if(a==='assistExample'){el('assistText').value=inputAssist?.target==='customTopic'?'第一次离开家':'那天的事，我到现在还记得。';return;}if(a==='back'||a==='halt'){closeInputAssist();capturePending();if(a==='halt'){state.paused=true;go(state.consent?'pause':'home');}else{const targets={chat:'topic',topic:'home',consent:state.role==='family'?'family':'home',family:'home',invite:'family',summary:'chat',review:'summary',camera:'chat',voice:'chat',done:'home',share:'done',pause:'home',reset:'home'};go(targets[state.screen]||'home');}return;}
+if(a==='voice'){if(!state.consent)return;heard='';interim='';listenBase='';go('voice');if(canListen()&&startListening())render();return;}
+if(a==='voiceRetry'){heard='';interim='';listenBase='';if(startListening())render();return;}
+if(a==='voiceStop'){stopListening();render();return;}
+if(a==='voiceCancel'){stopListening(true);heard='';go('chat');return;}
+if(a==='voiceFinish'){const t=(el('voiceText')?.value??heardText()).trim();stopListening(true);heard='';if(!t){toast('还没听到内容，可以再说一遍。');render();return;}addAnswer(t);go('chat');toast('记下了这段话');return;}
+if(a==='voiceSample'){addAnswer(sample[Math.min(state.answers.length,2)]);go('chat');toast('已记下演示语句');return;}
+if(a==='voiceType'){stopListening(true);go('chat');const d=document.querySelector?.('#app details');if(d)d.open=true;el('answer')?.focus?.();return;}
+if(a==='assistListen'){startListening(el('assistText').value.trim()?el('assistText').value.trim()+'\n':'');renderAssistMic();return;}
+if(a==='assistStop'){stopListening();el('assistText').value=heardText();renderAssistMic();return;}
 if(a==='camera'){capturePending();go('camera');return;}
 if(a==='photoTalk'){go('chat');read('这张照片，您想讲什么？');return;}
 if(a==='removePhoto'){state.photo='';state.caption='';state.confirmed=0;state.shared=false;go('camera');return;}
